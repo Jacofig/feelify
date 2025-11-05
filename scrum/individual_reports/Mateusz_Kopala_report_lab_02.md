@@ -1,9 +1,13 @@
 # Raport indywidualny – Sprint 2
 
 Imię i nazwisko: Mateusz Kopala
+
 Zespół: Loopers
+
 Numer sprintu (labolatoryjny): 2
+
 Okres: 2025-11-05
+
 Zakres moich działań:
 
 1. Napisanie pierwszego/prototypowego opisu MVP.
