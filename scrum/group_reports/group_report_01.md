@@ -1,5 +1,5 @@
 # Raport grupowy – Sprint 1  
-Okres: 2025-11-05 – 2025-10-29
+Okres: 2025-11-05 – 2025-10-29   
 Zespół: [do uzupełnienia]  
 Sprint typu: tygodniowy  
 
