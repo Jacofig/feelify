@@ -15,7 +15,7 @@ Przygotowałem dokumentację i pomogłem stworzyć Kanbana.
 | Obszar | Ocena (1–5) | Komentarz |
 |---------|--------------|-----------|
 | Zaangażowanie | 5 | Regularna praca |
-| Wkład merytoryczny | 5 | Dokumentacja i pomoc |
+| Wkład merytoryczny | 5 | Dokumentacja i pomoc oraz Kanban |
 | Komunikacja | 5 | Komunikacja bez problemów |
 | Terminowość | 5 | Wszystko wykonane w terminie |
 
