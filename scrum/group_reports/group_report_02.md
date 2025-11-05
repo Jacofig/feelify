@@ -1,7 +1,7 @@
 # Raport grupowy – Sprint 2  
-Okres: 2025-10-29 – 2025-11-05   
+Okres: 2025-11-05   
 Zespół: Loopers  
-Sprint typu: tygodniowy  
+Sprint typu: laboratoryjny  
 
 ## Cele sprintu:
 Doprecyzowanie backlogu, priorytetyzacja i MVP, wybór technologii, wstępna architektura, plan sprintu tygodniowego
