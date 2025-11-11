@@ -1,7 +1,7 @@
 # Raport indywidualny – Sprint 3
 
 **Imię i nazwisko:** Stanisław Golański  
-**Zespół:** Loopers 
+**Zespół:** Loopers  
 **Numer sprintu:** 3  
 **Okres:** 2025-11-05 – 2025-11-12  
 
