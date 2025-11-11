@@ -1,8 +1,8 @@
 # Raport indywidualny – Sprint 1
-Imię i nazwisko: Dominik Piwowarski  
-Zespół: - 
-Numer sprintu: 1  
-Okres: 2025-10-29 – 2025-11-05  
+**Imię i nazwisko:** Dominik Piwowarski  
+**Zespół:** - 
+**Numer sprintu:** 1  
+**Okres:** 2025-10-29 – 2025-11-05  
 
 ## Zakres moich działań:
 1. Przygotowanie oraz opisanie pomysłu na projekt
@@ -20,3 +20,4 @@ Wybrałem temat oraz przygotowałem dokumentację
 
 ## Refleksja:
 Do poprawy komunikacja z zespołem oraz terminowość.
+
