@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private Rigidbody2D rb;
 
+    
+    [HideInInspector] public bool canMove = true;
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -15,6 +19,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
+        if (!canMove)
+        {
+            moveInput = Vector2.zero;
+            return; // blokuje ruch jeśli false
+        }
+
         // odczyt klawiatury
         moveInput = Vector2.zero;
         if (Keyboard.current.wKey.isPressed) moveInput.y += 1;
