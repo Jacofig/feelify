@@ -1,4 +1,4 @@
-# Raport indywidualny – Sprint 3
+# Raport indywidualny – Sprint 4
 
 **Imię i nazwisko:** Stanisław Golański  
 **Zespół:** Loopers  
