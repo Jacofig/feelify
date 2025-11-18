@@ -1,4 +1,4 @@
-# Raport grupowy – Sprint 3
+# Raport grupowy – Sprint 4
 
 **Okres:** 2025-11-12 – 2025-11-19  
 **Zespół:** Loopers  
