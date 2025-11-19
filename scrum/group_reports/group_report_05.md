@@ -9,8 +9,8 @@ Stworzenie szczegółowego backloga dotyczącego tworzenia grafik, narzędzi do 
 ## Postęp prac:
 | Zadanie | Odpowiedzialny | Status | Komentarz |
 |----------|----------------|--------|------------|
-| Opisanie szczegółowego backloga do grafiki (dokumentacja) | Jakub Figiel | Zakończone | Opisanie backloga |
-| Opisanie aktualnego kodu (dokumentacja) | Stanisław Golański | Zakończone | Opisanie backloga |
+| Opisanie szczegółowego backloga do grafiki (dokumentacja) | Jakub Figiel | Zakończone | Opis backloga |
+| Opisanie aktualnego kodu (dokumentacja) | Stanisław Golański | Zakończone | Opis backloga |
 | Opisanie narzędzi do kompilowania kodu (dokumentacja) | Mateusz Kopala | Zakończone | Opis backloga |
 | Opisanie szczegółowego backloga do grafiki (dokumentacja) | Dominik Piwowarski | Zakończone | Opis backloga |
 
