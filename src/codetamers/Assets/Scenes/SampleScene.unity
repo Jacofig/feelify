@@ -3197,8 +3197,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 6.4151, y: -1.2829971}
+  m_SizeDelta: {x: -12.8303, y: -15.3964}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &806888278
 MonoBehaviour:
@@ -3222,8 +3222,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a4455343987bc7d4ba5a1bcd46fa2b54, type: 2}
+  m_sharedMaterial: {fileID: -4028659709967791809, guid: a4455343987bc7d4ba5a1bcd46fa2b54, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3858,8 +3858,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -1.2829971}
+  m_SizeDelta: {x: -12.8304, y: -15.396}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1388179894
 MonoBehaviour:
@@ -3903,8 +3903,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a4455343987bc7d4ba5a1bcd46fa2b54, type: 2}
+  m_sharedMaterial: {fileID: -4028659709967791809, guid: a4455343987bc7d4ba5a1bcd46fa2b54, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3928,8 +3928,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4922,6 +4922,7 @@ GameObject:
   - component: {fileID: 1876728127}
   - component: {fileID: 1876728126}
   - component: {fileID: 1876728125}
+  - component: {fileID: 1876728128}
   m_Layer: 5
   m_Name: InputField (TMP)
   m_TagString: Untagged
@@ -4946,8 +4947,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 115, y: -112.93}
-  m_SizeDelta: {x: 160, y: 195.86}
+  m_AnchoredPosition: {x: 177.86832, y: -112.93}
+  m_SizeDelta: {x: 285.7366, y: 195.86}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1876728125
 MonoBehaviour:
@@ -4962,7 +4963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TMP_InputField
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5088,6 +5089,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876728123}
   m_CullTransparentMesh: 1
+--- !u!114 &1876728128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876728123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b381dd61d46367c439fd31fa3d4841e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TabToSpaces
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

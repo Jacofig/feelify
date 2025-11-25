@@ -9,4 +9,5 @@ public class ParsedInstruction
     public string Condition;
     public List<ParsedInstruction> Children = new List<ParsedInstruction>();
     public int LineNumber;
+    public int IndentLevel;
 }
