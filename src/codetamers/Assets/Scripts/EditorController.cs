@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.IO;
-
+using System;
 public class EditorController : MonoBehaviour
 {
     public TMP_InputField inputField;
@@ -33,7 +33,23 @@ public class EditorController : MonoBehaviour
     public void SubmitCode()
     {
         string code = inputField.text;
-        Debug.Log("Submituje Kod");
+
+        SimpleParser parser = new SimpleParser();
+
+        try
+        {
+            var instructions = parser.Parse(code);
+
+            Debug.Log("Kod sparsowany poprawnie:");
+            foreach (var instr in instructions)
+            {
+                Debug.Log($"{instr.Type} - {instr.Name} (linia {instr.LineNumber})");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("B³¹d parsowania: " + ex.Message);
+        }
     }
 
     public bool IsOpen()

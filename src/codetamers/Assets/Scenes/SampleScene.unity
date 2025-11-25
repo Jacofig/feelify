@@ -502,10 +502,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fabfc792868b68848b54165a625698df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  inputField: {fileID: 1876728125}
-  editorCanvas: {fileID: 629962872}
   interactText: {fileID: 1520139428}
-  playerMovement: {fileID: 1033616730}
+  editorController: {fileID: 629962877}
 --- !u!61 &314560931
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -772,9 +770,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 314560928}
-        m_TargetAssemblyTypeName: npc, Assembly-CSharp
-        m_MethodName: SubmitText
+      - m_Target: {fileID: 629962877}
+        m_TargetAssemblyTypeName: EditorController, Assembly-CSharp
+        m_MethodName: SubmitCode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1020,13 +1018,14 @@ GameObject:
   - component: {fileID: 629962875}
   - component: {fileID: 629962874}
   - component: {fileID: 629962873}
+  - component: {fileID: 629962877}
   m_Layer: 5
   m_Name: CodeEditor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &629962873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1112,6 +1111,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &629962877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629962872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80757bef56e430747877610e98bb4ef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputField: {fileID: 1876728125}
+  playerMovement: {fileID: 1033616730}
 --- !u!1 &701852609
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,9 +1260,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 314560928}
-        m_TargetAssemblyTypeName: npc, Assembly-CSharp
-        m_MethodName: ExitEditor
+      - m_Target: {fileID: 629962877}
+        m_TargetAssemblyTypeName: EditorController, Assembly-CSharp
+        m_MethodName: CloseEditor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
