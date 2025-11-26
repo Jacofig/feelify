@@ -2,7 +2,7 @@
 
 **Imię i nazwisko:** Stanisław Golański  
 **Zespół:** Loopers  
-**Numer sprintu:** 4  
+**Numer sprintu:** 6  
 **Okres:** 2025-11-19 – 2025-11-26  
 
 ## Zakres moich działań:
