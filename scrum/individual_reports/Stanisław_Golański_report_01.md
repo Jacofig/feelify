@@ -14,10 +14,10 @@ Przygotowałem dokumentację i wybrałem temat, który mi odpowiadał.
 ## Samoocena:
 | Obszar | Ocena (1–5) | Komentarz |
 |---------|--------------|-----------|
-| Zaangażowanie | 5 | Regularna praca |
-| Wkład merytoryczny | 5 | Dokumentacja i wybór tematu |
-| Komunikacja | 4 | Komunikacja odbyła się dzień przed |
-| Terminowość | 4 | Wszystko zakończone zgodnie z planem dzień przed |
+| Zaangażowanie | 5 | Regularna praca, angażowałem się w pracę i realizację wszystkich obowiązków. Aktywnie uczestniczyłem w wykonywaniu zadań. |
+| Wkład merytoryczny | 5 | Przygotowałem dokumentacja i wybrałem temat |
+| Komunikacja | 4 | Komunikacja odbyła się dzień przed. Powinna się odbyć wcześniej. |
+| Terminowość | 4 | Wszystko zakończone zgodnie z planem dzień przed terminem. |
 
 ## Refleksja:
 Udało mi się zrealizować wszystkie cele sprintu.
