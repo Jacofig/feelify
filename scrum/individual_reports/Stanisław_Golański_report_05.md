@@ -14,10 +14,10 @@ Przygotowałem plan backloga na kolejny tydzień z zadaniami, które muszę wyko
 ## Samoocena:
 | Obszar | Ocena (1–5) | Komentarz |
 |---------|--------------|-----------|
-| Zaangażowanie | 5 | Regularna praca |
-| Wkład merytoryczny | 5 | Dokumentacja |
-| Komunikacja | 5 | Komunikacja bez problemów |
-| Terminowość | 5 | Wszystko wykonane w terminie |
+| Zaangażowanie | 5 | Regularna praca, angażowałem się w pracę i realizację wszystkich obowiązków. Aktywnie uczestniczyłem w wykonywaniu zadań. |
+| Wkład merytoryczny | 5 | Przygotowałem dokumentację, głównie backlog na kolejy tydzień ze wszystkimi zadaniami do wykonania |
+| Komunikacja | 5 | Komunikacja bez problemów bez żadnych problemów, wszyscy wspólnie rozmawiali i podejmowali decyzje. |
+| Terminowość | 5 | Wszystko wykonane w terminie, to znaczy w trakcie lekcji |
 
 ## Refleksja:
 Udało mi się zrealizować wszystkie cele sprintu.
