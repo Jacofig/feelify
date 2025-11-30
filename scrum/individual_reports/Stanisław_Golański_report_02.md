@@ -14,10 +14,10 @@ Przygotowałem dokumentację i pomogłem stworzyć Kanbana.
 ## Samoocena:
 | Obszar | Ocena (1–5) | Komentarz |
 |---------|--------------|-----------|
-| Zaangażowanie | 5 | Regularna praca |
-| Wkład merytoryczny | 5 | Dokumentacja i pomoc oraz Kanban |
-| Komunikacja | 5 | Komunikacja bez problemów |
-| Terminowość | 5 | Wszystko wykonane w terminie |
+| Zaangażowanie | 5 | Regularna praca, angażowałem się w pracę i realizację wszystkich obowiązków. Aktywnie uczestniczyłem w wykonywaniu zadań. |
+| Wkład merytoryczny | 5 | Przygotowałem dokumentację, pomagałem pozostałym oraz pomogłem wytworzyć Kanban |
+| Komunikacja | 5 | Komunikacja bez problemów, była regularna z każdym członkiem zespołu. |
+| Terminowość | 5 | Wszystko wykonane w terminie, nie było żadnych opóźnień ani problemów. |
 
 ## Refleksja:
 Udało mi się zrealizować wszystkie cele sprintu.
