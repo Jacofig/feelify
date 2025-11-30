@@ -16,10 +16,10 @@ Stworzyłem proste okno tekstowe, w które gracz może wpisywać tekst, ale pote
 
 | Obszar | Ocena (1–5) | Komentarz |
 |--------|--------------|-----------|
-| Zaangażowanie | 5 | Regularna praca |
-| Wkład merytoryczny | 5 | Dokumentacja i wykonanie wszystkich zadań |
-| Komunikacja | 4.5 | Komunikacja nie była sprawna, aczkolwiek nie do końca z mojej winy |
-| Terminowość | 5 | Wszystko zakończone w terminie |
+| Zaangażowanie | 5 | Regularna praca, angażowałem się w pracę i realizację wszystkich obowiązków. Aktywnie uczestniczyłem w wykonywaniu zadań. |
+| Wkład merytoryczny | 5 | Przygotowałem dokumentację, stworzyłem proste okno tekstowe, w ktore gracz może wpisywać tekst. |
+| Komunikacja | 4.5 | Komunikacja nie była sprawna, aczkolwiek nie do końca z mojej winy, ponieważ pozostali nie mogli się zgrać czasowo |
+| Terminowość | 5 | Wszystko zakończone w terminie, bez większych problemów. Wszystkie zadania wykonałem terminowo. |
 
 ## Refleksja:
 Udało mi się zrealizować wszystkie cele sprintu.
