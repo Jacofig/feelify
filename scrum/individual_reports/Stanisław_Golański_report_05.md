@@ -1,7 +1,7 @@
 # Raport indywidualny – Sprint 5
 
 Imię i nazwisko: Stanisław Golański  
-Zespół: Do ustalenia  
+Zespół: Loopers  
 Numer sprintu: 5
 Okres: 2025 - 11 - 19
 
