@@ -17,10 +17,10 @@ Stworzyłem prosty ruch postaci WSAD, kolizję między postacią a innymi obiekt
 
 | Obszar | Ocena (1–5) | Komentarz |
 |--------|--------------|-----------|
-| Zaangażowanie | 5 | Regularna praca |
-| Wkład merytoryczny | 5 | Dokumentacja i wykonanie wszystkich zadań |
-| Komunikacja | 5 | Komunikacja odbywała się regularnie z różnymi członkami zespołu |
-| Terminowość | 5 | Wszystko zakończone w terminie |
+| Zaangażowanie | 5 | Regularna praca, angażowałem się w pracę i realizację wszystkich obowiązków. Aktywnie uczestniczyłem w wykonywaniu zadań. |
+| Wkład merytoryczny | 5 | Przygotowałem okumentację, stworzyłem prosty ruch postaci, kolizę obraz interakcję. |
+| Komunikacja | 5 | Komunikacja odbywała się regularnie z różnymi członkami zespołu oraz wspólnie. |
+| Terminowość | 5 | Wszystko zakończone w terminie, bez żadnych problemów. Wszystkie zadania wykonałem w odpowiednim czasie. |
 
 ## Refleksja:
 Udało mi się zrealizować wszystkie cele sprintu.
