@@ -11,7 +11,7 @@
 3. Wybranie sposobu walki oraz eventów.
 
 ## Wkład w projekt:
-Fabuła i samouczek zostały wstępnie wymyślone, walka jest jeszcze ustalana z pozostałymi.      
+Fabuła i samouczek zostały wstępnie wymyślone, walka jest jeszcze ustalana z pozostałymi. Dokumentacja również została uzupełniona.      
 
 ## Samoocena:
 
