@@ -13,7 +13,7 @@ Poprawienie interpretera, dostosowanie parsera w przypadku błędów, wstępny s
 |----------|----------------|--------|------------|
 | Walka**. | Jakub Figiel | W trakcie | Walka będzie ulepszana w późniejszych etapach |
 | Samouczek, fabuła, eventy, walka | Stanisław Golański | W trakcie | Wstępna wersja wszystkiego została stworzona, należy ją polepszyć |
-| Interpreter, parser* | Mateusz Kopala | ??? | |
+| Interpreter, parser* | Mateusz Kopala | Zakończone | Wszystko wykonane |
 | Grafiki do mapy, chata, pierwsza mapa. | Dominik Piwowarski | W trakcie | Grafika jest tworzona na bieżąco |
 
 ## Wnioski zespołu:
