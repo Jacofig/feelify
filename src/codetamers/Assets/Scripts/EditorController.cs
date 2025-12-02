@@ -9,7 +9,7 @@ public class EditorController : MonoBehaviour
 
     public InstructionInterpreter interpreter;
 
-    private bool isOpen = false;
+    private bool isOpen = true;
 
     public void OpenEditor()
     {
@@ -47,7 +47,7 @@ public class EditorController : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError("B³¹d parsowania: " + ex.Message);
+            Debug.LogError("Bï¿½ï¿½d parsowania: " + ex.Message);
         }
     }
 
@@ -58,6 +58,6 @@ public class EditorController : MonoBehaviour
 
     void Start()
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 }
