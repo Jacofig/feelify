@@ -122,5 +122,3 @@ Gracz może naprawiać Bugony, przekształcając je w **Kodemony** — stabilne,
 ---
 
 
-
-Chcesz, żebym to zrobił?
