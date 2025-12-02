@@ -1,11 +1,13 @@
 using UnityEngine;
 using TMPro;
-using System.IO;
 using System;
+
 public class EditorController : MonoBehaviour
 {
     public TMP_InputField inputField;
     public PlayerMovement playerMovement;
+
+    public InstructionInterpreter interpreter;
 
     private bool isOpen = false;
 
@@ -17,7 +19,6 @@ public class EditorController : MonoBehaviour
 
         if (playerMovement != null)
             playerMovement.canMove = false;
-
     }
 
     public void CloseEditor()
@@ -25,9 +26,10 @@ public class EditorController : MonoBehaviour
         gameObject.SetActive(false);
         isOpen = false;
 
-
         if (playerMovement != null)
             playerMovement.canMove = true;
+
+        inputField.text = "";
     }
 
     public void SubmitCode()
@@ -39,12 +41,9 @@ public class EditorController : MonoBehaviour
         try
         {
             var instructions = parser.Parse(code);
+            interpreter.Execute(instructions);
 
-            Debug.Log("Kod sparsowany poprawnie:");
-            foreach (var instr in instructions)
-            {
-                Debug.Log($"{instr.Type} - {instr.Name} (linia {instr.LineNumber})");
-            }
+            Debug.Log("Kod wykonany");
         }
         catch (Exception ex)
         {
