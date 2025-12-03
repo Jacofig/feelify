@@ -27,8 +27,7 @@ Przygotowałem przejście ze świata overworld do sceny walki oraz stworzyłem p
 | Obszar | Ocena (1–5) | Komentarz |
 |--------|--------------|-----------|
 | Zaangażowanie | 5 | Regularna praca, angażowałem się w realizację wszystkich obowiązków. Aktywnie uczestniczyłem w wykonywaniu zadań i wdrażaniu systemu walki od podstaw. |
-| Wkład merytoryczny | 5 | Przygotowałem dokumentację, koncepcję walki, zaprojektowałem strukturę systemu oraz stworzyłem działające przejście do sceny walki i system przenoszenia statystyk.
-  |
+| Wkład merytoryczny | 5 | Przygotowałem dokumentację, koncepcję walki, zaprojektowałem strukturę systemu oraz stworzyłem działające przejście do sceny walki i system przenoszenia statystyk. |
 | Komunikacja | 4.5 | Komunikacja przebiegała bez wiekszych problemów. Każdy wkładał coś od siebie. |
 | Terminowość | 3 | Wszystko zakończone w terminie, ale na ostatnią chwilę |
 
