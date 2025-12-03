@@ -1,27 +1,23 @@
-# Raport grupowy – Sprint 7
+# Raport grupowy – Sprint 8
 
-**Okres:** 2025-11-26 – 2025-12-03   
+**Okres:** 2025-12-03  
 **Zespół:** Loopers  
-**Sprint typu:** tygodniowy  
+**Sprint typu:** laboratoryjny 
 
 ## Cele sprintu:
-Poprawienie interpretera, dostosowanie parsera w przypadku błędów, wstępny samouczek, fabuła, eventy, walka, grafiki do mapy, mapa.     
+Naprawa gita, tworzenie dokumentacji  
 
 ## Postęp prac:
 
 | Zadanie | Odpowiedzialny | Status | Komentarz |
 |----------|----------------|--------|------------|
-| Walka**. | Jakub Figiel | W trakcie | Walka będzie ulepszana w późniejszych etapach |
-| Samouczek, fabuła, eventy, walka | Stanisław Golański | W trakcie | Wstępna wersja wszystkiego została stworzona, należy ją polepszyć |
-| Interpreter, parser* | Mateusz Kopala | Zakończone | Wszystko wykonane |
-| Grafiki do mapy, chata, pierwsza mapa. | Dominik Piwowarski | W trakcie | Grafika jest tworzona na bieżąco |
+| Naprawa gita | Jakub Figiel | Zakończone  | Wszystko wykonane |
+| Naprawa gita| Stanisław Golański | Zakończone  | Wszystko wykonane |
+| tworzenie dokumentacji  | Mateusz Kopala | Zakończone | Wszystko wykonane |
+| tworzenie dokumentacji  | Dominik Piwowarski | Zakończone  | Wszystko wykonane |
 
 ## Wnioski zespołu:
-- Zespół prawie w całości zrealizował wszystkie zadania.  
-- Sprint przyniósł wymierny postęp w kierunku stworzenia pełnej wersji gry.
-- Walka została wstępnie wymyślona
-- Samouczek i fabuła zostały wstępnie wymyślone
-- Grafiki są tworzone na bieżąco.
+- repozytorium zostało naprawione, ważne jest poprawienie spójności metodyki pracy na gicie.
 
 ## Retrospekcja zespołowa:
 
@@ -30,8 +26,4 @@ Poprawienie interpretera, dostosowanie parsera w przypadku błędów, wstępny s
 - Dobre rozdzielenie zadań.  
 
 **Co wymaga poprawy:**
-- Lepsze rozłożenie zadań w czasie  
-
-
-\* Poprawa interpretera, dostosowanie parsera w przypadku błędów, zrozumienia narzędzia graficznego   
-\** Grafika walki, walka, interpreter, szkolenie pozostałych   
+-  korzystanie z gita
