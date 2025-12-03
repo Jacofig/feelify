@@ -9,14 +9,24 @@ public class Ruch : MonoBehaviour
     private int aktualnyPunkt = 0;
 
     [Header("Chase Player")]
-    public Transform gracz;          // Przeciągnij tutaj obiekt gracza
-    public float zasięgWidzenia = 5f; // Jak daleko przeciwnik widzi gracza
+    public Transform gracz;
+    public float zasięgWidzenia = 5f;
+
+    private Animator animator;
+
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     void Update()
     {
+        Vector2 kierunek = Vector2.zero;
+
         if (gracz != null && Vector2.Distance(transform.position, gracz.position) <= zasięgWidzenia)
         {
             // Goni gracza
+            kierunek = (gracz.position - transform.position).normalized;
             transform.position = Vector2.MoveTowards(transform.position, gracz.position, predkosc * Time.deltaTime);
         }
         else
@@ -26,6 +36,8 @@ public class Ruch : MonoBehaviour
                 return;
 
             Transform cel = punktyPatrolu[aktualnyPunkt];
+            kierunek = (cel.position - transform.position).normalized;
+
             transform.position = Vector2.MoveTowards(transform.position, cel.position, predkosc * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, cel.position) < 0.1f)
@@ -36,6 +48,16 @@ public class Ruch : MonoBehaviour
                     aktualnyPunkt = 0;
                 }
             }
+        }
+
+        // Animacja chodzenia w dół
+        if (kierunek.y < 0f)  // jeśli idzie w dół
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
         }
     }
 }
