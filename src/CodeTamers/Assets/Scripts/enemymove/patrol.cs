@@ -9,8 +9,7 @@ public class patrol : MonoBehaviour
     public float changeDirTime = 2f;
     public float moveRadius = 5f; // promień strefy patrolu
 
-    public float obstacleCheckDistance = 0.5f; // dystans do sprawdzania przeszkód
-    public LayerMask obstacleLayers; // warstwy, które blokują ruch
+   
 
     private Vector2 direction;
     private float timer;
@@ -29,6 +28,7 @@ public class patrol : MonoBehaviour
 
     void FixedUpdate() // zmieniamy Update na FixedUpdate dla fizyki
     {
+
         if (!canMove) return;
 
         timer -= Time.fixedDeltaTime;
