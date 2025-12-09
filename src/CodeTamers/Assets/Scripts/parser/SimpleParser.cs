@@ -88,7 +88,7 @@ public class SimpleParser
             // jeœli ta instrukcja sama tworzy blok (np. if),
             // to odk³adamy j¹ na stos, ¿eby nastêpne wciête linie
             // trafi³y do jej Children
-            if (instr.Type == InstructionType.If)
+            if (instr.Type == InstructionType.If || instr.Type == InstructionType.While)
             {
                 blockStack.Push(instr);
             }
@@ -131,6 +131,19 @@ public class SimpleParser
             };
         }
 
+        // WHILE
+        if (line.StartsWith("while") && line.EndsWith(":"))
+        {
+            string condition = line.Substring(5).Trim(); // po "while"
+            condition = condition.TrimEnd(':').Trim();
+
+            return new ParsedInstruction
+            {
+                Type = InstructionType.While,
+                Condition = condition,
+                LineNumber = lineNumber
+            };
+        }
         // 2. KOMENDA GRY (attack(), block(), itd.)
 
         // musi mieæ nawiasy
