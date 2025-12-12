@@ -5,29 +5,44 @@ public class kierunek : MonoBehaviour
     private Animator anim;
     private patrol patrolScript;
     private chase chaseScript;
+    private flee fleeScript;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         patrolScript = GetComponent<patrol>();
         chaseScript = GetComponent<chase>();
+        fleeScript = GetComponent<flee>();
     }
 
     void Update()
     {
-        // Wybieramy aktualny kierunek ruchu: chase ma pierwszeństwo
         Vector2 dir = Vector2.zero;
 
-        if (chaseScript != null && Vector2.Distance(transform.position, chaseScript.player.position) < chaseScript.chaseRange)
+        // --- jeśli ten NPC ma flee ---
+        if (fleeScript != null)
         {
-            dir = chaseScript.GetDirection();
+            float dist = Vector2.Distance(transform.position, fleeScript.player.position);
+            if (dist < fleeScript.fleeRange)
+                dir = fleeScript.GetDirection();
         }
-        else if (patrolScript != null && patrolScript.canMove)
+
+        // --- jeśli ten NPC ma chase ---
+        if (dir == Vector2.zero && chaseScript != null)
+        {
+            float dist = Vector2.Distance(transform.position, chaseScript.player.position);
+            if (dist < chaseScript.chaseRange)
+                dir = chaseScript.GetDirection();
+        }
+
+        // --- jeśli ma patrol ---
+        if (dir == Vector2.zero && patrolScript != null && patrolScript.canMove)
         {
             dir = patrolScript.GetDirection();
         }
 
-        // Deadzone – jeśli ruch jest minimalny, ustawiamy idle
+
+        // DEADZONE — brak ruchu = idle
         if (dir.magnitude < 0.1f)
         {
             anim.SetBool("walk_f", false);
@@ -37,10 +52,9 @@ public class kierunek : MonoBehaviour
             return;
         }
 
-        // Określamy dominującą oś
+        // Wybór dominującej osi — horyzont / pion
         if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
         {
-            // Ruch poziomy
             if (dir.x > 0)
             {
                 anim.SetBool("walk_r", true);
@@ -57,7 +71,6 @@ public class kierunek : MonoBehaviour
         }
         else
         {
-            // Ruch pionowy
             if (dir.y > 0)
             {
                 anim.SetBool("walk_b", true);
