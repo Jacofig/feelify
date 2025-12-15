@@ -5,7 +5,7 @@ using System;
 
 public class InstructionInterpreter : MonoBehaviour
 {
-    public PlayerSpeechBubble playerBubble;
+   
     // Zmienne liczbowe (np. hp, mana, distance itp.)
     public Dictionary<string, float> NumberVars = new Dictionary<string, float>();
 
@@ -13,6 +13,9 @@ public class InstructionInterpreter : MonoBehaviour
     public Dictionary<string, bool> BoolVars = new Dictionary<string, bool>();
 
     private float displayTime = 1.2f; // ile czasu dymek jest widoczny dla ka¿dej komendy
+
+    [Header("Command Handling")]
+    public MonoBehaviour commandHandler;
 
     void Start()
     {
@@ -60,18 +63,26 @@ public class InstructionInterpreter : MonoBehaviour
 
     private IEnumerator ExecuteGameCommand(ParsedInstruction instr)
     {
-        if (instr.Name == "attack")
+        if (commandHandler == null)
         {
-            playerBubble.ShowBubble("Atakujê!");
-        }
-        else if (instr.Name == "block")
-        {
-            playerBubble.ShowBubble("Blokujê!");
+            Debug.LogWarning("Brak podpiêtego CommandHandlera!");
+            yield break;
         }
 
+        var handler = commandHandler as IGameCommandHandler;
+
+        if (handler == null)
+        {
+            Debug.LogError("Podpiêty obiekt NIE implementuje IGameCommandHandler!");
+            yield break;
+        }
+
+        handler.ExecuteCommand(instr.Name);
+
         yield return new WaitForSeconds(displayTime);
-        playerBubble.HideBubble();
     }
+
+
 
     //SPRAWDZANIE WARUNKU
     private bool EvaluateCondition(string condition)

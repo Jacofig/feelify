@@ -31,4 +31,11 @@ public class BattleUI : MonoBehaviour
         enemyHPBar.maxValue = enemy.data.maxHP;
         enemyHPBar.value = enemy.currentHP;
     }
+
+    public void UpdateEnemyHP(Creature enemy)
+    {
+        enemyHPBar.value = enemy.currentHP;
+    }
+
+
 }

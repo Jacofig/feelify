@@ -11,6 +11,20 @@ public class EditorController : MonoBehaviour
 
     private bool isOpen = true;
 
+    // 🔴 TO DODAJ
+    void OnEnable()
+    {
+        if (interpreter == null)
+        {
+            interpreter = FindObjectOfType<InstructionInterpreter>();
+
+            if (interpreter != null)
+                Debug.Log("Interpreter auto-found: " + interpreter.name);
+            else
+                Debug.LogError("Interpreter NOT found in scene!");
+        }
+    }
+
     public void OpenEditor()
     {
         gameObject.SetActive(true);
@@ -34,20 +48,24 @@ public class EditorController : MonoBehaviour
 
     public void SubmitCode()
     {
-        string code = inputField.text;
+        if (interpreter == null)
+        {
+            Debug.LogError("Interpreter is NULL w EditorController!");
+            return;
+        }
 
+        string code = inputField.text;
         SimpleParser parser = new SimpleParser();
 
         try
         {
             var instructions = parser.Parse(code);
             interpreter.Execute(instructions);
-
             Debug.Log("Kod wykonany");
         }
         catch (Exception ex)
         {
-            Debug.LogError("B��d parsowania: " + ex.Message);
+            Debug.LogError("Błąd parsowania: " + ex.Message);
         }
     }
 

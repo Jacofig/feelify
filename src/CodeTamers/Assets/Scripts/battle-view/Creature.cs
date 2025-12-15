@@ -6,6 +6,10 @@ public class Creature : MonoBehaviour
 
     public int currentHP;
 
+    public void TakeDamage(int amount)
+    {
+        currentHP = Mathf.Max(0, currentHP - amount);
+    }
     void Start()
     {
         currentHP = data.maxHP;
