@@ -52,6 +52,9 @@ public class InstructionInterpreter : MonoBehaviour
             case InstructionType.While:
                 yield return ExecuteWhile(instr);
                 break;
+            case InstructionType.Assignment:
+                ExecuteAssignment(instr);
+                break;
         }
     }
 
@@ -206,7 +209,50 @@ public class InstructionInterpreter : MonoBehaviour
             }
         }
     }
+    private float EvaluateNumericExpression(string expr)
+    {
+        expr = expr.Trim();
 
+        //zmienna
+        if (NumberVars.TryGetValue(expr, out float value))
+            return value;
+        //liczba
+        if (float.TryParse(expr, System.Globalization.NumberStyles.Float,
+                      System.Globalization.CultureInfo.InvariantCulture,
+                      out float literal))
+            return literal;
+
+        if (expr.Contains('+'))
+        {
+            var parts = expr.Split('+');
+            return GetNumberValue(parts[0] + GetNumberValue(parts[1]));
+        }
+
+        if (expr.Contains('-'))
+        {
+            var parts = expr.Split('-');
+            return GetNumberValue(parts[0] + GetNumberValue(parts[1]));
+        }
+
+        Debug.LogError("Nieznane wyrazenie liczbowe: " + expr);
+        return 0f;
+    }
+    private void ExecuteAssignment(ParsedInstruction instr)
+    {
+        string variableName = instr.Name;
+        string expression = instr.Arguments[0];
+
+        //bool
+        if(bool.TryParse(expression, out bool boolValue))
+        {
+            BoolVars[variableName] = boolValue;
+            return;
+        }
+
+        //number
+        float numberValue = EvaluateNumericExpression(expression);
+        NumberVars[variableName] = numberValue;
+    }
 
 
 }

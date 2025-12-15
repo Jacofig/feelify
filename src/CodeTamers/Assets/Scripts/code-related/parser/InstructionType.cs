@@ -6,5 +6,6 @@ public enum InstructionType
     If,
     While,
     For,
-    FunctionDefinition
+    FunctionDefinition,
+    Assignment
 }

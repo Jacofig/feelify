@@ -144,6 +144,25 @@ public class SimpleParser
                 LineNumber = lineNumber
             };
         }
+
+        if (line.Contains("=") && !line.Contains("=="))
+        {
+            var parts = line.Split('=');
+            if (parts.Length != 2)
+                throw new Exception($"B³¹d przypisania w lini {lineNumber}");
+
+            string variableName = parts[0].Trim();
+            string expression = parts[1].Trim();
+
+            return new ParsedInstruction
+            {
+                Type = InstructionType.Assignment,
+                Name = variableName,
+                Arguments = new[] { expression },
+                LineNumber = lineNumber
+            };
+        }
+
         // 2. KOMENDA GRY (attack(), block(), itd.)
 
         // musi mieæ nawiasy
