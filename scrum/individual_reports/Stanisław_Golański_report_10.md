@@ -6,7 +6,7 @@
 **Okres:** 2025-12-10 – 2025-12-17  
 
 ## Zakres moich działań:
-1.Grafiki postaci
+1.Grafiki postaci   
 2. Stworzenie prototypu mapy.  
 3. Dorobienie animacji
 
