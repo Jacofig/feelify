@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Collections;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,13 +11,21 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
         SceneManager.LoadScene("OverworldScene"); // NAZWA SCENY
     }
 
     public void LoadGame()
     {
-        // na razie nic
-        UnityEngine.Debug.Log("Load Game - not implemented");
+        if (PlayerPrefs.HasKey("LastScene"))
+        {
+            SceneManager.LoadScene(PlayerPrefs.GetString("LastScene"));
+        }
+        else
+        {
+            SceneManager.LoadScene("OverworldScene");
+        }
     }
 
     public void OpenOptions()
