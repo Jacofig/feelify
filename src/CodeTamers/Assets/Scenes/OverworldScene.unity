@@ -67586,6 +67586,7 @@ GameObject:
   - component: {fileID: 484175652}
   - component: {fileID: 484175651}
   - component: {fileID: 484175650}
+  - component: {fileID: 484175658}
   m_Layer: 0
   m_Name: knight
   m_TagString: Untagged
@@ -67804,6 +67805,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &484175658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484175649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab5eb29068121d84f9883021b99030ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveableObject
+  uniqueID: knight
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -91449,6 +91463,7 @@ GameObject:
   - component: {fileID: 1774148673}
   - component: {fileID: 1774148678}
   - component: {fileID: 1774148679}
+  - component: {fileID: 1774148680}
   m_Layer: 0
   m_Name: turtle
   m_TagString: Untagged
@@ -91653,6 +91668,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3e8b8119bbf214dac70fc3c62ee92b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::kierunek
+--- !u!114 &1774148680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774148672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab5eb29068121d84f9883021b99030ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveableObject
+  uniqueID: turtle
 --- !u!1001 &1791785535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92699,6 +92727,7 @@ GameObject:
   - component: {fileID: 2107854799}
   - component: {fileID: 2107854806}
   - component: {fileID: 2107854805}
+  - component: {fileID: 2107854807}
   m_Layer: 0
   m_Name: shark
   m_TagString: Untagged
@@ -92917,6 +92946,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2107854807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107854798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab5eb29068121d84f9883021b99030ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveableObject
+  uniqueID: shark
 --- !u!1 &2147397098
 GameObject:
   m_ObjectHideFlags: 0
@@ -92934,7 +92976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2147397099
 RectTransform:
   m_ObjectHideFlags: 0
