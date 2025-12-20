@@ -1,11 +1,14 @@
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-    public PlayerSave player; 
+   
 
 
 
@@ -42,22 +45,14 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f; // Zatrzymaj grê
         isPaused = true;
+        
     }
 
     public void SaveGame()
     {
-        // Tutaj dodaj logikê zapisu
+       
 
-        if (player != null)
-        {
-            player.SavePlayer(); // zapisujemy gracza
-        }
-        else
-        {
-            UnityEngine.Debug.LogWarning("Brak pod³¹czonego gracza do zapisu!");
-        }
-
-        
+        SaveManager.Instance.SaveAll();
 
 
         UnityEngine.Debug.Log("Gra zapisana!");
