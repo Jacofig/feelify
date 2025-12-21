@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
-        SceneManager.LoadScene("OverworldScene"); // NAZWA SCENY
+        SceneManager.LoadScene("IntroScene"); // NAZWA SCENY
     }
 
     public void LoadGame()
