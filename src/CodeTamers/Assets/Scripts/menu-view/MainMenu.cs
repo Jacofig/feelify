@@ -8,6 +8,15 @@ public class MainMenu : MonoBehaviour
     [Header("Panels")]
     public GameObject mainMenuPanel;
     public GameObject optionsPanel;
+    public GameObject audioPanel;
+
+    void Start()
+    {
+        // Na starcie w³¹cz tylko g³ówne menu
+        mainMenuPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+        audioPanel.SetActive(false);
+    }
 
     public void NewGame()
     {
@@ -38,6 +47,16 @@ public class MainMenu : MonoBehaviour
     {
         optionsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
+    }
+    public void OpenAudio()
+    {
+        optionsPanel.SetActive(false);
+        audioPanel.SetActive(true);
+    }
+    public void CloseAudio()
+    {
+        audioPanel.SetActive(false);
+        optionsPanel.SetActive(true);
     }
 
     public void ExitGame()
