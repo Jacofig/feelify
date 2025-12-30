@@ -9,6 +9,8 @@ public class SliderPercentage : MonoBehaviour
 
     void Start()
     {
+        slider.value = AudioManager.instance.GetVolume();
+        slider.onValueChanged.AddListener(AudioManager.instance.SetVolume);
         // ustaw pocz¹tkowy tekst
         UpdateText(slider.value);
 

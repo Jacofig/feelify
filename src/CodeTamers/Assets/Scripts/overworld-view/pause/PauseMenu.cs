@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-   
+    public GameObject audioPanel;
 
 
 
@@ -17,6 +17,7 @@ public class PauseMenu : MonoBehaviour
     {
         // Upewniamy siê, ¿e gra nie jest zatrzymana
         pauseMenuUI.SetActive(false);
+        audioPanel.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
     }
@@ -36,6 +37,7 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
+        audioPanel.SetActive(false);
         Time.timeScale = 1f; // Wznów grê
         isPaused = false;
     }
@@ -43,9 +45,21 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
+        audioPanel.SetActive(false);
         Time.timeScale = 0f; // Zatrzymaj grê
         isPaused = true;
         
+    }
+    public void OpenAudioPanel()
+    {
+        pauseMenuUI.SetActive(false);
+        audioPanel.SetActive(true);
+    }
+
+    public void CloseAudioPanel()
+    {
+        audioPanel.SetActive(false);
+        pauseMenuUI.SetActive(true);
     }
 
     public void SaveGame()

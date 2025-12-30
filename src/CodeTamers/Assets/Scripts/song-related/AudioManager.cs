@@ -3,11 +3,12 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
-    public AudioSource musicSource; // AudioSource do muzyki
+
+    [SerializeField]
+    private AudioSource musicSource;
 
     void Awake()
     {
-        // Singleton – tylko jeden AudioManager
         if (instance == null)
         {
             instance = this;
@@ -16,17 +17,35 @@ public class AudioManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
     void Start()
     {
-        musicSource.Play();
+        if (!musicSource.isPlaying)
+            musicSource.Play();
     }
 
-    // Zmiana muzyki
+    // ================= VOLUME =================
+
+    public void SetVolume(float value)
+    {
+        musicSource.volume = Mathf.Clamp01(value);
+    }
+
+    public float GetVolume()
+    {
+        return musicSource.volume;
+    }
+
+    // ================= MUSIC =================
+
     public void ChangeMusic(AudioClip newClip)
     {
+        if (musicSource.clip == newClip)
+            return;
+
         musicSource.clip = newClip;
         musicSource.Play();
     }
