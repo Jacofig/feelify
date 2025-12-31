@@ -1,69 +1,43 @@
 using UnityEngine;
 using TMPro;
-using System;
+using System.Collections.Generic;
 
 public class BattleEditorController : MonoBehaviour
 {
     public TMP_InputField inputField;
 
-    private Creature boundCreature;
-    private BattleManager battleManager;
+    private List<Creature> creatures;
+    private Creature activeCreature;
 
-    private bool isOpen;
-
-    public void Init(BattleManager manager)
+    public void Init(List<Creature> playerCreatures)
     {
-        battleManager = manager;
-        CloseEditor(); // start closed
-    }
+        creatures = playerCreatures;
 
-    // Switch which pokemon is using the editor right now
-    public void BindCreature(Creature creature)
-    {
-        boundCreature = creature;
+        // Select first creature by default
+        SelectCreature(0);
 
-        // load that creature's code
-        inputField.text = boundCreature != null ? boundCreature.codeBuffer : "";
-    }
-
-    public void OpenEditor()
-    {
+        // Editor should be visible
         gameObject.SetActive(true);
-        isOpen = true;
-        inputField.ActivateInputField();
     }
 
-    public void CloseEditor()
+    public void SelectCreature(int index)
     {
-        // save buffer before closing
-        if (boundCreature != null)
-            boundCreature.codeBuffer = inputField.text;
-
-        inputField.text = "";
-        isOpen = false;
-        gameObject.SetActive(false);
-    }
-
-    public void SubmitCode()
-    {
-        if (boundCreature == null)
-        {
-            Debug.LogError("No creature bound to editor!");
+        if (index < 0 || index >= creatures.Count)
             return;
-        }
 
-        // save buffer
-        boundCreature.codeBuffer = inputField.text;
+        // Save previous code
+        if (activeCreature != null)
+            activeCreature.codeBuffer = inputField.text;
 
-        try
-        {
-            battleManager.ExecuteCreatureCode(boundCreature, boundCreature.codeBuffer);
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Execution error: " + ex.Message);
-        }
+        // Switch active creature
+        activeCreature = creatures[index];
+
+        // Load its code
+        inputField.text = activeCreature.codeBuffer;
     }
 
-    public bool IsOpen() => isOpen;
+    public Creature GetActiveCreature()
+    {
+        return activeCreature;
+    }
 }

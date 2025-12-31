@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class BattleUI : MonoBehaviour
@@ -10,8 +9,8 @@ public class BattleUI : MonoBehaviour
     {
         public TMP_Text nameText;
         public TMP_Text levelText;
-        public Slider hpBar;
-        public TMP_Text manaText;   // 👈 TEXT instead of slider
+        public TMP_Text hpText;     // HP as text
+        public TMP_Text manaText;   // Mana as text
     }
 
     [Header("Player Team UI (size = 3)")]
@@ -68,10 +67,7 @@ public class BattleUI : MonoBehaviour
 
         ui.nameText.text = c.data.pokemonName;
         ui.levelText.text = $"Lv. {c.data.level}";
-
-        ui.hpBar.maxValue = c.data.maxHP;
-        ui.hpBar.value = c.currentHP;
-
+        ui.hpText.text = $"{c.currentHP} / {c.data.maxHP}";
         ui.manaText.text = $"{c.currentMana} / {c.data.maxMana}";
     }
 
@@ -79,7 +75,7 @@ public class BattleUI : MonoBehaviour
     {
         ui.nameText.text = "---";
         ui.levelText.text = "";
-        ui.hpBar.value = 0;
+        ui.hpText.text = "-- / --";
         ui.manaText.text = "-- / --";
     }
 }

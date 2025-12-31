@@ -41,7 +41,8 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        editorUI.Init(this);
+        editorUI.Init(playerCreatures);
+
 
         SpawnTeam(
             BattleData.playerTeam,
@@ -89,11 +90,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void OpenEditorForCreature(Creature c)
-    {
-        editorUI.BindCreature(c);
-        editorUI.OpenEditor();
-    }
+    
     public void PlayerAttack()
     {
         Debug.Log("PlayerAttack called (stub)");
