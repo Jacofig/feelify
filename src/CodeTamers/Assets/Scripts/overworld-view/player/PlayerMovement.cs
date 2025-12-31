@@ -5,41 +5,41 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
-    private Vector2 moveInput;
+    public bool canMove = true;
+
+    public InputActionReference moveAction;
+
     private Rigidbody2D rb;
-
-    
-    [HideInInspector] public bool canMove = true;
-
+    private Vector2 moveInput;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
+    void OnEnable()
+    {
+        moveAction.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        moveAction.action.Disable();
+    }
+
     void Update()
     {
-
         if (!canMove)
         {
             moveInput = Vector2.zero;
-            return; // blokuje ruch jeśli false
+            return;
         }
 
-        // odczyt klawiatury
-        moveInput = Vector2.zero;
-        if (Keyboard.current.wKey.isPressed) moveInput.y += 1;
-        if (Keyboard.current.sKey.isPressed) moveInput.y -= 1;
-        if (Keyboard.current.aKey.isPressed) moveInput.x -= 1;
-        if (Keyboard.current.dKey.isPressed) moveInput.x += 1;
-
-        moveInput = moveInput.normalized; // zapobiega szybszemu ruchowi po skosie
+        moveInput = moveAction.action.ReadValue<Vector2>();
     }
 
     void FixedUpdate()
     {
-        // ruch
-        Vector2 newPos = rb.position + moveInput * speed * Time.fixedDeltaTime;
-        rb.MovePosition(newPos);
+        rb.MovePosition(rb.position + moveInput * speed * Time.fixedDeltaTime);
     }
 }
