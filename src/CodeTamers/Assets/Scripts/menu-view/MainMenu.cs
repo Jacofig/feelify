@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject optionsPanel;
     public GameObject audioPanel;
+    public GameObject controlsPanel;
 
     void Start()
     {
@@ -16,6 +17,7 @@ public class MainMenu : MonoBehaviour
         mainMenuPanel.SetActive(true);
         optionsPanel.SetActive(false);
         audioPanel.SetActive(false);
+        controlsPanel.SetActive(false);
     }
 
     public void NewGame()
@@ -56,6 +58,16 @@ public class MainMenu : MonoBehaviour
     public void CloseAudio()
     {
         audioPanel.SetActive(false);
+        optionsPanel.SetActive(true);
+    }
+    public void OpenControls()
+    {
+        optionsPanel.SetActive(false);
+        controlsPanel.SetActive(true);
+    }
+    public void CloseControls()
+    {
+        controlsPanel.SetActive(false);
         optionsPanel.SetActive(true);
     }
 
