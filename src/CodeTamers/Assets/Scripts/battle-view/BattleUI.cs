@@ -1,41 +1,85 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class BattleUI : MonoBehaviour
 {
-    [Header("Player UI")]
-    public TMP_Text playerNameText;
-    public TMP_Text playerLevelText;
-    public Slider playerHPBar;
-
-    [Header("Enemy UI")]
-    public TMP_Text enemyNameText;
-    public TMP_Text enemyLevelText;
-    public Slider enemyHPBar;
-
-    public void SetPlayerUI(Creature player)
+    [System.Serializable]
+    public class BattleUnitUI
     {
-        playerNameText.text = player.data.pokemonName;
-        playerLevelText.text = "Lv. " + player.data.level;
-
-        playerHPBar.maxValue = player.data.maxHP;
-        playerHPBar.value = player.currentHP;
+        public TMP_Text nameText;
+        public TMP_Text levelText;
+        public Slider hpBar;
+        public TMP_Text manaText;   // 👈 TEXT instead of slider
     }
 
-    public void SetEnemyUI(Creature enemy)
-    {
-        enemyNameText.text = enemy.data.pokemonName;
-        enemyLevelText.text = "Lv. " + enemy.data.level;
+    [Header("Player Team UI (size = 3)")]
+    public BattleUnitUI[] playerSlots = new BattleUnitUI[3];
 
-        enemyHPBar.maxValue = enemy.data.maxHP;
-        enemyHPBar.value = enemy.currentHP;
+    [Header("Enemy Team UI (size = 3)")]
+    public BattleUnitUI[] enemySlots = new BattleUnitUI[3];
+
+    // ===== PUBLIC API =====
+
+    public void SetPlayerTeam(List<Creature> players)
+    {
+        for (int i = 0; i < playerSlots.Length; i++)
+        {
+            if (i < players.Count)
+                SetSlot(playerSlots[i], players[i]);
+            else
+                ClearSlot(playerSlots[i]);
+        }
     }
 
-    public void UpdateEnemyHP(Creature enemy)
+    public void SetEnemyTeam(List<Creature> enemies)
     {
-        enemyHPBar.value = enemy.currentHP;
+        for (int i = 0; i < enemySlots.Length; i++)
+        {
+            if (i < enemies.Count)
+                SetSlot(enemySlots[i], enemies[i]);
+            else
+                ClearSlot(enemySlots[i]);
+        }
     }
 
+    public void UpdateSinglePlayer(int index, Creature creature)
+    {
+        if (index < 0 || index >= playerSlots.Length) return;
+        SetSlot(playerSlots[index], creature);
+    }
 
+    public void UpdateSingleEnemy(int index, Creature creature)
+    {
+        if (index < 0 || index >= enemySlots.Length) return;
+        SetSlot(enemySlots[index], creature);
+    }
+
+    // ===== INTERNAL =====
+
+    private void SetSlot(BattleUnitUI ui, Creature c)
+    {
+        if (c == null || c.data == null)
+        {
+            ClearSlot(ui);
+            return;
+        }
+
+        ui.nameText.text = c.data.pokemonName;
+        ui.levelText.text = $"Lv. {c.data.level}";
+
+        ui.hpBar.maxValue = c.data.maxHP;
+        ui.hpBar.value = c.currentHP;
+
+        ui.manaText.text = $"{c.currentMana} / {c.data.maxMana}";
+    }
+
+    private void ClearSlot(BattleUnitUI ui)
+    {
+        ui.nameText.text = "---";
+        ui.levelText.text = "";
+        ui.hpBar.value = 0;
+        ui.manaText.text = "-- / --";
+    }
 }

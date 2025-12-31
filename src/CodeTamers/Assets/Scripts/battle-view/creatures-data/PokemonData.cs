@@ -11,6 +11,12 @@ public class PokemonData : ScriptableObject
     public int defense;
     public int speed;
     public int level;
+
+    [Header("Mana")]
+    public int maxMana = 10;
+    public int manaRegenPerTurn = 1;     // optional, useful later
+    public int startingMana = 10;        // optional (can be = maxMana)
+
     [Header("Graphics")]
     public Sprite battleSprite;
 

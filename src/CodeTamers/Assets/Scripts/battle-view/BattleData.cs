@@ -2,6 +2,6 @@ using UnityEngine;
 
 public static class BattleData
 {
-    public static PokemonData enemyData;
-    public static PokemonData playerData;
+    public static PokemonData[] playerTeam; // length 3
+    public static PokemonData[] enemyTeam;  // length 3
 }

@@ -70185,8 +70185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822235876d24d2447ba018b293268c95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyEncounter
-  enemyPokemonData: {fileID: 11400000, guid: a618525b3d603e84e898bbbeb3d783f0, type: 2}
-  playerPokemonData: {fileID: 11400000, guid: d65fd2e4fa6acdd4d9155998e6282952, type: 2}
+  enemyTeam:
+  - {fileID: 11400000, guid: ec44eb3e9579b8e4f94c63660902a305, type: 2}
+  - {fileID: 11400000, guid: 43b6c3c3dc2eee445bb099c2194b5396, type: 2}
+  - {fileID: 11400000, guid: cf6e4fd639af99349aef736549bb5bd3, type: 2}
 --- !u!212 &1010156222
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -91926,6 +91928,54 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 3
   m_ColliderType: 1
+--- !u!1 &1543615879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1543615881}
+  - component: {fileID: 1543615880}
+  m_Layer: 0
+  m_Name: PlayerParty
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1543615880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543615879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e5654842bf044458cbcefe94e221a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerParty
+  team:
+  - {fileID: 11400000, guid: a618525b3d603e84e898bbbeb3d783f0, type: 2}
+  - {fileID: 11400000, guid: d65fd2e4fa6acdd4d9155998e6282952, type: 2}
+  - {fileID: 11400000, guid: 3355903abaca0a14f822da2f5840ccbf, type: 2}
+--- !u!4 &1543615881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543615879}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.00093, y: 0.73686, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1601276866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94733,3 +94783,4 @@ SceneRoots:
   - {fileID: 452086632}
   - {fileID: 1326572}
   - {fileID: 68329502}
+  - {fileID: 1543615881}

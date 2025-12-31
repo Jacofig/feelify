@@ -1,41 +1,131 @@
+using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BattleManager : MonoBehaviour
 {
-    public Transform playerSpawn;
-    public Transform enemySpawn;
-
+    public BattleEditorController editorUI;
+    public BattleUI battleUI;
     public GameObject playerCreaturePrefab;
     public GameObject enemyCreaturePrefab;
 
-    public BattleUI battleUI;
+    public Transform[] playerSpawnPoints; // size 3
+    public Transform[] enemySpawnPoints;  // size 3
 
-    private Creature player;
-    private Creature enemy;
+    private SimpleParser parser = new SimpleParser();
 
+    private List<Creature> playerCreatures = new();
+    private List<Creature> enemyCreatures = new();
+
+
+    // You'll have some battle interpreter that can execute in battle context
+    public BattleInstructionInterpreter battleInterpreter;
+
+    void Start()
+    {
+        Debug.Log("=== BattleManager received enemy team ===");
+
+        if (BattleData.enemyTeam == null)
+        {
+            Debug.LogError("BattleData.enemyTeam IS NULL");
+        }
+        else
+        {
+            for (int i = 0; i < BattleData.enemyTeam.Length; i++)
+            {
+                Debug.Log(
+                    BattleData.enemyTeam[i] != null
+                    ? BattleData.enemyTeam[i].pokemonName
+                    : "NULL"
+                );
+            }
+        }
+
+        editorUI.Init(this);
+
+        SpawnTeam(
+            BattleData.playerTeam,
+            playerCreaturePrefab,
+            playerSpawnPoints,
+            playerCreatures
+        );
+
+        SpawnTeam(
+            BattleData.enemyTeam,
+            enemyCreaturePrefab,
+            enemySpawnPoints,
+            enemyCreatures
+        );
+
+        // TEMP: show first Pokémon in UI
+        battleUI.SetPlayerTeam(playerCreatures);
+        battleUI.SetEnemyTeam(enemyCreatures);
+
+    }
+    void SpawnTeam(
+        PokemonData[] teamData,
+        GameObject prefab,
+        Transform[] spawns,
+        List<Creature> outList
+    )
+    {
+        outList.Clear();
+
+        for (int i = 0; i < teamData.Length; i++)
+        {
+            if (teamData[i] == null)
+            {
+                Debug.LogError($"Team slot {i} is NULL!");
+                continue;
+            }
+
+            var obj = Instantiate(prefab, spawns[i].position, Quaternion.identity);
+            var creature = obj.GetComponent<Creature>();
+
+            creature.Init(teamData[i]);
+            outList.Add(creature);
+
+            Debug.Log($"Spawned {teamData[i].pokemonName}");
+        }
+    }
+
+    public void OpenEditorForCreature(Creature c)
+    {
+        editorUI.BindCreature(c);
+        editorUI.OpenEditor();
+    }
     public void PlayerAttack()
     {
-        enemy.TakeDamage(1);
-        battleUI.UpdateEnemyHP(enemy);
+        Debug.Log("PlayerAttack called (stub)");
+
+        // TEMP example: do nothing or basic logic
     }
 
     public void PlayerBlock()
     {
-        Debug.Log("Player blocks");
+        Debug.Log("PlayerBlock called (stub)");
     }
 
-    void Start()
+
+    public void ExecuteCreatureCode(Creature creature, string code)
     {
-        var playerObj = Instantiate(playerCreaturePrefab, playerSpawn.position, Quaternion.identity);
-        var enemyObj = Instantiate(enemyCreaturePrefab, enemySpawn.position, Quaternion.identity);
+        var instructions = parser.Parse(code);
 
-        player = playerObj.GetComponent<Creature>();
-        enemy = enemyObj.GetComponent<Creature>();
+        // Example mana rule: 1 mana per instruction
+        int manaCost = instructions.Count;
 
-        player.data = BattleData.playerData;
-        enemy.data = BattleData.enemyData;
+        if (creature.currentMana < manaCost)
+        {
+            Debug.Log("Not enough mana!");
+            return;
+        }
 
-        battleUI.SetPlayerUI(player);
-        battleUI.SetEnemyUI(enemy);
+        creature.currentMana -= manaCost;
+        battleUI.UpdateSinglePlayer(/*index*/ 0, creature); // or find index properly
+
+        // Execute with context = this creature
+        battleInterpreter.Execute(creature, instructions);
+
+        Debug.Log($"Executed {instructions.Count} instructions for {creature.data.pokemonName}");
     }
 }
