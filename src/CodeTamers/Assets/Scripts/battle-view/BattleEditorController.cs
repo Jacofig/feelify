@@ -40,4 +40,12 @@ public class BattleEditorController : MonoBehaviour
     {
         return activeCreature;
     }
+    public void SaveActiveCode()
+    {
+        if (activeCreature != null)
+        {
+            activeCreature.codeBuffer = inputField.text;
+            Debug.Log($"Saved code for {activeCreature.data.pokemonName}: '{activeCreature.codeBuffer}'");
+        }
+    }
 }

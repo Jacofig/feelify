@@ -1,49 +1,26 @@
-using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
     public BattleEditorController editorUI;
     public BattleUI battleUI;
+
     public GameObject playerCreaturePrefab;
     public GameObject enemyCreaturePrefab;
 
-    public Transform[] playerSpawnPoints; // size 3
-    public Transform[] enemySpawnPoints;  // size 3
+    public Transform[] playerSpawnPoints;
+    public Transform[] enemySpawnPoints;
 
     private SimpleParser parser = new SimpleParser();
 
     private List<Creature> playerCreatures = new();
     private List<Creature> enemyCreatures = new();
 
-
-    // You'll have some battle interpreter that can execute in battle context
     public BattleInstructionInterpreter battleInterpreter;
 
     void Start()
     {
-        Debug.Log("=== BattleManager received enemy team ===");
-
-        if (BattleData.enemyTeam == null)
-        {
-            Debug.LogError("BattleData.enemyTeam IS NULL");
-        }
-        else
-        {
-            for (int i = 0; i < BattleData.enemyTeam.Length; i++)
-            {
-                Debug.Log(
-                    BattleData.enemyTeam[i] != null
-                    ? BattleData.enemyTeam[i].pokemonName
-                    : "NULL"
-                );
-            }
-        }
-
-        editorUI.Init(playerCreatures);
-
-
         SpawnTeam(
             BattleData.playerTeam,
             playerCreaturePrefab,
@@ -58,11 +35,11 @@ public class BattleManager : MonoBehaviour
             enemyCreatures
         );
 
-        // TEMP: show first Pokémon in UI
+        editorUI.Init(playerCreatures);
         battleUI.SetPlayerTeam(playerCreatures);
         battleUI.SetEnemyTeam(enemyCreatures);
-
     }
+
     void SpawnTeam(
         PokemonData[] teamData,
         GameObject prefab,
@@ -75,54 +52,99 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < teamData.Length; i++)
         {
             if (teamData[i] == null)
-            {
-                Debug.LogError($"Team slot {i} is NULL!");
                 continue;
-            }
 
             var obj = Instantiate(prefab, spawns[i].position, Quaternion.identity);
             var creature = obj.GetComponent<Creature>();
 
             creature.Init(teamData[i]);
             outList.Add(creature);
-
-            Debug.Log($"Spawned {teamData[i].pokemonName}");
         }
     }
 
-    
-    public void PlayerAttack()
+    // =========================
+    // PLAYER TURN
+    // =========================
+    public void ExecutePlayerTurn()
     {
-        Debug.Log("PlayerAttack called (stub)");
+        Debug.Log("=== PLAYER TURN START ===");
+        editorUI.SaveActiveCode();
 
-        // TEMP example: do nothing or basic logic
-    }
-
-    public void PlayerBlock()
-    {
-        Debug.Log("PlayerBlock called (stub)");
-    }
-
-
-    public void ExecuteCreatureCode(Creature creature, string code)
-    {
-        var instructions = parser.Parse(code);
-
-        // Example mana rule: 1 mana per instruction
-        int manaCost = instructions.Count;
-
-        if (creature.currentMana < manaCost)
+        for (int i = 0; i < playerCreatures.Count; i++)
         {
-            Debug.Log("Not enough mana!");
-            return;
+            var creature = playerCreatures[i];
+
+            if (creature.currentHP <= 0)
+                continue;
+
+            if (string.IsNullOrWhiteSpace(creature.codeBuffer))
+            {
+                Debug.Log($"{creature.data.pokemonName} has no code. Skipping.");
+                continue;
+            }
+
+            try
+            {
+                var instructions = parser.Parse(creature.codeBuffer);
+
+                bool ok = battleInterpreter.Execute(creature, instructions);
+                battleUI.UpdateSinglePlayer(i, creature);
+
+                if (!ok)
+                {
+                    Debug.Log("Program stopped (no mana / error)");
+                    continue;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError(ex.Message);
+                return;
+            }
         }
 
-        creature.currentMana -= manaCost;
-        battleUI.UpdateSinglePlayer(/*index*/ 0, creature); // or find index properly
+        Debug.Log("=== PLAYER TURN END ===");
+    }
 
-        // Execute with context = this creature
-        battleInterpreter.Execute(creature, instructions);
 
-        Debug.Log($"Executed {instructions.Count} instructions for {creature.data.pokemonName}");
+    // =========================
+    // COMMANDS CALLED BY HANDLER
+    // =========================
+    public bool PlayerAttack(Creature attacker, int targetIndex)
+    {
+        if (targetIndex < 0 || targetIndex >= enemyCreatures.Count)
+        {
+            Debug.Log($"attack({targetIndex}) – nieprawidłowy cel");
+            return false;
+        }
+
+        Creature target = enemyCreatures[targetIndex];
+
+        if (target.currentHP <= 0)
+        {
+            Debug.Log("Cel już pokonany");
+            return false;
+        }
+
+        int damage = Mathf.Max(
+            1,
+            attacker.data.attack - target.data.defense
+        );
+
+        target.currentHP -= damage;
+
+        Debug.Log(
+            $"{attacker.data.pokemonName} atakuje " +
+            $"{target.data.pokemonName} za {damage} dmg"
+        );
+
+        battleUI.UpdateSingleEnemy(targetIndex, target);
+        return true;
+    }
+
+
+    public void PlayerBlock(Creature blocker)
+    {
+        Debug.Log($"{blocker.data.pokemonName} BLOCKS");
     }
 }

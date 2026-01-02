@@ -1,6 +1,10 @@
 using UnityEngine;
 
+using System.Collections.Generic;
+
 public interface IGameCommandHandler
 {
-    void ExecuteCommand(string commandName);
+    bool CanExecute(string commandName);
+    bool ExecuteCommand(string commandName, string[] args);
 }
+

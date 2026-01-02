@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 183524405}
   - component: {fileID: 183524404}
   m_Layer: 5
-  m_Name: Submit (3)
+  m_Name: GO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -581,9 +581,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: EditorController, Assembly-CSharp
-        m_MethodName: SubmitCode
+      - m_Target: {fileID: 198546337}
+        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
+        m_MethodName: ExecutePlayerTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2397,6 +2397,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleInstructionInterpreter
   baseInterpreter: {fileID: 739234865}
+  battleHandler: {fileID: 1854208479}
+  battleManager: {fileID: 198546337}
 --- !u!1 &850259239
 GameObject:
   m_ObjectHideFlags: 0
@@ -5271,7 +5273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afa10685dfd332940b3c4784a258d3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleCommandHandler
-  battleManager: {fileID: 198546337}
 --- !u!4 &1854208480
 Transform:
   m_ObjectHideFlags: 0
@@ -5723,7 +5724,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <-
+  m_text: 'GO
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

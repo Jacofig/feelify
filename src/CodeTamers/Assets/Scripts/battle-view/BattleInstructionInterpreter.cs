@@ -1,23 +1,23 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BattleInstructionInterpreter : MonoBehaviour
 {
     public InstructionInterpreter baseInterpreter;
+    public BattleCommandHandler battleHandler;
+    public BattleManager battleManager;
 
-    public void Execute(Creature owner, List<ParsedInstruction> instructions)
+    public bool Execute(Creature owner, List<ParsedInstruction> instructions)
     {
-        // Map creature state → interpreter variables
+        battleHandler.SetContext(battleManager, owner);
+        baseInterpreter.commandHandler = battleHandler;
+
         baseInterpreter.NumberVars["hp"] = owner.currentHP;
         baseInterpreter.NumberVars["mana"] = owner.currentMana;
 
-        // You can also map booleans like:
-        // baseInterpreter.BoolVars["enemyNear"] = true;
+        bool ok = baseInterpreter.Execute(instructions);
 
-        baseInterpreter.Execute(instructions);
-
-        // After execution, pull values back
         owner.currentHP = Mathf.RoundToInt(baseInterpreter.NumberVars["hp"]);
-        owner.currentMana = Mathf.RoundToInt(baseInterpreter.NumberVars["mana"]);
+        return ok;
     }
 }

@@ -1,269 +1,124 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using System;
 
 public class InstructionInterpreter : MonoBehaviour
 {
-   
-    // Zmienne liczbowe (np. hp, mana, distance itp.)
-    public Dictionary<string, float> NumberVars = new Dictionary<string, float>();
-
-    // Zmienne boolowskie (np. enemyNear, isBoss itp.)
-    public Dictionary<string, bool> BoolVars = new Dictionary<string, bool>();
-
-    private float displayTime = 1.2f; // ile czasu dymek jest widoczny dla ka¿dej komendy
+    public Dictionary<string, float> NumberVars = new();
+    public Dictionary<string, bool> BoolVars = new();
 
     [Header("Command Handling")]
     public MonoBehaviour commandHandler;
 
-    void Start()
-    {
-        NumberVars["hp"] = 70f;
-        NumberVars["distance"] = 5f;
-
-        BoolVars["enemyNear"] = true;
-        BoolVars["isBoss"] = false;
-    }
-
-    public void Execute(List<ParsedInstruction> instructions)
-    {
-        StopAllCoroutines();
-        StartCoroutine(RunInstructions(instructions));
-    }
-
-    private IEnumerator RunInstructions(List<ParsedInstruction> instructions)
+    public bool Execute(List<ParsedInstruction> instructions)
     {
         foreach (var instr in instructions)
         {
-            yield return ExecuteInstruction(instr);
+            bool ok = ExecuteInstruction(instr);
+            if (!ok)
+                return false; // PRZERWIJ PROGRAM
         }
+        return true;
     }
 
-    private IEnumerator ExecuteInstruction(ParsedInstruction instr)
+    private bool ExecuteInstruction(ParsedInstruction instr)
     {
         switch (instr.Type)
         {
             case InstructionType.GameCommand:
-                yield return ExecuteGameCommand(instr);
-                break;
+                return ExecuteGameCommand(instr);
 
             case InstructionType.If:
-                yield return ExecuteIf(instr);
-                break;
+                return ExecuteIf(instr);
 
             case InstructionType.While:
-                yield return ExecuteWhile(instr);
-                break;
+                return ExecuteWhile(instr);
+
             case InstructionType.Assignment:
                 ExecuteAssignment(instr);
-                break;
+                return true;
         }
+        return true;
     }
 
-    private IEnumerator ExecuteGameCommand(ParsedInstruction instr)
+    private bool ExecuteGameCommand(ParsedInstruction instr)
     {
         if (commandHandler == null)
-        {
-            Debug.LogWarning("Brak podpiêtego CommandHandlera!");
-            yield break;
-        }
-
-        var handler = commandHandler as IGameCommandHandler;
-
-        if (handler == null)
-        {
-            Debug.LogError("Podpiêty obiekt NIE implementuje IGameCommandHandler!");
-            yield break;
-        }
-
-        handler.ExecuteCommand(instr.Name);
-
-        yield return new WaitForSeconds(displayTime);
-    }
-
-
-
-    //SPRAWDZANIE WARUNKU
-    private bool EvaluateCondition(string condition)
-    {
-        if (string.IsNullOrWhiteSpace(condition))
             return false;
 
-        condition = condition.Trim();
+        var handler = commandHandler as IGameCommandHandler;
+        if (handler == null)
+            return false;
 
-        // 1. Prosty przypadek: pojedyncze True / False albo nazwa bool zmiennej
-        if (BoolVars.ContainsKey(condition))
-            return BoolVars[condition];
-
-        if (bool.TryParse(condition, out bool singleBool))
-            return singleBool;
-
-        // 2. Porównania: ==, !=, >, <, >=, <=
-        string[] operators = { "==", "!=", ">=", "<=", ">", "<" };
-
-        foreach (string op in operators)
+        if (!handler.CanExecute(instr.Name))
         {
-            var parts = condition.Split(new[] { op }, StringSplitOptions.None);
-            if (parts.Length == 2)
-            {
-                string leftToken = parts[0].Trim();
-                string rightToken = parts[1].Trim();
-
-                // Spróbuj traktowaæ jako bool (np. isBoss == True, enemyNear == False)
-                if (LooksLikeBool(leftToken) || LooksLikeBool(rightToken))
-                {
-                    bool leftBool = GetBoolValue(leftToken);
-                    bool rightBool = GetBoolValue(rightToken);
-
-                    switch (op)
-                    {
-                        case "==": return leftBool == rightBool;
-                        case "!=": return leftBool != rightBool;
-                        default:
-                            Debug.LogError("Operator " + op + " nie jest obs³ugiwany dla booli");
-                            return false;
-                    }
-                }
-
-                // W przeciwnym razie traktujemy jako liczby (np. hp > 50)
-                float leftNum = GetNumberValue(leftToken);
-                float rightNum = GetNumberValue(rightToken);
-
-                switch (op)
-                {
-                    case "==": return Mathf.Approximately(leftNum, rightNum);
-                    case "!=": return !Mathf.Approximately(leftNum, rightNum);
-                    case ">": return leftNum > rightNum;
-                    case "<": return leftNum < rightNum;
-                    case ">=": return leftNum >= rightNum;
-                    case "<=": return leftNum <= rightNum;
-                }
-            }
+            Debug.Log("Command blocked: no mana");
+            return false;
         }
 
-        Debug.LogError("Nieznany format warunku: " + condition);
-        return false;
+        return handler.ExecuteCommand(instr.Name, instr.Arguments);
     }
 
-    // Czy token wygl¹da jak bool albo nazwa bool zmiennej
-    private bool LooksLikeBool(string token)
+    private bool ExecuteIf(ParsedInstruction instr)
     {
-        token = token.Trim();
-        if (BoolVars.ContainsKey(token)) return true;
-        if (bool.TryParse(token, out _)) return true;
-        return false;
-    }
+        if (!EvaluateCondition(instr.Condition))
+            return true;
 
-    // Pobranie wartoœci bool: literal (True/False) albo zmienna
-    private bool GetBoolValue(string token)
-    {
-        token = token.Trim();
-
-        if (BoolVars.TryGetValue(token, out bool b))
-            return b;
-
-        if (bool.TryParse(token, out bool literal))
-            return literal;
-
-        Debug.LogError("Nieznana zmienna bool: " + token);
-        return false;
-    }
-
-    // Pobranie wartoœci liczbowej: literal (10, 3.5) albo zmienna
-    private float GetNumberValue(string token)
-    {
-        token = token.Trim();
-
-        if (NumberVars.TryGetValue(token, out float num))
-            return num;
-
-        if (float.TryParse(token, System.Globalization.NumberStyles.Float,
-                           System.Globalization.CultureInfo.InvariantCulture,
-                           out float literal))
-            return literal;
-
-        Debug.LogError("Nieznana zmienna liczbowa: " + token);
-        return 0f;
-    }
-
-
-    private IEnumerator ExecuteIf(ParsedInstruction instr)
-    {
-        if (EvaluateCondition(instr.Condition))
+        foreach (var child in instr.Children)
         {
-            foreach (var child in instr.Children)
-            {
-                yield return ExecuteInstruction(child);
-            }
+            if (!ExecuteInstruction(child))
+                return false;
         }
+        return true;
     }
 
-    private IEnumerator ExecuteWhile(ParsedInstruction instr)
+    private bool ExecuteWhile(ParsedInstruction instr)
     {
-        // Bezpiecznik — ¿eby nie powiesiæ gry
-        int maxIterations = 1000;
-        int counter = 0;
+        int guard = 0;
 
         while (EvaluateCondition(instr.Condition))
         {
+            guard++;
+            if (guard > 1000)
+            {
+                Debug.LogError("WHILE guard break");
+                return false;
+            }
+
             foreach (var child in instr.Children)
             {
-                yield return ExecuteInstruction(child);
-            }
-
-            counter++;
-            if (counter > maxIterations)
-            {
-                Debug.LogError("Przekroczono limit iteracji w pêtli WHILE. SprawdŸ warunek: " + instr.Condition);
-                break;
+                if (!ExecuteInstruction(child))
+                    return false;
             }
         }
+        return true;
     }
-    private float EvaluateNumericExpression(string expr)
-    {
-        expr = expr.Trim();
 
-        //zmienna
-        if (NumberVars.TryGetValue(expr, out float value))
-            return value;
-        //liczba
-        if (float.TryParse(expr, System.Globalization.NumberStyles.Float,
-                      System.Globalization.CultureInfo.InvariantCulture,
-                      out float literal))
+    private bool EvaluateCondition(string condition)
+    {
+        if (BoolVars.TryGetValue(condition, out bool b))
+            return b;
+
+        if (bool.TryParse(condition, out bool literal))
             return literal;
 
-        if (expr.Contains('+'))
+        if (condition.Contains(">"))
         {
-            var parts = expr.Split('+');
-            return GetNumberValue(parts[0] + GetNumberValue(parts[1]));
+            var p = condition.Split('>');
+            return NumberVars[p[0].Trim()] > float.Parse(p[1].Trim());
         }
 
-        if (expr.Contains('-'))
+        if (condition.Contains("<"))
         {
-            var parts = expr.Split('-');
-            return GetNumberValue(parts[0] + GetNumberValue(parts[1]));
+            var p = condition.Split('<');
+            return NumberVars[p[0].Trim()] < float.Parse(p[1].Trim());
         }
 
-        Debug.LogError("Nieznane wyrazenie liczbowe: " + expr);
-        return 0f;
+        return false;
     }
+
     private void ExecuteAssignment(ParsedInstruction instr)
     {
-        string variableName = instr.Name;
-        string expression = instr.Arguments[0];
-
-        //bool
-        if(bool.TryParse(expression, out bool boolValue))
-        {
-            BoolVars[variableName] = boolValue;
-            return;
-        }
-
-        //number
-        float numberValue = EvaluateNumericExpression(expression);
-        NumberVars[variableName] = numberValue;
+        if (float.TryParse(instr.Arguments[0], out float v))
+            NumberVars[instr.Name] = v;
     }
-
-
 }
