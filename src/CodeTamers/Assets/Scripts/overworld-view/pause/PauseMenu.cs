@@ -8,7 +8,9 @@ using UnityEngine.EventSystems;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject optionsPanel;
     public GameObject audioPanel;
+    public GameObject controlsPanel;
 
 
 
@@ -17,38 +19,52 @@ public class PauseMenu : MonoBehaviour
     {
         // Upewniamy siê, ¿e gra nie jest zatrzymana
         pauseMenuUI.SetActive(false);
+        optionsPanel.SetActive(false);
         audioPanel.SetActive(false);
+        controlsPanel.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
     }
 
     void Update()
     {
-        // Sprawdzenie czy gracz nacisn¹³ Esc
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused)
-                Resume();
-            else
+            if (!isPaused)
+            {
                 Pause();
+            }
+            else
+            {
+                Resume(); 
+            }
         }
     }
 
+    
     public void Resume()
     {
-        pauseMenuUI.SetActive(false);
-        audioPanel.SetActive(false);
-        Time.timeScale = 1f; // Wznów grê
+        CloseAllPanels();
+        Time.timeScale = 1f;
         isPaused = false;
     }
-
     void Pause()
     {
+        CloseAllPanels();
         pauseMenuUI.SetActive(true);
-        audioPanel.SetActive(false);
-        Time.timeScale = 0f; // Zatrzymaj grê
+        Time.timeScale = 0f;
         isPaused = true;
-        
+    }
+    public void OpenOptionsPanel()
+    {
+        pauseMenuUI.SetActive(false);
+        optionsPanel.SetActive(true);
+    }
+
+    public void CloseOptionsPanel()
+    {
+        optionsPanel.SetActive(false);
+        pauseMenuUI.SetActive(true);
     }
     public void OpenAudioPanel()
     {
@@ -60,6 +76,24 @@ public class PauseMenu : MonoBehaviour
     {
         audioPanel.SetActive(false);
         pauseMenuUI.SetActive(true);
+    }
+    public void OpenControlsPanel()
+    {
+        pauseMenuUI.SetActive(false);
+        controlsPanel.SetActive(true);
+    }
+
+    public void CloseControlsPanel()
+    {
+        controlsPanel.SetActive(false);
+        pauseMenuUI.SetActive(true);
+    }
+    void CloseAllPanels()
+    {
+        pauseMenuUI.SetActive(false);
+        optionsPanel.SetActive(false);
+        audioPanel.SetActive(false);
+        controlsPanel.SetActive(false);
     }
 
     public void SaveGame()
@@ -73,7 +107,7 @@ public class PauseMenu : MonoBehaviour
         //PlayerPrefs.SetString("LastScene", SceneManager.GetActiveScene().name);
         //PlayerPrefs.Save();
     }
-
+    
     public void ExitToMainMenu()
     {
         Time.timeScale = 1f; // Wznów czas przed zmian¹ sceny
