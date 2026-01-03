@@ -4,7 +4,7 @@ public class Creature : MonoBehaviour
     public PokemonData data;
     public int currentHP;
     public int currentMana;
-
+    public int teamIndex;
     public string codeBuffer = ""; // <-- each pokemon has its own code
 
     public void Init(PokemonData newData)

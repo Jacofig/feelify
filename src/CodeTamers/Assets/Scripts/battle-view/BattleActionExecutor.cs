@@ -1,24 +1,26 @@
 using UnityEngine;
+using System.Collections.Generic;
+
 
 public class BattleActionExecutor : MonoBehaviour
 {
     public BattleManager battleManager;
 
-    public bool Execute(Creature owner, BattleAction action)
+    public bool Execute(
+     Creature owner,
+     List<Creature> targets,
+     BattleAction action
+ )
     {
-        // koszt many = 1 (jak by³o)
         if (owner.currentMana <= 0)
-        {
-            Debug.Log("No mana – stop program");
             return false;
-        }
 
         owner.currentMana--;
 
         switch (action.Type)
         {
             case BattleActionType.Attack:
-                return battleManager.PlayerAttack(owner, action.TargetIndex);
+                return battleManager.PlayerAttack(owner, targets, action.TargetIndex);
 
             case BattleActionType.Block:
                 battleManager.PlayerBlock(owner);
@@ -27,4 +29,5 @@ public class BattleActionExecutor : MonoBehaviour
 
         return false;
     }
+
 }

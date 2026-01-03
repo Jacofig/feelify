@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   pokemonName: Loop
   maxHP: 67
-  attack: 0
+  attack: 4
   defense: 0
   speed: 0
   level: 2

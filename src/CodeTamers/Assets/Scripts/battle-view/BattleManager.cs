@@ -24,32 +24,183 @@ public class BattleManager : MonoBehaviour
     private List<Creature> playerCreatures = new();
     private List<Creature> enemyCreatures = new();
 
+    private BattlePhase phase = BattlePhase.PlayerTurn;
+
+    private IEnemyTurnStrategy enemyStrategy = new EnemyMirrorAttackStrategy();
+
     // =========================
-    // UNITY LIFECYCLE
+    // UNITY
     // =========================
     void Start()
     {
-        SpawnTeam(
-            BattleData.playerTeam,
-            playerCreaturePrefab,
-            playerSpawnPoints,
-            playerCreatures
-        );
-
-        SpawnTeam(
-            BattleData.enemyTeam,
-            enemyCreaturePrefab,
-            enemySpawnPoints,
-            enemyCreatures
-        );
+        SpawnTeam(BattleData.playerTeam, playerCreaturePrefab, playerSpawnPoints, playerCreatures);
+        SpawnTeam(BattleData.enemyTeam, enemyCreaturePrefab, enemySpawnPoints, enemyCreatures);
 
         editorUI.Init(playerCreatures);
         battleUI.SetPlayerTeam(playerCreatures);
         battleUI.SetEnemyTeam(enemyCreatures);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            ExecuteFullRound();
+        }
+    }
+
+
     // =========================
-    // SPAWNING
+    // FLOW
+    // =========================
+    public void ExecuteFullRound()
+    {
+        if (phase == BattlePhase.BattleEnd)
+            return;
+
+        Debug.Log("=== ROUND START ===");
+
+        phase = BattlePhase.PlayerTurn;
+        ExecutePlayerTurn();
+
+        if (IsBattleOver())
+            return;
+
+        phase = BattlePhase.EnemyTurn;
+        ExecuteEnemyTurn();
+
+        if (IsBattleOver())
+            return;
+
+        LogAllHP();
+
+        phase = BattlePhase.PlayerTurn;
+
+        Debug.Log("=== ROUND END ===");
+    }
+
+ 
+
+    // =========================
+    // PLAYER TURN
+    // =========================
+    void ExecutePlayerTurn()
+    {
+        Debug.Log("=== PLAYER TURN ===");
+
+        ResetMana(playerCreatures);
+        editorUI.SaveActiveCode();
+
+        for (int i = 0; i < playerCreatures.Count; i++)
+        {
+            var creature = playerCreatures[i];
+            if (creature.currentHP <= 0)
+                continue;
+
+            if (string.IsNullOrWhiteSpace(creature.codeBuffer))
+                continue;
+
+            var instructions = parser.Parse(creature.codeBuffer);
+            var actions = battleInterpreter.Execute(creature, instructions);
+            if (actions == null)
+                continue;
+
+            foreach (var action in actions)
+            {
+                if (!actionExecutor.Execute(creature, enemyCreatures, action))
+                    break;
+            }
+
+
+            battleUI.UpdateSinglePlayer(i, creature);
+        }
+    }
+
+    // =========================
+    // ENEMY TURN
+    // =========================
+    void ExecuteEnemyTurn()
+    {
+        Debug.Log("=== ENEMY TURN ===");
+
+        ResetMana(enemyCreatures);
+
+        for (int i = 0; i < enemyCreatures.Count; i++)
+        {
+            var enemy = enemyCreatures[i];
+            if (enemy.currentHP <= 0)
+                continue;
+
+            var actions = enemyStrategy.GetActions(enemy, playerCreatures);
+
+            foreach (var action in actions)
+            {
+                if (!actionExecutor.Execute(enemy, playerCreatures, action))
+                    break;
+            }
+
+
+            battleUI.UpdateSingleEnemy(i, enemy);
+        }
+    }
+
+    // =========================
+    // UTIL
+    // =========================
+    void ResetMana(List<Creature> creatures)
+    {
+        foreach (var c in creatures)
+        {
+            c.currentMana = c.data.maxMana;
+        }
+    }
+
+    bool IsBattleOver()
+    {
+        bool playerAlive = playerCreatures.Exists(c => c.currentHP > 0);
+        bool enemyAlive = enemyCreatures.Exists(c => c.currentHP > 0);
+
+        if (!playerAlive || !enemyAlive)
+        {
+            phase = BattlePhase.BattleEnd;
+            Debug.Log(playerAlive ? "PLAYER WINS" : "ENEMY WINS");
+            return true;
+        }
+
+        return false;
+    }
+
+
+    // =========================
+    // ACTIONS CALLED BY EXECUTOR
+    // =========================
+    public bool PlayerAttack(
+    Creature attacker,
+    List<Creature> targets,
+    int targetIndex)
+    {
+        if (targetIndex < 0 || targetIndex >= targets.Count)
+            return false;
+
+        var target = targets[targetIndex];
+        if (target.currentHP <= 0)
+            return false;
+
+        int dmg = Mathf.Max(1, attacker.data.attack - target.data.defense);
+        target.currentHP -= dmg;
+
+        Debug.Log($"{attacker.data.pokemonName} attacks {target.data.pokemonName} for {dmg}");
+        return true;
+    }
+
+
+    public void PlayerBlock(Creature blocker)
+    {
+        Debug.Log($"{blocker.data.pokemonName} BLOCKS");
+    }
+
+    // =========================
+    // SPAWN
     // =========================
     void SpawnTeam(
         PokemonData[] teamData,
@@ -67,103 +218,26 @@ public class BattleManager : MonoBehaviour
 
             var obj = Instantiate(prefab, spawns[i].position, Quaternion.identity);
             var creature = obj.GetComponent<Creature>();
-
             creature.Init(teamData[i]);
+            creature.teamIndex = i;
             outList.Add(creature);
         }
     }
-
-    // =========================
-    // PLAYER TURN
-    // =========================
-    public void ExecutePlayerTurn()
+    void LogAllHP()
     {
-        Debug.Log("=== PLAYER TURN START ===");
-        editorUI.SaveActiveCode();
-
+        Debug.Log("---- PLAYER TEAM ----");
         for (int i = 0; i < playerCreatures.Count; i++)
         {
-            var creature = playerCreatures[i];
-
-            if (creature.currentHP <= 0)
-                continue;
-
-            if (string.IsNullOrWhiteSpace(creature.codeBuffer))
-            {
-                Debug.Log($"{creature.data.pokemonName} has no code. Skipping.");
-                continue;
-            }
-
-            try
-            {
-                // 1. Parse code
-                var instructions = parser.Parse(creature.codeBuffer);
-
-                // 2. Interpret → BattleActions
-                var actions = battleInterpreter.Execute(creature, instructions);
-
-                // Syntax error or interpreter stop
-                if (actions == null)
-                    continue;
-
-                // 3. Execute actions
-                foreach (var action in actions)
-                {
-                    bool ok = actionExecutor.Execute(creature, action);
-                    if (!ok)
-                        break; // brak many / błąd runtime → stop programu
-                }
-
-                // 4. Update UI
-                battleUI.UpdateSinglePlayer(i, creature);
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogError(ex.Message);
-                return;
-            }
+            var c = playerCreatures[i];
+            Debug.Log($"P{i}: {c.data.pokemonName} HP={c.currentHP}");
         }
 
-        Debug.Log("=== PLAYER TURN END ===");
-    }
-
-    // =========================
-    // COMMANDS EXECUTED BY ACTION EXECUTOR
-    // =========================
-    public bool PlayerAttack(Creature attacker, int targetIndex)
-    {
-        if (targetIndex < 0 || targetIndex >= enemyCreatures.Count)
+        Debug.Log("---- ENEMY TEAM ----");
+        for (int i = 0; i < enemyCreatures.Count; i++)
         {
-            Debug.Log($"attack({targetIndex}) – invalid target");
-            return false;
+            var c = enemyCreatures[i];
+            Debug.Log($"E{i}: {c.data.pokemonName} HP={c.currentHP}");
         }
-
-        Creature target = enemyCreatures[targetIndex];
-
-        if (target.currentHP <= 0)
-        {
-            Debug.Log("Target already defeated");
-            return false;
-        }
-
-        int damage = Mathf.Max(
-            1,
-            attacker.data.attack - target.data.defense
-        );
-
-        target.currentHP -= damage;
-
-        Debug.Log(
-            $"{attacker.data.pokemonName} attacks " +
-            $"{target.data.pokemonName} for {damage} dmg"
-        );
-
-        battleUI.UpdateSingleEnemy(targetIndex, target);
-        return true;
     }
 
-    public void PlayerBlock(Creature blocker)
-    {
-        Debug.Log($"{blocker.data.pokemonName} BLOCKS");
-    }
 }

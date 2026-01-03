@@ -4,6 +4,7 @@ using UnityEngine;
 public class PokemonData : ScriptableObject
 {
     public string pokemonName;
+    
 
     [Header("Stats")]
     public int maxHP;
