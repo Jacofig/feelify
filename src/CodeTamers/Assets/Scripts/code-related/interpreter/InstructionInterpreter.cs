@@ -51,7 +51,7 @@ public class InstructionInterpreter : MonoBehaviour
 
         if (!handler.CanExecute(instr.Name))
         {
-            Debug.Log("Command blocked: no mana");
+            Debug.Log($"Command blocked: {instr.Name}");
             return false;
         }
 

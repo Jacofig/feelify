@@ -5,11 +5,11 @@ public class BattleInstructionInterpreter : MonoBehaviour
 {
     public InstructionInterpreter baseInterpreter;
     public BattleCommandHandler battleHandler;
-    public BattleManager battleManager;
 
-    public bool Execute(Creature owner, List<ParsedInstruction> instructions)
+    public List<BattleAction> Execute(Creature owner, List<ParsedInstruction> instructions)
     {
-        battleHandler.SetContext(battleManager, owner);
+        battleHandler.ResetActions();
+
         baseInterpreter.commandHandler = battleHandler;
 
         baseInterpreter.NumberVars["hp"] = owner.currentHP;
@@ -18,6 +18,10 @@ public class BattleInstructionInterpreter : MonoBehaviour
         bool ok = baseInterpreter.Execute(instructions);
 
         owner.currentHP = Mathf.RoundToInt(baseInterpreter.NumberVars["hp"]);
-        return ok;
+
+        if (!ok)
+            return null;
+
+        return battleHandler.GetActions();
     }
 }

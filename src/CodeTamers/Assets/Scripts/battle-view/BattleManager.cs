@@ -3,22 +3,30 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
+    [Header("UI")]
     public BattleEditorController editorUI;
     public BattleUI battleUI;
 
+    [Header("Prefabs")]
     public GameObject playerCreaturePrefab;
     public GameObject enemyCreaturePrefab;
 
+    [Header("Spawn Points")]
     public Transform[] playerSpawnPoints;
     public Transform[] enemySpawnPoints;
+
+    [Header("Battle Logic")]
+    public BattleInstructionInterpreter battleInterpreter;
+    public BattleActionExecutor actionExecutor;
 
     private SimpleParser parser = new SimpleParser();
 
     private List<Creature> playerCreatures = new();
     private List<Creature> enemyCreatures = new();
 
-    public BattleInstructionInterpreter battleInterpreter;
-
+    // =========================
+    // UNITY LIFECYCLE
+    // =========================
     void Start()
     {
         SpawnTeam(
@@ -40,6 +48,9 @@ public class BattleManager : MonoBehaviour
         battleUI.SetEnemyTeam(enemyCreatures);
     }
 
+    // =========================
+    // SPAWNING
+    // =========================
     void SpawnTeam(
         PokemonData[] teamData,
         GameObject prefab,
@@ -85,16 +96,26 @@ public class BattleManager : MonoBehaviour
 
             try
             {
+                // 1. Parse code
                 var instructions = parser.Parse(creature.codeBuffer);
 
-                bool ok = battleInterpreter.Execute(creature, instructions);
-                battleUI.UpdateSinglePlayer(i, creature);
+                // 2. Interpret → BattleActions
+                var actions = battleInterpreter.Execute(creature, instructions);
 
-                if (!ok)
-                {
-                    Debug.Log("Program stopped (no mana / error)");
+                // Syntax error or interpreter stop
+                if (actions == null)
                     continue;
+
+                // 3. Execute actions
+                foreach (var action in actions)
+                {
+                    bool ok = actionExecutor.Execute(creature, action);
+                    if (!ok)
+                        break; // brak many / błąd runtime → stop programu
                 }
+
+                // 4. Update UI
+                battleUI.UpdateSinglePlayer(i, creature);
             }
             catch (System.Exception ex)
             {
@@ -106,15 +127,14 @@ public class BattleManager : MonoBehaviour
         Debug.Log("=== PLAYER TURN END ===");
     }
 
-
     // =========================
-    // COMMANDS CALLED BY HANDLER
+    // COMMANDS EXECUTED BY ACTION EXECUTOR
     // =========================
     public bool PlayerAttack(Creature attacker, int targetIndex)
     {
         if (targetIndex < 0 || targetIndex >= enemyCreatures.Count)
         {
-            Debug.Log($"attack({targetIndex}) – nieprawidłowy cel");
+            Debug.Log($"attack({targetIndex}) – invalid target");
             return false;
         }
 
@@ -122,7 +142,7 @@ public class BattleManager : MonoBehaviour
 
         if (target.currentHP <= 0)
         {
-            Debug.Log("Cel już pokonany");
+            Debug.Log("Target already defeated");
             return false;
         }
 
@@ -134,14 +154,13 @@ public class BattleManager : MonoBehaviour
         target.currentHP -= damage;
 
         Debug.Log(
-            $"{attacker.data.pokemonName} atakuje " +
-            $"{target.data.pokemonName} za {damage} dmg"
+            $"{attacker.data.pokemonName} attacks " +
+            $"{target.data.pokemonName} for {damage} dmg"
         );
 
         battleUI.UpdateSingleEnemy(targetIndex, target);
         return true;
     }
-
 
     public void PlayerBlock(Creature blocker)
     {

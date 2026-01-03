@@ -1,28 +1,28 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BattleCommandHandler : MonoBehaviour, IGameCommandHandler
 {
-    private BattleManager battleManager;
-    private Creature owner;
+    private List<BattleAction> actions = new();
 
-    public void SetContext(BattleManager manager, Creature creature)
+    public void ResetActions()
     {
-        battleManager = manager;
-        owner = creature;
+        actions.Clear();
+    }
+
+    public List<BattleAction> GetActions()
+    {
+        return actions;
     }
 
     public bool CanExecute(string commandName)
     {
-        return owner.currentMana > 0;
+        // Interpreter pyta: „czy komenda istnieje”
+        return commandName == "attack" || commandName == "block";
     }
 
     public bool ExecuteCommand(string commandName, string[] args)
     {
-        if (owner.currentMana <= 0)
-            return false;
-
-        owner.currentMana--; 
-
         switch (commandName)
         {
             case "attack":
@@ -30,10 +30,11 @@ public class BattleCommandHandler : MonoBehaviour, IGameCommandHandler
                 if (args.Length > 0)
                     int.TryParse(args[0], out target);
 
-                return battleManager.PlayerAttack(owner, target);
+                actions.Add(new BattleAction(BattleActionType.Attack, target));
+                return true;
 
             case "block":
-                battleManager.PlayerBlock(owner);
+                actions.Add(new BattleAction(BattleActionType.Block));
                 return true;
         }
 

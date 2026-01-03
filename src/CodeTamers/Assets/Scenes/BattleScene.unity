@@ -798,6 +798,7 @@ MonoBehaviour:
   - {fileID: 1942774541}
   - {fileID: 1185280540}
   battleInterpreter: {fileID: 739234867}
+  actionExecutor: {fileID: 1416817709}
 --- !u!4 &198546338
 Transform:
   m_ObjectHideFlags: 0
@@ -1008,8 +1009,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a4455343987bc7d4ba5a1bcd46fa2b54, type: 2}
-  m_sharedMaterial: {fileID: -4028659709967791809, guid: a4455343987bc7d4ba5a1bcd46fa2b54, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1165,8 +1166,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a4455343987bc7d4ba5a1bcd46fa2b54, type: 2}
-  m_sharedMaterial: {fileID: -4028659709967791809, guid: a4455343987bc7d4ba5a1bcd46fa2b54, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2540,7 +2541,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BattleInstructionInterpreter
   baseInterpreter: {fileID: 739234865}
   battleHandler: {fileID: 1854208479}
-  battleManager: {fileID: 198546337}
 --- !u!1 &768566394
 GameObject:
   m_ObjectHideFlags: 0
@@ -4686,6 +4686,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1374812536}
   m_CullTransparentMesh: 1
+--- !u!1 &1416817708
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1416817710}
+  - component: {fileID: 1416817709}
+  m_Layer: 0
+  m_Name: ActionExecutor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1416817709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416817708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858eea03c6076ad4bb2746ce909b58bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BattleActionExecutor
+  battleManager: {fileID: 198546337}
+--- !u!4 &1416817710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416817708}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25.91727, y: 54.76199, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1423942628
 GameObject:
   m_ObjectHideFlags: 0
@@ -7408,3 +7453,4 @@ SceneRoots:
   - {fileID: 1942774541}
   - {fileID: 16566096}
   - {fileID: 1185280540}
+  - {fileID: 1416817710}
