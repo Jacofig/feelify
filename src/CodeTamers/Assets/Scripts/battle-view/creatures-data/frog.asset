@@ -22,4 +22,4 @@ MonoBehaviour:
   manaRegenPerTurn: 1
   startingMana: 10
   battleSprite: {fileID: 21300000, guid: f2b5a55fc64b4454c961b514d97c7db1, type: 3}
-  description: frogg
+  description: frog

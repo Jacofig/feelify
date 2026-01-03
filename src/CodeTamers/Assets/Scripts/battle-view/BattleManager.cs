@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
+    [Header("Visual Scaling")]
+    public float playerScale = 4f;
+    public float enemyScale = 4f;
+
     [Header("UI")]
     public BattleEditorController editorUI;
     public BattleUI battleUI;
@@ -12,8 +16,9 @@ public class BattleManager : MonoBehaviour
     public GameObject enemyCreaturePrefab;
 
     [Header("Spawn Points")]
-    public Transform[] playerSpawnPoints;
-    public Transform[] enemySpawnPoints;
+    public RectTransform[] playerUISlots;
+    public RectTransform[] enemyUISlots;
+
 
     [Header("Battle Logic")]
     public BattleInstructionInterpreter battleInterpreter;
@@ -33,8 +38,9 @@ public class BattleManager : MonoBehaviour
     // =========================
     void Start()
     {
-        SpawnTeam(BattleData.playerTeam, playerCreaturePrefab, playerSpawnPoints, playerCreatures);
-        SpawnTeam(BattleData.enemyTeam, enemyCreaturePrefab, enemySpawnPoints, enemyCreatures);
+        SpawnTeam(BattleData.playerTeam, playerCreaturePrefab, playerUISlots, playerCreatures, playerScale);
+        SpawnTeam(BattleData.enemyTeam, enemyCreaturePrefab, enemyUISlots, enemyCreatures, playerScale);
+
 
         editorUI.Init(playerCreatures);
         battleUI.SetPlayerTeam(playerCreatures);
@@ -79,7 +85,22 @@ public class BattleManager : MonoBehaviour
         Debug.Log("=== ROUND END ===");
     }
 
- 
+    Vector3 UIToWorldPosition(RectTransform uiSlot)
+    {
+        Camera cam = Camera.main;
+
+        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(cam, uiSlot.position);
+
+        Vector3 worldPos = cam.ScreenToWorldPoint(
+            new Vector3(screenPos.x, screenPos.y, cam.nearClipPlane + 1f)
+        );
+
+        worldPos.z = 0f; // critical for 2D
+
+        return worldPos;
+    }
+
+
 
     // =========================
     // PLAYER TURN
@@ -141,6 +162,10 @@ public class BattleManager : MonoBehaviour
 
 
             battleUI.UpdateSingleEnemy(i, enemy);
+        }
+        for (int i = 0; i < playerCreatures.Count; i++)
+        {
+            battleUI.UpdateSinglePlayer(i, playerCreatures[i]);
         }
     }
 
@@ -205,8 +230,9 @@ public class BattleManager : MonoBehaviour
     void SpawnTeam(
         PokemonData[] teamData,
         GameObject prefab,
-        Transform[] spawns,
-        List<Creature> outList
+        RectTransform[] uiSlots,
+        List<Creature> outList,
+        float visualScale
     )
     {
         outList.Clear();
@@ -216,13 +242,23 @@ public class BattleManager : MonoBehaviour
             if (teamData[i] == null)
                 continue;
 
-            var obj = Instantiate(prefab, spawns[i].position, Quaternion.identity);
+            Vector3 worldPos = UIToWorldPosition(uiSlots[i]);
+
+            var obj = Instantiate(prefab, worldPos, Quaternion.identity);
+            obj.transform.localScale = Vector3.one * visualScale;
+            var sr = obj.GetComponentInChildren<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.sortingOrder = -1;
+            }
             var creature = obj.GetComponent<Creature>();
             creature.Init(teamData[i]);
             creature.teamIndex = i;
+
             outList.Add(creature);
         }
     }
+
     void LogAllHP()
     {
         Debug.Log("---- PLAYER TEAM ----");
