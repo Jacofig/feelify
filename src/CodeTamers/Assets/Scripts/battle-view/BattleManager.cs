@@ -168,6 +168,26 @@ public class BattleManager : MonoBehaviour
             battleUI.UpdateSinglePlayer(i, playerCreatures[i]);
         }
     }
+    void LateUpdate()
+    {
+        // keep player creatures aligned to UI
+        for (int i = 0; i < playerCreatures.Count; i++)
+        {
+            if (i >= playerUISlots.Length) continue;
+
+            Vector3 pos = UIToWorldPosition(playerUISlots[i]);
+            playerCreatures[i].transform.position = pos;
+        }
+
+        // keep enemy creatures aligned to UI
+        for (int i = 0; i < enemyCreatures.Count; i++)
+        {
+            if (i >= enemyUISlots.Length) continue;
+
+            Vector3 pos = UIToWorldPosition(enemyUISlots[i]);
+            enemyCreatures[i].transform.position = pos;
+        }
+    }
 
     // =========================
     // UTIL
