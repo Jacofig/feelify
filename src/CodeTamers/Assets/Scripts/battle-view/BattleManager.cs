@@ -45,6 +45,7 @@ public class BattleManager : MonoBehaviour
         editorUI.Init(playerCreatures);
         battleUI.SetPlayerTeam(playerCreatures);
         battleUI.SetEnemyTeam(enemyCreatures);
+        RefreshAllUI();
     }
 
     void Update()
@@ -55,6 +56,14 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    void RefreshAllUI()
+    {
+        for (int i = 0; i < playerCreatures.Count; i++)
+            battleUI.UpdateSinglePlayer(i, playerCreatures[i]);
+
+        for (int i = 0; i < enemyCreatures.Count; i++)
+            battleUI.UpdateSingleEnemy(i, enemyCreatures[i]);
+    }
 
     // =========================
     // FLOW
@@ -68,12 +77,15 @@ public class BattleManager : MonoBehaviour
 
         phase = BattlePhase.PlayerTurn;
         ExecutePlayerTurn();
+        RefreshAllUI();
+        
 
         if (IsBattleOver())
             return;
 
         phase = BattlePhase.EnemyTurn;
         ExecuteEnemyTurn();
+        RefreshAllUI();
 
         if (IsBattleOver())
             return;
@@ -132,8 +144,6 @@ public class BattleManager : MonoBehaviour
                     break;
             }
 
-
-            battleUI.UpdateSinglePlayer(i, creature);
         }
     }
 
@@ -159,13 +169,6 @@ public class BattleManager : MonoBehaviour
                 if (!actionExecutor.Execute(enemy, playerCreatures, action))
                     break;
             }
-
-
-            battleUI.UpdateSingleEnemy(i, enemy);
-        }
-        for (int i = 0; i < playerCreatures.Count; i++)
-        {
-            battleUI.UpdateSinglePlayer(i, playerCreatures[i]);
         }
     }
     void LateUpdate()
