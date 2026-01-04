@@ -124,6 +124,12 @@ public class BattleManager : MonoBehaviour
         ResetMana(playerCreatures);
         editorUI.SaveActiveCode();
 
+        //Reset statusow
+        foreach (var c in playerCreatures)
+        {
+            c.OnTurnStart();
+        }
+
         for (int i = 0; i < playerCreatures.Count; i++)
         {
             var creature = playerCreatures[i];
@@ -140,9 +146,10 @@ public class BattleManager : MonoBehaviour
 
             foreach (var action in actions)
             {
-                if (!actionExecutor.Execute(creature, enemyCreatures, action))
-                    break;
+                actionExecutor.Execute(creature, enemyCreatures, action);
             }
+            Debug.Log($"Executing turn for {creature.data.pokemonName}, code = [{creature.codeBuffer}]");
+
 
         }
     }
@@ -155,6 +162,13 @@ public class BattleManager : MonoBehaviour
         Debug.Log("=== ENEMY TURN ===");
 
         ResetMana(enemyCreatures);
+
+        //Reset statusow
+        foreach (var c in enemyCreatures)
+        {
+            c.OnTurnStart();
+        }
+
 
         for (int i = 0; i < enemyCreatures.Count; i++)
         {
@@ -234,18 +248,67 @@ public class BattleManager : MonoBehaviour
         if (target.currentHP <= 0)
             return false;
 
-        int dmg = Mathf.Max(1, attacker.data.attack - target.data.defense);
-        target.currentHP -= dmg;
+        int dmg = attacker.data.attack;
+
+        // BLOCK (statusy)
+        for (int i = target.statusEffects.Count - 1; i >= 0; i--)
+        {
+            var status = target.statusEffects[i];
+            dmg = status.AbsorbDamage(dmg);
+
+            if (status.Expired)
+            {
+                status.OnRemove();
+                target.statusEffects.RemoveAt(i);
+            }
+
+            if (dmg <= 0)
+                break;
+        }
+
+        // HP
+        if (dmg > 0)
+        {
+            target.currentHP -= dmg;
+        }
 
         Debug.Log($"{attacker.data.pokemonName} attacks {target.data.pokemonName} for {dmg}");
         return true;
+
+
     }
 
 
-    public void PlayerBlock(Creature blocker)
+    public void PlayerBlock(Creature caster, int targetIndex = -1)
     {
-        Debug.Log($"{blocker.data.pokemonName} BLOCKS");
+        List<Creature> team =
+            playerCreatures.Contains(caster)
+                ? playerCreatures
+                : enemyCreatures;
+
+        Creature target;
+
+        // self-cast
+        if (targetIndex < 0)
+        {
+            target = caster;
+        }
+        else
+        {
+            if (targetIndex < 0 || targetIndex >= team.Count)
+                return;
+
+            target = team[targetIndex];
+        }
+
+        int armorValue = caster.data.defense;
+
+        target.AddStatus(new BlockArmorEffect(armorValue));
+
+        Debug.Log($"{caster.data.pokemonName} gives {armorValue} block to {target.data.pokemonName}");
     }
+
+
 
     // =========================
     // SPAWN

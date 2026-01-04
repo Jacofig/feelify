@@ -15,7 +15,7 @@ MonoBehaviour:
   pokemonName: Frog
   maxHP: 20
   attack: 3
-  defense: 0
+  defense: 2
   speed: 6
   level: 5
   maxMana: 10

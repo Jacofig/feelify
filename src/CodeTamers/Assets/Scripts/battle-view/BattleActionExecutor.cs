@@ -23,7 +23,7 @@ public class BattleActionExecutor : MonoBehaviour
                 return battleManager.PlayerAttack(owner, targets, action.TargetIndex);
 
             case BattleActionType.Block:
-                battleManager.PlayerBlock(owner);
+                battleManager.PlayerBlock(owner, action.TargetIndex);
                 return true;
         }
 

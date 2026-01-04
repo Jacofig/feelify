@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   pokemonName: Robot
   maxHP: 10
-  attack: 3
+  attack: 2
   defense: 0
   speed: 0
   level: 7

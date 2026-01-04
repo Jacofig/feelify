@@ -34,8 +34,13 @@ public class BattleCommandHandler : MonoBehaviour, IGameCommandHandler
                 return true;
 
             case "block":
-                actions.Add(new BattleAction(BattleActionType.Block));
+                int blockTarget = -1;
+                if (args.Length > 0)
+                    int.TryParse(args[0], out blockTarget);
+
+                actions.Add(new BattleAction(BattleActionType.Block, blockTarget));
                 return true;
+
         }
 
         return false;

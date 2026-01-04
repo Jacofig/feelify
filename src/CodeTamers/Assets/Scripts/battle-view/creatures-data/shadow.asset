@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PokemonData
   pokemonName: Shadow
   maxHP: 10
-  attack: 2
+  attack: 3
   defense: 0
   speed: 0
   level: 4
