@@ -1,13 +1,12 @@
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
-    [SerializeField] private AudioSource musicSource;
-    [SerializeField] private AudioSource sfxSource;
-    [SerializeField] private AudioMixer audioMixer;
+    [Header("Audio Sources")]
+    [SerializeField] private AudioSource musicSource;  // dla muzyki
+    [SerializeField] private AudioSource sfxSource;    // dla SFX
 
     void Awake()
     {
@@ -29,44 +28,47 @@ public class AudioManager : MonoBehaviour
             musicSource.Play();
     }
 
-    // ================= MUSIC =================
+    // ================= VOLUME =================
 
+    // tylko muzyka, SFX bêdzie mieæ w³asny g³oœnoœæ jeœli potrzebujesz
     public void SetMusicVolume(float value)
     {
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(Mathf.Clamp01(value)) * 20f);
+        musicSource.volume = Mathf.Clamp01(value);
     }
 
     public float GetMusicVolume()
     {
-        float vol;
-        audioMixer.GetFloat("MusicVolume", out vol);
-        return Mathf.Pow(10, vol / 20f);
+        return musicSource.volume;
     }
+
+    // ================= MUSIC =================
 
     public void ChangeMusic(AudioClip newClip)
     {
-        if (musicSource.clip == newClip) return;
+        if (musicSource.clip == newClip)
+            return;
+
         musicSource.clip = newClip;
         musicSource.Play();
     }
 
     // ================= SFX =================
 
+    // odtwarza jeden dŸwiêk efektu
     public void PlaySFX(AudioClip clip)
     {
         if (clip == null) return;
         sfxSource.PlayOneShot(clip);
     }
 
+    // jeœli chcesz, mo¿esz te¿ mieæ oddzielny suwak dla SFX
     public void SetSFXVolume(float value)
     {
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(Mathf.Clamp01(value)) * 20f);
+        sfxSource.volume = Mathf.Clamp01(value);
     }
 
     public float GetSFXVolume()
     {
-        float vol;
-        audioMixer.GetFloat("SFXVolume", out vol);
-        return Mathf.Pow(10, vol / 20f);
+        return sfxSource.volume;
     }
 }

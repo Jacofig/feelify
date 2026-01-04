@@ -4,51 +4,34 @@ using TMPro;
 
 public class AudioSlider : MonoBehaviour
 {
-    public Slider slider;
-    public TextMeshProUGUI percentageText;
-
     public enum AudioType { Music, SFX }
-    public AudioType audioType;
+
+    [Header("Slider Settings")]
+    public AudioType audioType;            // wybór: Music lub SFX
+    public Slider slider;                   // przypisz slider
+    public TextMeshProUGUI percentageText; // przypisz tekst procentowy
 
     void Start()
     {
-        float initialValue;
-        switch (audioType)
+        // ustaw pocz¹tkow¹ wartoœæ i listener
+        if (audioType == AudioType.Music)
         {
-            case AudioType.Music:
-                initialValue = PlayerPrefs.GetFloat("MusicVolume", AudioManager.instance.GetMusicVolume());
-                slider.value = initialValue;
-                slider.onValueChanged.AddListener(AudioManager.instance.SetMusicVolume);
-                break;
-            case AudioType.SFX:
-                initialValue = PlayerPrefs.GetFloat("SFXVolume", AudioManager.instance.GetSFXVolume());
-                slider.value = initialValue;
-                slider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
-                break;
+            slider.value = AudioManager.instance.GetMusicVolume();
+            slider.onValueChanged.AddListener(AudioManager.instance.SetMusicVolume);
+        }
+        else // SFX
+        {
+            slider.value = AudioManager.instance.GetSFXVolume();
+            slider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
         }
 
-        UpdateText(slider.value);
+        // listener do aktualizacji tekstu
         slider.onValueChanged.AddListener(UpdateText);
-        slider.onValueChanged.AddListener(SaveValue);
+        UpdateText(slider.value);
     }
 
     void UpdateText(float value)
     {
-        int percent = Mathf.RoundToInt(value * 100);
-        percentageText.text = percent + "%";
-    }
-
-    void SaveValue(float value)
-    {
-        switch (audioType)
-        {
-            case AudioType.Music:
-                PlayerPrefs.SetFloat("MusicVolume", value);
-                break;
-            case AudioType.SFX:
-                PlayerPrefs.SetFloat("SFXVolume", value);
-                break;
-        }
-        PlayerPrefs.Save();
+        percentageText.text = Mathf.RoundToInt(value * 100) + "%";
     }
 }
