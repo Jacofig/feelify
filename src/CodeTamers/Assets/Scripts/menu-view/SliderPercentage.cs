@@ -1,27 +1,54 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // jeœli u¿ywasz TextMeshPro
+using TMPro;
 
-public class SliderPercentage : MonoBehaviour
+public class AudioSlider : MonoBehaviour
 {
-    public Slider slider;               // Twój slider
-    public TextMeshProUGUI percentageText; // Tekst pokazuj¹cy procent (mo¿e byæ te¿ Text zamiast TMP)
+    public Slider slider;
+    public TextMeshProUGUI percentageText;
+
+    public enum AudioType { Music, SFX }
+    public AudioType audioType;
 
     void Start()
     {
-        slider.value = AudioManager.instance.GetVolume();
-        slider.onValueChanged.AddListener(AudioManager.instance.SetVolume);
-        // ustaw pocz¹tkowy tekst
-        UpdateText(slider.value);
+        float initialValue;
+        switch (audioType)
+        {
+            case AudioType.Music:
+                initialValue = PlayerPrefs.GetFloat("MusicVolume", AudioManager.instance.GetMusicVolume());
+                slider.value = initialValue;
+                slider.onValueChanged.AddListener(AudioManager.instance.SetMusicVolume);
+                break;
+            case AudioType.SFX:
+                initialValue = PlayerPrefs.GetFloat("SFXVolume", AudioManager.instance.GetSFXVolume());
+                slider.value = initialValue;
+                slider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
+                break;
+        }
 
-        // dodaj listener do slidera
+        UpdateText(slider.value);
         slider.onValueChanged.AddListener(UpdateText);
+        slider.onValueChanged.AddListener(SaveValue);
     }
 
-    // funkcja aktualizuj¹ca tekst
     void UpdateText(float value)
     {
-        int percent = Mathf.RoundToInt(value * 100); // przelicz 0-1 na 0-100%
+        int percent = Mathf.RoundToInt(value * 100);
         percentageText.text = percent + "%";
+    }
+
+    void SaveValue(float value)
+    {
+        switch (audioType)
+        {
+            case AudioType.Music:
+                PlayerPrefs.SetFloat("MusicVolume", value);
+                break;
+            case AudioType.SFX:
+                PlayerPrefs.SetFloat("SFXVolume", value);
+                break;
+        }
+        PlayerPrefs.Save();
     }
 }
