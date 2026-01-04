@@ -72414,6 +72414,8 @@ MonoBehaviour:
   speed: 5
   canMove: 1
   moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  walkClip: {fileID: 8300000, guid: fcf7d8c3a915bcf43814ff8c82d95a0e, type: 3}
+  stepDelay: 0.4
 --- !u!4 &1033616731
 Transform:
   m_ObjectHideFlags: 0
