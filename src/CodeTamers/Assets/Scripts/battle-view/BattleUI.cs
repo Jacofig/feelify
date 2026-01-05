@@ -64,7 +64,7 @@ public class BattleUI : MonoBehaviour
     private void SetSlot(BattleUnitUI ui, Creature c)
     {
         Debug.Log(
-    $"UI update: {c.currentMana}/{c.data.maxMana} -> {ui.manaBarFill.fillAmount}"
+    $"UI update: {c.CurrentMana}/{c.data.maxMana} -> {ui.manaBarFill.fillAmount}"
 );
 
         if (c == null || c.data == null)
@@ -76,15 +76,15 @@ public class BattleUI : MonoBehaviour
         ui.nameText.text = c.data.pokemonName;
         ui.levelText.text = $"Lv. {c.data.level}";
 
-        ui.hpText.text = $"{c.currentHP} / {c.data.maxHP}";
-        ui.manaText.text = $"{c.currentMana} / {c.data.maxMana}";
+        ui.hpText.text = $"{c.CurrentHP} / {c.data.maxHP}";
+        ui.manaText.text = $"{c.CurrentMana} / {c.data.maxMana}";
 
         // ---- BAR VALUES ----
         ui.hpBarFill.fillAmount =
-            c.data.maxHP > 0 ? (float)c.currentHP / c.data.maxHP : 0f;
+            c.data.maxHP > 0 ? (float)c.CurrentHP / c.data.maxHP : 0f;
 
         ui.manaBarFill.fillAmount =
-            c.data.maxMana > 0 ? (float)c.currentMana / c.data.maxMana : 0f;
+            c.data.maxMana > 0 ? (float)c.CurrentMana / c.data.maxMana : 0f;
     }
 
 

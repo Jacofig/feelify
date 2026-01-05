@@ -23,3 +23,4 @@ MonoBehaviour:
   startingMana: 10
   battleSprite: {fileID: 21300000, guid: c730eeedc3d5fc24d8a272b41d896bc3, type: 3}
   description: loop
+  animatorOverride: {fileID: 22100000, guid: b59bc80ae623a8c4692ec1c6848e88b1, type: 2}

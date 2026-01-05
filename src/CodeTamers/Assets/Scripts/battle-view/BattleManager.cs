@@ -133,7 +133,7 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < playerCreatures.Count; i++)
         {
             var creature = playerCreatures[i];
-            if (creature.currentHP <= 0)
+            if (creature.CurrentHP <= 0)
                 continue;
 
             if (string.IsNullOrWhiteSpace(creature.codeBuffer))
@@ -173,7 +173,7 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < enemyCreatures.Count; i++)
         {
             var enemy = enemyCreatures[i];
-            if (enemy.currentHP <= 0)
+            if (enemy.CurrentHP <= 0)
                 continue;
 
             var actions = enemyStrategy.GetActions(enemy, playerCreatures);
@@ -212,15 +212,15 @@ public class BattleManager : MonoBehaviour
     void ResetMana(List<Creature> creatures)
     {
         foreach (var c in creatures)
-        {
-            c.currentMana = c.data.maxMana;
-        }
+            c.ResetMana();
     }
+
 
     bool IsBattleOver()
     {
-        bool playerAlive = playerCreatures.Exists(c => c.currentHP > 0);
-        bool enemyAlive = enemyCreatures.Exists(c => c.currentHP > 0);
+        bool playerAlive = playerCreatures.Exists(c => c.CurrentHP > 0);
+        bool enemyAlive = enemyCreatures.Exists(c => c.CurrentHP > 0);
+
 
         if (!playerAlive || !enemyAlive)
         {
@@ -245,34 +245,15 @@ public class BattleManager : MonoBehaviour
             return false;
 
         var target = targets[targetIndex];
-        if (target.currentHP <= 0)
+        if (target.CurrentHP <= 0)
             return false;
 
-        int dmg = attacker.data.attack;
+        int rawDmg = attacker.data.attack;
+        int dealt = target.TakeDamage(rawDmg);
 
-        // BLOCK (statusy)
-        for (int i = target.statusEffects.Count - 1; i >= 0; i--)
-        {
-            var status = target.statusEffects[i];
-            dmg = status.AbsorbDamage(dmg);
 
-            if (status.Expired)
-            {
-                status.OnRemove();
-                target.statusEffects.RemoveAt(i);
-            }
 
-            if (dmg <= 0)
-                break;
-        }
-
-        // HP
-        if (dmg > 0)
-        {
-            target.currentHP -= dmg;
-        }
-
-        Debug.Log($"{attacker.data.pokemonName} attacks {target.data.pokemonName} for {dmg}");
+        Debug.Log($"{attacker.data.pokemonName} attacks {target.data.pokemonName} for {dealt}");
         return true;
 
 
@@ -351,14 +332,14 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < playerCreatures.Count; i++)
         {
             var c = playerCreatures[i];
-            Debug.Log($"P{i}: {c.data.pokemonName} HP={c.currentHP}");
+            Debug.Log($"P{i}: {c.data.pokemonName} HP={c.CurrentHP}");
         }
 
         Debug.Log("---- ENEMY TEAM ----");
         for (int i = 0; i < enemyCreatures.Count; i++)
         {
             var c = enemyCreatures[i];
-            Debug.Log($"E{i}: {c.data.pokemonName} HP={c.currentHP}");
+            Debug.Log($"E{i}: {c.data.pokemonName} HP={c.CurrentHP}");
         }
     }
 

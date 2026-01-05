@@ -23,3 +23,4 @@ MonoBehaviour:
   startingMana: 10
   battleSprite: {fileID: 21300000, guid: 03e34b02c99dc0747a1d7767f6bf5094, type: 3}
   description: cat
+  animatorOverride: {fileID: 22100000, guid: 75dd469665a89cc4bb028c4a7450fa42, type: 2}

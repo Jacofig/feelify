@@ -23,4 +23,7 @@ public class PokemonData : ScriptableObject
 
     [Header("Other")]
     public string description;
+
+    public AnimatorOverrideController animatorOverride;
+
 }

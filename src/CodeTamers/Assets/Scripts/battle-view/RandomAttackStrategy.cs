@@ -8,9 +8,9 @@ public class RandomAttackStrategy : IEnemyTurnStrategy
         List<BattleAction> actions = new();
 
         // enemy atakuje tyle razy, ile ma many
-        for (int i = 0; i < enemy.currentMana; i++)
+        for (int i = 0; i < enemy.CurrentMana; i++)
         {
-            var aliveTargets = playerTeam.FindAll(c => c.currentHP > 0);
+            var aliveTargets = playerTeam.FindAll(c => c.CurrentHP > 0);
             if (aliveTargets.Count == 0)
                 break;
 

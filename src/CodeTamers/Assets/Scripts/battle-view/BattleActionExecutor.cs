@@ -1,21 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-
 public class BattleActionExecutor : MonoBehaviour
 {
     public BattleManager battleManager;
 
-    public bool Execute(
-     Creature owner,
-     List<Creature> targets,
-     BattleAction action
- )
+    public bool Execute(Creature owner, List<Creature> targets, BattleAction action)
     {
-        if (owner.currentMana <= 0)
+        if (!owner.TrySpendMana(1))
             return false;
-
-        owner.currentMana--;
 
         switch (action.Type)
         {
@@ -29,5 +22,4 @@ public class BattleActionExecutor : MonoBehaviour
 
         return false;
     }
-
 }

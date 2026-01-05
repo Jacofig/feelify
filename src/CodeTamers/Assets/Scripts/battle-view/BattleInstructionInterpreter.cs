@@ -12,12 +12,11 @@ public class BattleInstructionInterpreter : MonoBehaviour
 
         baseInterpreter.commandHandler = battleHandler;
 
-        baseInterpreter.NumberVars["hp"] = owner.currentHP;
-        baseInterpreter.NumberVars["mana"] = owner.currentMana;
+        // Read-only inputs for code decisions
+        baseInterpreter.NumberVars["hp"] = owner.CurrentHP;
+        baseInterpreter.NumberVars["mana"] = owner.CurrentMana;
 
         bool ok = baseInterpreter.Execute(instructions);
-
-        owner.currentHP = Mathf.RoundToInt(baseInterpreter.NumberVars["hp"]);
 
         if (!ok)
             return null;

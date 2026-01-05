@@ -23,3 +23,4 @@ MonoBehaviour:
   startingMana: 10
   battleSprite: {fileID: 21300000, guid: bb9107dd5cc84124f94f835cd913e038, type: 3}
   description: clockwheel
+  animatorOverride: {fileID: 22100000, guid: dd1e6ae62e992c74781b291e0bd9f534, type: 2}
