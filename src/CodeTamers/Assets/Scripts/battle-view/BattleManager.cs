@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Collections;
 public class BattleManager : MonoBehaviour
 {
     [Header("Visual Scaling")]
@@ -70,34 +70,43 @@ public class BattleManager : MonoBehaviour
     // =========================
     // FLOW
     // =========================
+
     public void ExecuteFullRound()
     {
-        if (phase == BattlePhase.BattleEnd)
+        if (phase != BattlePhase.PlayerTurn)
             return;
+
+        StartCoroutine(RunFullRoundCoroutine());
+    }
+
+    private IEnumerator RunFullRoundCoroutine()
+    {
+        editorUI.SetGoButton(false);
 
         Debug.Log("=== ROUND START ===");
 
+        // ===== PLAYER TURN =====
         phase = BattlePhase.PlayerTurn;
-        ExecutePlayerTurn();
+        yield return StartCoroutine(ExecutePlayerTurnCoroutine());
+
         RefreshAllUI();
-        
+        if (IsBattleOver()) yield break;
 
-        if (IsBattleOver())
-            return;
-
+        // ===== ENEMY TURN =====
         phase = BattlePhase.EnemyTurn;
-        ExecuteEnemyTurn();
-        RefreshAllUI();
+        yield return StartCoroutine(ExecuteEnemyTurnCoroutine());
 
-        if (IsBattleOver())
-            return;
+        RefreshAllUI();
+        if (IsBattleOver()) yield break;
 
         LogAllHP();
 
         phase = BattlePhase.PlayerTurn;
+        editorUI.SetGoButton(true);
 
         Debug.Log("=== ROUND END ===");
     }
+
 
     Vector3 UIToWorldPosition(RectTransform uiSlot)
     {
@@ -119,18 +128,15 @@ public class BattleManager : MonoBehaviour
     // =========================
     // PLAYER TURN
     // =========================
-    void ExecutePlayerTurn()
+    private IEnumerator ExecutePlayerTurnCoroutine()
     {
         Debug.Log("=== PLAYER TURN ===");
 
         ResetMana(playerCreatures);
         editorUI.SaveActiveCode();
 
-        //Reset statusow
         foreach (var c in playerCreatures)
-        {
             c.OnTurnStart();
-        }
 
         for (int i = 0; i < playerCreatures.Count; i++)
         {
@@ -148,29 +154,36 @@ public class BattleManager : MonoBehaviour
 
             foreach (var action in actions)
             {
-                actionExecutor.Execute(creature, enemyCreatures, action);
-            }
-            Debug.Log($"Executing turn for {creature.data.pokemonName}, code = [{creature.codeBuffer}]");
+                bool didAction = false;
 
+                yield return StartCoroutine(
+                    actionExecutor.ExecuteAction(
+                        creature,
+                        enemyCreatures,
+                        action,
+                        result => didAction = result
+                    )
+                );
+
+                if (!didAction)
+                    continue;
+            }
 
         }
     }
 
+
     // =========================
     // ENEMY TURN
     // =========================
-    void ExecuteEnemyTurn()
+    private IEnumerator ExecuteEnemyTurnCoroutine()
     {
         Debug.Log("=== ENEMY TURN ===");
 
         ResetMana(enemyCreatures);
 
-        //Reset statusow
         foreach (var c in enemyCreatures)
-        {
             c.OnTurnStart();
-        }
-
 
         for (int i = 0; i < enemyCreatures.Count; i++)
         {
@@ -182,11 +195,24 @@ public class BattleManager : MonoBehaviour
 
             foreach (var action in actions)
             {
-                if (!actionExecutor.Execute(enemy, playerCreatures, action))
-                    break;
+                bool didAction = false;
+
+                yield return StartCoroutine(
+                    actionExecutor.ExecuteAction(
+                        enemy,
+                        playerCreatures,
+                        action,
+                        result => didAction = result
+                    )
+                );
+
+                if (!didAction)
+                    continue;
             }
+
         }
     }
+
     void LateUpdate()
     {
         // keep player creatures aligned to UI

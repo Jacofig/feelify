@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 
+
 public class BattleEditorController : MonoBehaviour
 {
     public TMP_InputField inputField;
@@ -48,4 +49,11 @@ public class BattleEditorController : MonoBehaviour
             Debug.Log($"Saved code for {activeCreature.data.pokemonName}: '{activeCreature.codeBuffer}'");
         }
     }
+    public void SetGoButton(bool enabled)
+    {
+        var button = GetComponentInChildren<UnityEngine.UI.Button>();
+        if (button != null)
+            button.interactable = enabled;
+    }
+
 }
