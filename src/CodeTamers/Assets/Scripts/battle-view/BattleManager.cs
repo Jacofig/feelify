@@ -6,6 +6,8 @@ public class BattleManager : MonoBehaviour
     [Header("Visual Scaling")]
     public float playerScale = 4f;
     public float enemyScale = 4f;
+    [Header("Battle End UI")]
+    public GameObject battleEndPanel;
 
     [Header("UI")]
     public BattleEditorController editorUI;
@@ -215,17 +217,32 @@ public class BattleManager : MonoBehaviour
             c.ResetMana();
     }
 
+    void ShowBattleEndUI(bool playerWon)
+    {
+        if (battleEndPanel != null)
+            battleEndPanel.SetActive(true);
+
+        // Optional: pass result to UI
+        battleEndPanel
+            .GetComponent<BattleEndUI>()
+            ?.SetResult(playerWon);
+    }
 
     bool IsBattleOver()
     {
         bool playerAlive = playerCreatures.Exists(c => c.CurrentHP > 0);
         bool enemyAlive = enemyCreatures.Exists(c => c.CurrentHP > 0);
 
-
         if (!playerAlive || !enemyAlive)
         {
-            phase = BattlePhase.BattleEnd;
-            Debug.Log(playerAlive ? "PLAYER WINS" : "ENEMY WINS");
+            if (phase != BattlePhase.BattleEnd)
+            {
+                phase = BattlePhase.BattleEnd;
+                Debug.Log(playerAlive ? "PLAYER WINS" : "ENEMY WINS");
+
+                ShowBattleEndUI(playerAlive);
+            }
+
             return true;
         }
 
