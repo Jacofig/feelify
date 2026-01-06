@@ -18,7 +18,7 @@ Bugon przestaje glitchować i zmienia kolor.
 
 ---
 
-# AKT 1
+# AKT 1 – „Village of Glitches”
 
 **Gracz:**  
 - Eksploruje miasto.  
@@ -160,3 +160,8 @@ Po pokonaniu 5 Bugonów na Outskirts, gracz dostaje powiadomienie, żeby poszed�
 - Po pokonaniu mini-bossa, AI podsumowuje:  
 > “Well done. You’ve stabilized the outskirts… for now. But corruption is growing somewhere deeper. Return to the village.”  
 - Gracz wraca do wioski gotowy na kolejne misje i dalsze wyzwania.
+
+
+
+
+

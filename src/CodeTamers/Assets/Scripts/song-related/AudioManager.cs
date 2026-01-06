@@ -1,10 +1,17 @@
 using UnityEngine;
+using UnityEngine.Audio;
+
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
+    private float masterVolume = 0.5f;
+    private float baseMusicVolume = 0.2f;
+    private float baseSFXVolume = 0.2f;
+
     [Header("Audio Sources")]
+   
     [SerializeField] private AudioSource musicSource;  // dla muzyki
     [SerializeField] private AudioSource sfxSource;    // dla SFX
 
@@ -28,18 +35,48 @@ public class AudioManager : MonoBehaviour
             musicSource.Play();
     }
 
-    // ================= VOLUME =================
+    public void SetMasterVolume(float value)
+    {
+        masterVolume = Mathf.Clamp01(value);
+        UpdateVolumes();
+    }
 
-    // tylko muzyka, SFX bêdzie mieæ w³asny g³oœnoœæ jeœli potrzebujesz
+    public float GetMasterVolume()
+    {
+        return masterVolume;
+    }
+
     public void SetMusicVolume(float value)
     {
-        musicSource.volume = Mathf.Clamp01(value);
+        baseMusicVolume = Mathf.Clamp01(value);
+        UpdateVolumes();
     }
 
     public float GetMusicVolume()
     {
-        return musicSource.volume;
+        return baseMusicVolume;
     }
+
+    public void SetSFXVolume(float value)
+    {
+        baseSFXVolume = Mathf.Clamp01(value);
+        UpdateVolumes();
+    }
+
+    public float GetSFXVolume()
+    {
+        return baseSFXVolume;
+    }
+
+    private void UpdateVolumes()
+    {
+        musicSource.volume = baseMusicVolume * masterVolume;
+        sfxSource.volume = baseSFXVolume * masterVolume;
+    }
+
+
+
+
 
     // ================= MUSIC =================
 
@@ -52,23 +89,10 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
-    // ================= SFX =================
 
-    // odtwarza jeden dŸwiêk efektu
     public void PlaySFX(AudioClip clip)
     {
         if (clip == null) return;
         sfxSource.PlayOneShot(clip);
-    }
-
-    // jeœli chcesz, mo¿esz te¿ mieæ oddzielny suwak dla SFX
-    public void SetSFXVolume(float value)
-    {
-        sfxSource.volume = Mathf.Clamp01(value);
-    }
-
-    public float GetSFXVolume()
-    {
-        return sfxSource.volume;
     }
 }

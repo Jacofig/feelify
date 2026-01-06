@@ -4,7 +4,7 @@ using TMPro;
 
 public class AudioSlider : MonoBehaviour
 {
-    public enum AudioType { Music, SFX }
+    public enum AudioType { Master, Music, SFX }
 
     [Header("Slider Settings")]
     public AudioType audioType;            // wybór: Music lub SFX
@@ -13,19 +13,24 @@ public class AudioSlider : MonoBehaviour
 
     void Start()
     {
-        // ustaw pocz¹tkow¹ wartoœæ i listener
-        if (audioType == AudioType.Music)
+        switch (audioType)
         {
-            slider.value = AudioManager.instance.GetMusicVolume();
-            slider.onValueChanged.AddListener(AudioManager.instance.SetMusicVolume);
-        }
-        else // SFX
-        {
-            slider.value = AudioManager.instance.GetSFXVolume();
-            slider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
+            case AudioType.Master:
+                slider.value = AudioManager.instance.GetMasterVolume();
+                slider.onValueChanged.AddListener(AudioManager.instance.SetMasterVolume);
+                break;
+
+            case AudioType.Music:
+                slider.value = AudioManager.instance.GetMusicVolume();
+                slider.onValueChanged.AddListener(AudioManager.instance.SetMusicVolume);
+                break;
+
+            case AudioType.SFX:
+                slider.value = AudioManager.instance.GetSFXVolume();
+                slider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
+                break;
         }
 
-        // listener do aktualizacji tekstu
         slider.onValueChanged.AddListener(UpdateText);
         UpdateText(slider.value);
     }
