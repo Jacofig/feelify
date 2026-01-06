@@ -8,7 +8,7 @@
 ## Zakres moich działań:
 # Dokumentacja funkcjonalności gry
 
-1. **Ekran startowy (Main Menu)
+1. **Ekran startowy (Main Menu)**
 
 
 Menu główne zawiera następujące funkcjonalności:
@@ -22,7 +22,7 @@ Menu zostało wykonane w sposób **modułowy**, co umożliwia jego dalszą rozbu
 
 ---
 
-2. **System opcji (Audio & Controls)
+2. **System opcji (Audio & Controls)**
 
 W menu opcji zaimplementowałem rozbudowany system ustawień, który jest **współdzielony pomiędzy menu głównym oraz menu pauzy**.
 
@@ -38,7 +38,7 @@ W menu opcji zaimplementowałem rozbudowany system ustawień, który jest **wsp�
 
 ---
 
-3. **Cutscenka / Intro fabularne
+3. **Cutscenka / Intro fabularne**
 
 Stworzyłem intro gry w formie **cutscenki** składającej się z czterech paneli:
 
@@ -52,7 +52,7 @@ Cutscenka pełni funkcję zarówno **narracyjną**, jak i **immersyjną**, buduj
 
 ---
 
-4. **Menu pauzy (Pause Menu)
+4. **Menu pauzy (Pause Menu)**
 
 Zaimplementowałem w pełni funkcjonalne menu pauzy dostępne w trakcie rozgrywki.
 
@@ -67,7 +67,7 @@ Menu pauzy jest w pełni **zsynchronizowane z menu głównym** – wszelkie zmia
 
 ---
 
-5. **Poprawa samouczka i fabuły
+5. **Poprawa samouczka i fabuły**
 
 ### Samouczek
 - przeprojektowany w celu zwiększenia **czytelności**  
@@ -83,7 +83,7 @@ Fabuła została zaplanowana w sposób umożliwiający jej **dalszą rozbudowę*
 
 ---
 
-6. **System dźwięku i Audio Mixer
+6. **System dźwięku i Audio Mixer**
 
 Stworzyłem oraz skonfigurowałem **Audio Mixer**, który:
 
