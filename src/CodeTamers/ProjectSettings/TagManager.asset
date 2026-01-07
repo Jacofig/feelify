@@ -41,8 +41,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
+  - name: ground
+    uniqueID: 15871261
+    locked: 0
+  - name: objects1
     uniqueID: 2448964161
+    locked: 0
+  - name: objects2
+    uniqueID: 740469739
     locked: 0
   m_RenderingLayers:
   - Default
