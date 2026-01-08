@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -22,17 +22,23 @@ public class TypewriterText : MonoBehaviour
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
+        // Ustaw cały tekst od razu, TMP przelicza Auto Size
+        textUI.text = fullText;
+
+        // Ustawiamy tylko widoczność liter na 0
+        textUI.maxVisibleCharacters = 0;
+
         typingCoroutine = StartCoroutine(TypeText());
     }
 
     IEnumerator TypeText()
     {
         isTyping = true;
-        textUI.text = "";
+        textUI.maxVisibleCharacters = 0;
 
-        foreach (char letter in fullText)
+        for (int i = 0; i < fullText.Length; i++)
         {
-            textUI.text += letter;
+            textUI.maxVisibleCharacters = i + 1; // pokazujemy kolejną literę
             yield return new WaitForSeconds(typingSpeed);
         }
 
@@ -44,7 +50,7 @@ public class TypewriterText : MonoBehaviour
         if (!isTyping) return;
 
         StopCoroutine(typingCoroutine);
-        textUI.text = fullText;
+        textUI.maxVisibleCharacters = fullText.Length;
         isTyping = false;
     }
 
