@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     [Header("Panels")]
     public GameObject mainMenuPanel;
+    public GameObject levelPanel;
     public GameObject optionsPanel;
     public GameObject audioPanel;
     public GameObject controlsPanel;
@@ -15,6 +16,7 @@ public class MainMenu : MonoBehaviour
     {
         // Na starcie w³¹cz tylko g³ówne menu
         mainMenuPanel.SetActive(true);
+        levelPanel.SetActive(false);
         optionsPanel.SetActive(false);
         audioPanel.SetActive(false);
         controlsPanel.SetActive(false);
@@ -37,6 +39,19 @@ public class MainMenu : MonoBehaviour
         {
             SceneManager.LoadScene("OverworldScene");
         }
+    }
+
+
+    public void OpenLevel()
+    {
+        mainMenuPanel.SetActive(false);
+        levelPanel.SetActive(true);
+    }
+
+    public void CloseLevel()
+    {
+        levelPanel.SetActive(false);
+        mainMenuPanel.SetActive(true);
     }
 
     public void OpenOptions()
