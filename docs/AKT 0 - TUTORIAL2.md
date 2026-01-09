@@ -155,16 +155,16 @@ Akcja gracza:
 
     print("The door is now open. You can exit!")
 
-Efekt:
-•	Pętla while kończy się
-•	Drzwi odblokowują się
-•	Słychać klik mechanizmu
-•	Drzwi się otwierają
-**AI** (zakończenie tutoriala):
+Efekt:   
+•	Pętla while kończy się   
+•	Drzwi odblokowują się   
+•	Słychać klik mechanizmu   
+•	Drzwi się otwierają   
+**AI** (zakończenie tutoriala):   
 > “You didn’t guess.”  
 > “You defined rules.”  
 > “Step outside.”
 
-Gracz wychodzi z domu.
-KONIEC TUTORIALA
+Gracz wychodzi z domu.   
+KONIEC TUTORIALA   
 
