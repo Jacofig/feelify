@@ -1,10 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class InstructionInterpreter : MonoBehaviour
 {
     public Dictionary<string, float> NumberVars = new();
     public Dictionary<string, bool> BoolVars = new();
+
+    
+    public Dictionary<string, Func<float>> NumberFunctions = new();
 
     [Header("Command Handling")]
     public MonoBehaviour commandHandler;
@@ -13,9 +17,8 @@ public class InstructionInterpreter : MonoBehaviour
     {
         foreach (var instr in instructions)
         {
-            bool ok = ExecuteInstruction(instr);
-            if (!ok)
-                return false; // PRZERWIJ PROGRAM
+            if (!ExecuteInstruction(instr))
+                return false;
         }
         return true;
     }
@@ -50,10 +53,7 @@ public class InstructionInterpreter : MonoBehaviour
             return false;
 
         if (!handler.CanExecute(instr.Name))
-        {
-            Debug.Log($"Command blocked: {instr.Name}");
             return false;
-        }
 
         return handler.ExecuteCommand(instr.Name, instr.Arguments);
     }
@@ -95,30 +95,78 @@ public class InstructionInterpreter : MonoBehaviour
 
     private bool EvaluateCondition(string condition)
     {
-        if (BoolVars.TryGetValue(condition, out bool b))
-            return b;
-
+        // bool literal
         if (bool.TryParse(condition, out bool literal))
             return literal;
+
+        // porównania
+        if (condition.Contains("<"))
+        {
+            var p = condition.Split('<');
+            float left = EvaluateNumber(p[0].Trim());
+            float right = float.Parse(p[1].Trim());
+            return left < right;
+        }
 
         if (condition.Contains(">"))
         {
             var p = condition.Split('>');
-            return NumberVars[p[0].Trim()] > float.Parse(p[1].Trim());
-        }
-
-        if (condition.Contains("<"))
-        {
-            var p = condition.Split('<');
-            return NumberVars[p[0].Trim()] < float.Parse(p[1].Trim());
+            float left = EvaluateNumber(p[0].Trim());
+            float right = float.Parse(p[1].Trim());
+            return left > right;
         }
 
         return false;
     }
 
+    private float EvaluateNumber(string token)
+    {
+        token = token.Trim();
+
+        
+        if (float.TryParse(token, out float literal))
+            return literal;
+
+        // zmienna
+        if (NumberVars.TryGetValue(token, out float v))
+            return v;
+
+        // funkcja bez argumentów
+        if (token.EndsWith("()"))
+        {
+            string fn = token.Replace("()", "");
+            if (NumberFunctions.TryGetValue(fn, out var func))
+                return func();
+        }
+
+        throw new Exception($"Unknown number expression: {token}");
+    }
+
+
+    private float EvaluateAssignmentValue(string expr)
+    {
+        expr = expr.Trim();
+
+        // obs³uga: a + b
+        if (expr.Contains("+"))
+        {
+            var parts = expr.Split('+');
+            if (parts.Length != 2)
+                throw new Exception($"Invalid addition expression: {expr}");
+
+            float left = EvaluateNumber(parts[0].Trim());
+            float right = EvaluateNumber(parts[1].Trim());
+            return left + right;
+        }
+
+        // fallback: pojedyncza liczba / zmienna / funkcja
+        return EvaluateNumber(expr);
+    }
+
     private void ExecuteAssignment(ParsedInstruction instr)
     {
-        if (float.TryParse(instr.Arguments[0], out float v))
-            NumberVars[instr.Name] = v;
+        float value = EvaluateAssignmentValue(instr.Arguments[0]);
+        NumberVars[instr.Name] = value;
     }
+
 }

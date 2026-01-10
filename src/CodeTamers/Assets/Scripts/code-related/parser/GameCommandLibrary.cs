@@ -25,7 +25,44 @@ public static class GameCommandLibrary
                 Arguments = args,
                 LineNumber = line
             }
+        },
+            {
+        "hit", (args, line) => new ParsedInstruction
+        {
+            Type = InstructionType.GameCommand,
+            Name = "hit",
+            Arguments = args,
+            LineNumber = line
         }
+    },
+    {
+        "heat", (args, line) => new ParsedInstruction
+        {
+            Type = InstructionType.GameCommand,
+            Name = "heat",
+            Arguments = args,
+            LineNumber = line
+        }
+    },
+    {
+        "add", (args, line) => new ParsedInstruction
+        {
+            Type = InstructionType.GameCommand,
+            Name = "add",
+            Arguments = args,
+            LineNumber = line
+        }
+    },
+    {
+        "cast", (args, line) => new ParsedInstruction
+        {
+            Type = InstructionType.GameCommand,
+            Name = "cast",
+            Arguments = args,
+            LineNumber = line
+        }
+    }
+
     };
 
     public static bool IsGameCommand(string name)
