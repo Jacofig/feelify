@@ -5,7 +5,7 @@ public class EnemyEncounter : MonoBehaviour
 {
     private bool playerInRange = false;
 
-    [Header("Exactly 3 for now")]
+    [Header("Enemy team (templates)")]
     public PokemonData[] enemyTeam = new PokemonData[3];
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -29,22 +29,39 @@ public class EnemyEncounter : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            // player team comes from the player, not from the enemy object
-            BattleData.playerTeam = PlayerParty.Instance.team;
-            BattleData.enemyTeam  = enemyTeam;
+            // PLAYER: runtime instances
+            BattleData.playerTeam = PlayerParty.Instance.party;
 
-            Debug.Log("=== Setting enemy team ===");
-            for (int i = 0; i < enemyTeam.Length; i++)
+            // ENEMY: templates -> instances
+            BattleData.enemyTeam = BuildEnemyTeam();
+
+            Debug.Log("=== Enemy team set ===");
+            for (int i = 0; i < BattleData.enemyTeam.Length; i++)
             {
                 Debug.Log(
-                    enemyTeam[i] != null
-                    ? enemyTeam[i].pokemonName
-                    : "NULL"
+                    BattleData.enemyTeam[i] != null
+                        ? BattleData.enemyTeam[i].data.pokemonName
+                        : "NULL"
                 );
             }
 
-
             SceneManager.LoadScene("BattleScene");
         }
+    }
+
+    // ✅ FINAL correct version
+    private PokemonInstance[] BuildEnemyTeam()
+    {
+        PokemonInstance[] result = new PokemonInstance[enemyTeam.Length];
+
+        for (int i = 0; i < enemyTeam.Length; i++)
+        {
+            if (enemyTeam[i] == null)
+                continue;
+
+            result[i] = new PokemonInstance(enemyTeam[i]);
+        }
+
+        return result;
     }
 }

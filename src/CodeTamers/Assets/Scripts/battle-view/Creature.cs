@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Creature : MonoBehaviour
 {
-    [Header("Data")]
-    public PokemonData data;
+    [Header("Instance")]
+    public PokemonInstance instance;   // ✅ runtime Pokémon
+    public PokemonData data;            // convenience alias (read-only)
+
     public int teamIndex;
     public string codeBuffer = "";
 
-    // Expose read-only to everyone else (UI can read, but nobody can write)
+    // Expose read-only to others
     public int CurrentHP { get; private set; }
     public int CurrentMana { get; private set; }
 
@@ -32,25 +34,26 @@ public class Creature : MonoBehaviour
     }
 
     // =========================
-    // INIT
+    // INIT (INSTANCE-BASED)
     // =========================
-    public void Init(PokemonData newData)
+    public void Init(PokemonInstance instance)
     {
-        data = newData;
+        this.instance = instance;
+        this.data = instance.data;
 
-        CurrentHP = data.maxHP;
-        CurrentMana = Mathf.Clamp(data.startingMana, 0, data.maxMana);
+        // Sync from instance → creature
+        CurrentHP = instance.currentHP;
+        CurrentMana = instance.currentMana;
 
         if (spriteRenderer != null && data.battleSprite != null)
             spriteRenderer.sprite = data.battleSprite;
 
         if (animator != null && data.animatorOverride != null)
             animator.runtimeAnimatorController = data.animatorOverride;
-
     }
 
     // =========================
-    // DAMAGE (final correct place)
+    // DAMAGE
     // =========================
     public int TakeDamage(int rawDamage)
     {
@@ -59,7 +62,6 @@ public class Creature : MonoBehaviour
 
         int dmg = rawDamage;
 
-        // Let statuses modify / absorb the damage here (centralized!)
         for (int i = statusEffects.Count - 1; i >= 0; i--)
         {
             var status = statusEffects[i];
@@ -78,10 +80,9 @@ public class Creature : MonoBehaviour
         if (dmg <= 0)
             return 0;
 
-        // Apply final damage
         CurrentHP -= dmg;
+        instance.currentHP = CurrentHP; // ✅ WRITE BACK
 
-        // Visual feedback
         if (animator != null)
             animator.SetTrigger("takeDamage");
 
@@ -107,6 +108,7 @@ public class Creature : MonoBehaviour
     public void ResetMana()
     {
         CurrentMana = data.maxMana;
+        instance.currentMana = CurrentMana; // ✅ WRITE BACK
     }
 
     public bool TrySpendMana(int amount)
@@ -115,6 +117,7 @@ public class Creature : MonoBehaviour
         if (CurrentMana < amount) return false;
 
         CurrentMana -= amount;
+        instance.currentMana = CurrentMana; // ✅ WRITE BACK
         return true;
     }
 
@@ -124,6 +127,7 @@ public class Creature : MonoBehaviour
     void Die()
     {
         CurrentHP = 0;
+        instance.currentHP = 0;
 
         if (spriteRenderer != null)
             spriteRenderer.color = new Color(1f, 1f, 1f, 0.4f);

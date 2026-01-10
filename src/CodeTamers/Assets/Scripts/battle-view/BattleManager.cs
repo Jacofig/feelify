@@ -338,7 +338,7 @@ public class BattleManager : MonoBehaviour
     // SPAWN
     // =========================
     void SpawnTeam(
-        PokemonData[] teamData,
+        PokemonInstance[] team,
         GameObject prefab,
         RectTransform[] uiSlots,
         List<Creature> outList,
@@ -347,27 +347,28 @@ public class BattleManager : MonoBehaviour
     {
         outList.Clear();
 
-        for (int i = 0; i < teamData.Length; i++)
+        for (int i = 0; i < team.Length; i++)
         {
-            if (teamData[i] == null)
+            if (team[i] == null)
                 continue;
 
             Vector3 worldPos = UIToWorldPosition(uiSlots[i]);
 
             var obj = Instantiate(prefab, worldPos, Quaternion.identity);
             obj.transform.localScale = Vector3.one * visualScale;
+
             var sr = obj.GetComponentInChildren<SpriteRenderer>();
             if (sr != null)
-            {
                 sr.sortingOrder = -1;
-            }
+
             var creature = obj.GetComponent<Creature>();
-            creature.Init(teamData[i]);
+            creature.Init(team[i]);   // PokemonInstance
             creature.teamIndex = i;
 
             outList.Add(creature);
         }
     }
+
 
     void LogAllHP()
     {

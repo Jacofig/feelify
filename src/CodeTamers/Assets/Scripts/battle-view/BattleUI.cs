@@ -63,29 +63,28 @@ public class BattleUI : MonoBehaviour
 
     private void SetSlot(BattleUnitUI ui, Creature c)
     {
-        Debug.Log(
-    $"UI update: {c.CurrentMana}/{c.data.maxMana} -> {ui.manaBarFill.fillAmount}"
-);
-
-        if (c == null || c.data == null)
+        if (c == null || c.instance == null)
         {
             ClearSlot(ui);
             return;
         }
 
-        ui.nameText.text = c.data.pokemonName;
-        ui.levelText.text = $"Lv. {c.data.level}";
+        var inst = c.instance;
+        var data = inst.data;
 
-        ui.hpText.text = $"{c.CurrentHP} / {c.data.maxHP}";
-        ui.manaText.text = $"{c.CurrentMana} / {c.data.maxMana}";
+        ui.nameText.text = data.pokemonName;
+        ui.levelText.text = $"Lv. {inst.level}";
 
-        // ---- BAR VALUES ----
+        ui.hpText.text = $"{c.CurrentHP} / {inst.MaxHP}";
+        ui.manaText.text = $"{c.CurrentMana} / {data.maxMana}";
+
         ui.hpBarFill.fillAmount =
-            c.data.maxHP > 0 ? (float)c.CurrentHP / c.data.maxHP : 0f;
+            inst.MaxHP > 0 ? (float)c.CurrentHP / inst.MaxHP : 0f;
 
         ui.manaBarFill.fillAmount =
-            c.data.maxMana > 0 ? (float)c.CurrentMana / c.data.maxMana : 0f;
+            data.maxMana > 0 ? (float)c.CurrentMana / data.maxMana : 0f;
     }
+
 
 
     private void ClearSlot(BattleUnitUI ui)
