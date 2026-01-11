@@ -133,6 +133,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("=== PLAYER TURN ===");
 
         ResetMana(playerCreatures);
+        actionExecutor.ResetTurn();
         editorUI.SaveActiveCode();
 
         foreach (var c in playerCreatures)
@@ -330,6 +331,50 @@ public class BattleManager : MonoBehaviour
         target.AddStatus(new BlockArmorEffect(armorValue));
 
         Debug.Log($"{caster.data.pokemonName} gives {armorValue} block to {target.data.pokemonName}");
+    }
+
+    public bool PlayerCatch(
+     Creature catcher,
+     List<Creature> targets,
+     int targetIndex
+ )
+    {
+        if (targetIndex < 0 || targetIndex >= targets.Count)
+            return false;
+
+        Creature target = targets[targetIndex];
+
+        // nie ³apiemy martwych
+        if (target.CurrentHP <= 0)
+            return false;
+
+        int maxHP = target.instance.MaxHP;
+        int currentHP = target.CurrentHP;
+
+        float hpRatio = (float)currentHP / maxHP;
+        float catchChance = Mathf.Clamp01(1f - hpRatio);
+
+
+        float roll = Random.value;
+
+        Debug.Log(
+            $"Trying to catch {target.data.pokemonName}: " +
+            $"{Mathf.RoundToInt(catchChance * 100)}% chance (roll={roll:0.00})"
+        );
+
+        if (roll <= catchChance)
+        {
+            Debug.Log($"CAUGHT {target.data.pokemonName}!");
+
+            PlayerParty.Instance.AddPokemon(target.data);
+            // wy³¹czenie z walki
+            target.TakeDamage(currentHP);
+
+            return true;
+        }
+
+        Debug.Log($"{target.data.pokemonName} escaped!");
+        return true; // akcja siê wykona³a, nawet jeœli nieudana
     }
 
 

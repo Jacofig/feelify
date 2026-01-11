@@ -80,8 +80,9 @@ public class Creature : MonoBehaviour
         if (dmg <= 0)
             return 0;
 
-        CurrentHP -= dmg;
-        instance.currentHP = CurrentHP; // ✅ WRITE BACK
+        instance.SetHP(CurrentHP - dmg);
+        CurrentHP = instance.currentHP;
+
 
         if (animator != null)
             animator.SetTrigger("takeDamage");
@@ -126,8 +127,9 @@ public class Creature : MonoBehaviour
     // =========================
     void Die()
     {
-        CurrentHP = 0;
-        instance.currentHP = 0;
+        instance.SetHP(0);
+        CurrentHP = instance.currentHP;
+
 
         if (spriteRenderer != null)
             spriteRenderer.color = new Color(1f, 1f, 1f, 0.4f);

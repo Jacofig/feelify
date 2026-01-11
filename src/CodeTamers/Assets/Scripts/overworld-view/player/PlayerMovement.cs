@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (stepTimer >= stepDelay)
             {
-                AudioManager.instance.PlaySFX(walkClip);
+                //AudioManager.instance.PlaySFX(walkClip);
                 stepTimer = 0f;
             }
         }

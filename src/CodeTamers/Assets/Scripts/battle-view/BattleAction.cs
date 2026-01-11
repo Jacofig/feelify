@@ -1,7 +1,8 @@
 public enum BattleActionType
 {
     Attack,
-    Block
+    Block,
+    Catch
 }
 
 public class BattleAction

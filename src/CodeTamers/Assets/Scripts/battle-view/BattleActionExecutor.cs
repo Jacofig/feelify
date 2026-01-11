@@ -6,6 +6,7 @@ public class BattleActionExecutor : MonoBehaviour
 {
     public BattleManager battleManager;
     public float actionDelay = 1f;
+    private bool catchUsedThisTurn = false;
 
     public IEnumerator ExecuteAction(
     Creature owner,
@@ -14,7 +15,16 @@ public class BattleActionExecutor : MonoBehaviour
     System.Action<bool> onFinished
 )
     {
+        
         bool didSomething = false;
+
+        if (action.Type == BattleActionType.Catch && catchUsedThisTurn)
+        {
+            Debug.Log("Catch used more than once this turn — mana wasted");
+            owner.TrySpendMana(1); // mana przepada
+            onFinished(false);
+            yield break;
+        }
 
         if (!owner.TrySpendMana(1))
         {
@@ -34,6 +44,15 @@ public class BattleActionExecutor : MonoBehaviour
                 battleManager.PlayerBlock(owner, action.TargetIndex);
                 didSomething = true;
                 break;
+
+            case BattleActionType.Catch:
+                didSomething = battleManager.PlayerCatch(
+                    owner, targets, action.TargetIndex
+                );
+                if (didSomething)
+                    catchUsedThisTurn = true;
+                break;
+
         }
 
         if (didSomething)
@@ -41,5 +60,11 @@ public class BattleActionExecutor : MonoBehaviour
 
         onFinished(didSomething);
     }
+
+    public void ResetTurn()
+    {
+        catchUsedThisTurn = false;
+    }
+
 
 }

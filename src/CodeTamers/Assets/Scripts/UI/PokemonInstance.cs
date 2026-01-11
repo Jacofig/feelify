@@ -23,4 +23,10 @@ public class PokemonInstance
     public int MaxHP => data.maxHP + level * 2;
     public int Attack => data.attack + level;
     public int Defense => data.defense + level;
+
+    public void SetHP(int value)
+    {
+        currentHP = Mathf.Clamp(value, 0, MaxHP);
+    }
+
 }

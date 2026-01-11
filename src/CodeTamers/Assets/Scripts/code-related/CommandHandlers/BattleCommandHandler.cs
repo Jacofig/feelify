@@ -18,7 +18,7 @@ public class BattleCommandHandler : MonoBehaviour, IGameCommandHandler
     public bool CanExecute(string commandName)
     {
         // Interpreter pyta: „czy komenda istnieje”
-        return commandName == "attack" || commandName == "block";
+        return commandName == "attack" || commandName == "block" || commandName == "catch";
     }
 
     public bool ExecuteCommand(string commandName, string[] args)
@@ -40,6 +40,15 @@ public class BattleCommandHandler : MonoBehaviour, IGameCommandHandler
 
                 actions.Add(new BattleAction(BattleActionType.Block, blockTarget));
                 return true;
+
+            case "catch":
+                int catchTarget = 0;
+                if (args.Length > 0)
+                    int.TryParse(args[0], out catchTarget);
+
+                actions.Add(new BattleAction(BattleActionType.Catch, catchTarget));
+                return true;
+
 
         }
 
