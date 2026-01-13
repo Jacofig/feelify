@@ -17,16 +17,19 @@ public class PlayerMovement : MonoBehaviour
     public float stepDelay = 0.4f;   // czas między krokami
     private float stepTimer = 0f;    // licznik czasu do następnego kroku
 
+    private Animator anim;
 
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
     }
 
     void OnEnable()
     {
         moveAction.action.Enable();
+        anim = GetComponent<Animator>();
     }
 
     void OnDisable()
@@ -43,6 +46,57 @@ public class PlayerMovement : MonoBehaviour
         }
 
         moveInput = moveAction.action.ReadValue<Vector2>();
+
+
+
+        // ---------- ANIMACJE RUCHU ----------
+
+        // idle
+        if (moveInput.magnitude < 0.1f)
+        {
+            anim.SetBool("walk_f", false);
+            anim.SetBool("walk_b", false);
+            anim.SetBool("walk_l", false);
+            anim.SetBool("walk_r", false);
+            return;
+        }
+
+        // wybór osi dominującej
+        if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
+        {
+            if (moveInput.x > 0)
+            {
+                anim.SetBool("walk_r", true);
+                anim.SetBool("walk_l", false);
+            }
+            else
+            {
+                anim.SetBool("walk_l", true);
+                anim.SetBool("walk_r", false);
+            }
+
+            anim.SetBool("walk_f", false);
+            anim.SetBool("walk_b", false);
+        }
+        else
+        {
+            if (moveInput.y > 0)
+            {
+                anim.SetBool("walk_b", true);
+                anim.SetBool("walk_f", false);
+            }
+            else
+            {
+                anim.SetBool("walk_f", true);
+                anim.SetBool("walk_b", false);
+            }
+
+            anim.SetBool("walk_l", false);
+            anim.SetBool("walk_r", false);
+        }
+
+
+
 
         // ----------------- krok -----------------
         if (moveInput.magnitude > 0.1f)
