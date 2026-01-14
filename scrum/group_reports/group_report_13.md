@@ -10,7 +10,7 @@ Celem sprintu jest stworzenie stworzenie questa edukacyjnego, który wprowadzi p
 
 | Zadanie | Odpowiedzialny | Status | Komentarz |
 |----------|----------------|--------|------------|
-| Ekwipunek, pokedex, proste drzewo skilli, statystyki, nauka tworzenia mapy* | Jakub Figiel | Zakończone | brak |
+| Ekwipunek, pokedex, proste drzewo skilli, statystyki, nauka tworzenia mapy* | Jakub Figiel | Zakończone/W trakcie | brak |
 | Napisanie questa edukacyjnego, nauka tworzenia mapy, stworzenie animacji ruchu postaci, zrobienie panelu wyboru trudności poziomów**| Stanisław Golański | Zakończone – wymaga ulepszeń | brak |
 | Kod umożliwiający questa edukacyjnego, mechanizm łapania pokemona, komenda otwierająca pokedexa i inventory****| Mateusz Kopala | Zakończone/ w trakcie – nie wszystko zostało wykonane| brak |
 | Efekty dźwiękowe poszczególnych pokemonów, nauka tworzenia mapy, tworzenie mapy***| Dominik Piwowarski | Zakończone/w trakcie | brak |
