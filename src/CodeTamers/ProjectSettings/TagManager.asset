@@ -50,5 +50,20 @@ TagManager:
   - name: objects2
     uniqueID: 740469739
     locked: 0
+  - name: ground_final
+    uniqueID: 1724249761
+    locked: 0
+  - name: not_passable
+    uniqueID: 1547373821
+    locked: 0
+  - name: Player
+    uniqueID: 147596033
+    locked: 0
+  - name: border_final
+    uniqueID: 1380197171
+    locked: 0
+  - name: passable
+    uniqueID: 396002685
+    locked: 0
   m_RenderingLayers:
   - Default
