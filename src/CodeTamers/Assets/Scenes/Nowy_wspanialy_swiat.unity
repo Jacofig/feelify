@@ -754,6 +754,9 @@ GameObject:
   - component: {fileID: 663839327}
   - component: {fileID: 663839331}
   - component: {fileID: 663839332}
+  - component: {fileID: 663839335}
+  - component: {fileID: 663839334}
+  - component: {fileID: 663839333}
   m_Layer: 0
   m_Name: 1
   m_TagString: Untagged
@@ -940,6 +943,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MissionTriggerBattle
   firstDialogue: {fileID: 11400000, guid: ad5f50515c2dccd4fa71d57e9048c407, type: 2}
   secondDialogue: {fileID: 11400000, guid: 444a10e4ee773b44fa73f01af024d05d, type: 2}
+  playerInRange: 0
+  firstDone: 0
   npc: {fileID: 663839332}
 --- !u!114 &663839332
 MonoBehaviour:
@@ -955,6 +960,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RiverMovment
   target: {fileID: 1297113598}
   speed: 3
+--- !u!114 &663839333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663839326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4180c9ba764a1a0409098c8b3cef6b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueAction_ChangeDialogue
+  trigger: {fileID: 663839335}
+  nextDialogueIndex: 1
+--- !u!114 &663839334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663839326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71ce1406f24dde4f9c434aa0d780dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueAction_MoveNPC
+  npc: {fileID: 663839332}
+--- !u!114 &663839335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663839326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ab2c8357395b14680681c5551e34b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
+  stages:
+  - dialogue: {fileID: 11400000, guid: ad5f50515c2dccd4fa71d57e9048c407, type: 2}
+    actions: []
+    hasRun: 0
+  - dialogue: {fileID: 11400000, guid: 444a10e4ee773b44fa73f01af024d05d, type: 2}
+    actions: []
+    hasRun: 0
+  - dialogue: {fileID: 0}
+    actions:
+    - {fileID: 663839334}
+    hasRun: 0
+  currentStage: 0
 --- !u!1 &685645168
 GameObject:
   m_ObjectHideFlags: 0

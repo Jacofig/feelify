@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RiverMovment : MonoBehaviour
+public class NPCMovement : MonoBehaviour
 {
     public Transform target;      // miejsce, do którego NPC ma iœæ
     public float speed = 3f;      // prêdkoœæ ruchu
