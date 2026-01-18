@@ -265,9 +265,16 @@ public class BattleManager : MonoBehaviour
             if (phase != BattlePhase.BattleEnd)
             {
                 phase = BattlePhase.BattleEnd;
+
+                bool playerWon = playerAlive;
+
+
                 Debug.Log(playerAlive ? "PLAYER WINS" : "ENEMY WINS");
 
                 ShowBattleEndUI(playerAlive);
+
+                //BattleData.onBattleFinished?.Invoke(playerWon);
+                //BattleData.onBattleFinished = null;
             }
 
             return true;

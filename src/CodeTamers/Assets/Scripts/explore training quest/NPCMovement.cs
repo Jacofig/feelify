@@ -1,30 +1,46 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using UnityEngine.AI;
+using System;
 
 public class NPCMovement : MonoBehaviour
 {
-    public Transform target;      // miejsce, do którego NPC ma iœæ
-    public float speed = 3f;      // prêdkoœæ ruchu
-    private bool shouldMove = false;
+    public Transform target;
+    private NavMeshAgent agent;
+    private Action onReachedTarget;
+
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+    }
 
     void Update()
     {
-        if (shouldMove && target != null)
+        if (agent.hasPath && !agent.pathPending)
         {
-            // oblicz kierunek
-            Vector3 dir = (target.position - transform.position).normalized;
-            // przesuwaj NPC
-            transform.position += dir * speed * Time.deltaTime;
-
-            // opcjonalnie zatrzymaj, gdy dojdziesz do celu
-            if (Vector3.Distance(transform.position, target.position) < 0.1f)
+            // sprawdzamy czy agent prawie dotarÅ‚
+            if (Vector3.Distance(transform.position, agent.destination) < 0.1f)
             {
-                shouldMove = false;
+                agent.ResetPath();
+                onReachedTarget?.Invoke();
+                onReachedTarget = null; // Å¼eby callback byÅ‚ wywoÅ‚any tylko raz
             }
         }
     }
 
-    public void MoveToTarget()
+    // teraz przyjmujemy callback
+    public void MoveToTarget(Action onFinished = null)
     {
-        shouldMove = true;
+        if (target != null)
+        {
+            agent.SetDestination(target.position);
+            onReachedTarget = onFinished;
+        }
+        else
+        {
+            // jeÅ›li brak celu â†’ od razu zakoÅ„cz
+            onFinished?.Invoke();
+        }
     }
 }

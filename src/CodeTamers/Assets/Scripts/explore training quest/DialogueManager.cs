@@ -20,6 +20,7 @@ public class DialogueManager : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         Instance = this;
         dialoguePanel.SetActive(false);
     }

@@ -1,4 +1,4 @@
 public interface IDialogueAction
 {
-    void Execute();
+    void Execute(System.Action onFinished);
 }

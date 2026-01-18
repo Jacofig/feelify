@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -6,20 +7,30 @@ public class DialogueTrigger : MonoBehaviour
     public class DialogueStage
     {
         public Dialogue dialogue;           // może być null
-        public MonoBehaviour[] actions;     // akcje po dialogu
-        public bool hasRun = false;         // czy Stage został już wykonany
+        public MonoBehaviour[] actions;     // komponenty implementujące IDialogueAction
+        [HideInInspector] public bool hasRun;
     }
 
     public DialogueStage[] stages;
     public int currentStage = 0;
-    private bool playerInRange = false;
+
+    private bool playerInRange;
+
+
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
 
     void Update()
     {
         if (!playerInRange) return;
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
             DialogueManager.Instance.NextLine();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -38,48 +49,48 @@ public class DialogueTrigger : MonoBehaviour
 
     private void RunCurrentStage()
     {
-        // dopóki są Stage'y i Stage nie został wykonany
-        while (currentStage < stages.Length)
+        if (currentStage >= stages.Length) return;
+
+        DialogueStage stage = stages[currentStage];
+
+        if (stage.hasRun) return;
+        stage.hasRun = true;
+
+        // 🔹 STAGE Z DIALOGIEM
+        if (stage.dialogue != null)
         {
-            var stage = stages[currentStage];
-
-            if (stage.hasRun) break;
-
-            stage.hasRun = true;
-
-            if (stage.dialogue != null)
-            {
-                // Stage ma dialog → startujemy dialog i wychodzimy z pętli
-                DialogueManager.Instance.StartDialogue(stage.dialogue);
-                DialogueManager.Instance.OnDialogueEnd += OnStageFinished;
-                break; // czekamy na zakończenie dialogu
-            }
-            else
-            {
-                // Stage bez dialogu → od razu wykonujemy akcje i przechodzimy do następnego Stage
-                ExecuteStageActions(stage);
-                currentStage++;
-            }
+            DialogueManager.Instance.StartDialogue(stage.dialogue);
+            DialogueManager.Instance.OnDialogueEnd += OnDialogueFinished;
+        }
+        // 🔹 STAGE TYLKO Z AKCJAMI
+        else
+        {
+            StartCoroutine(RunActions(stage));
         }
     }
 
-    private void OnStageFinished()
+    private void OnDialogueFinished()
     {
-        DialogueManager.Instance.OnDialogueEnd -= OnStageFinished;
+        DialogueManager.Instance.OnDialogueEnd -= OnDialogueFinished;
 
-        var stage = stages[currentStage];
-        ExecuteStageActions(stage);
-
-        currentStage++;
-        RunCurrentStage(); // od razu uruchamiamy kolejny Stage
+        DialogueStage stage = stages[currentStage];
+        StartCoroutine(RunActions(stage));
     }
 
-    private void ExecuteStageActions(DialogueStage stage)
+    private IEnumerator RunActions(DialogueStage stage)
     {
         foreach (var action in stage.actions)
         {
             if (action is IDialogueAction dialogueAction)
-                dialogueAction.Execute();
+            {
+                bool done = false;
+                dialogueAction.Execute(() => done = true);
+                yield return new WaitUntil(() => done);
+            }
         }
+
+        // 🔑 DOPIERO PO AKCJACH IDZIEMY DALEJ
+        currentStage++;
+        RunCurrentStage();
     }
 }
