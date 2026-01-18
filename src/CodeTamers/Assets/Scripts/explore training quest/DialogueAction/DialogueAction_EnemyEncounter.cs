@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,11 +7,11 @@ public class DialogueAction_EnemyEncounter : MonoBehaviour, IDialogueAction
     public PokemonData[] enemyTeam;
 
     private System.Action onFinishedCallback;
+    private Scene previousScene;
+    private Dictionary<GameObject, bool> originalActiveStates = new Dictionary<GameObject, bool>();
 
     public void Execute(System.Action onFinished)
     {
-        UnityEngine.Debug.Log(" EnemyEncounter Execute");
-
         onFinishedCallback = onFinished;
 
         BattleData.playerTeam = PlayerParty.Instance.party;
@@ -19,47 +19,47 @@ public class DialogueAction_EnemyEncounter : MonoBehaviour, IDialogueAction
 
         BattleData.onBattleFinished = OnBattleFinished;
 
+        // Zapisujemy obecną scenę
+        previousScene = SceneManager.GetActiveScene();
 
-        foreach (var obj in SceneManager.GetActiveScene().GetRootGameObjects())
+        // Zapisujemy stan wszystkich rootów i wyłączamy je
+        originalActiveStates.Clear();
+        foreach (var obj in previousScene.GetRootGameObjects())
         {
+            originalActiveStates[obj] = obj.activeSelf;
             obj.SetActive(false);
         }
+
         BattlePause.SetMovementActive(false);
 
-
-        //SceneManager.LoadScene("BattleScene");
         SceneManager.LoadScene("BattleScene", LoadSceneMode.Additive);
-       SceneManager.sceneLoaded += OnSceneLoaded;
-
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "BattleScene")
         {
-            SceneManager.SetActiveScene(scene); // aktywna scena = BattleScene
-            SceneManager.sceneLoaded -= OnSceneLoaded; // odsubskrybuj, żeby nie wywoływać ponownie
+            SceneManager.SetActiveScene(scene);
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
 
     public void OnBattleFinished(bool playerWon)
     {
-        
-       
-        
         SceneManager.UnloadSceneAsync("BattleScene");
 
-        // włącz z powrotem obiekty starej sceny
-        foreach (var obj in SceneManager.GetActiveScene().GetRootGameObjects())
+        // Przywracamy pierwotny stan rootów sceny gry
+        foreach (var kvp in originalActiveStates)
         {
-            obj.SetActive(true);
+            if (kvp.Key != null) // w razie gdy obiekt został zniszczony
+                kvp.Key.SetActive(kvp.Value);
         }
-        BattlePause.SetMovementActive(true);
 
+        BattlePause.SetMovementActive(true);
 
         onFinishedCallback?.Invoke();
     }
-
 
     private PokemonInstance[] BuildEnemyTeam()
     {
