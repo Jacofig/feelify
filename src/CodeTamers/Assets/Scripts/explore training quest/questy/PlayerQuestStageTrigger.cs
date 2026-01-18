@@ -1,17 +1,20 @@
+ï»¿using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerQuestStageTrigger : MonoBehaviour
 {
-    [Header("Dialogue Trigger do odpalenia")]
-    public DialogueTrigger dialogueTrigger; // przeci¹gasz gracza w Inspectorze
-    public int stageIndexToStart;           // który stage odpaliæ
+    [Header("Player Dialogue Stage Runner do odpalenia")]
+    public PlayerDialogueTrigger playerDialogueRunner; // przeciÄ…gasz gracza w Inspectorze
+    public int stageIndexToStart;           // ktÃ³ry stage odpaliÄ‡
+    public string stageIdToStart;           // alternatywnie, jeÅ›li chcesz odpalaÄ‡ po ID
 
-    [Header("Opcjonalnie - tylko po tym queœcie")]
-    public QuestData requiredQuest;         // jeœli puste, odpala po ka¿dym zakoñczonym queœcie
+    [Header("Opcjonalnie - tylko po tym queÅ›cie")]
+    public QuestData requiredQuest;         // jeÅ›li puste, odpala po kaÅ¼dym zakoÅ„czonym queÅ›cie
 
     void OnEnable()
     {
-        QuestManager.Instance.OnQuestCompletedWithData += OnQuestCompleted;
+        if (QuestManager.Instance != null)
+            QuestManager.Instance.OnQuestCompletedWithData += OnQuestCompleted;
     }
 
     void OnDisable()
@@ -22,11 +25,33 @@ public class PlayerQuestStageTrigger : MonoBehaviour
 
     private void OnQuestCompleted(QuestData finishedQuest)
     {
-        // jeœli przypisano requiredQuest, odpala tylko po nim
+        // jeÅ›li przypisano requiredQuest, odpala tylko po nim
         if (requiredQuest != null && finishedQuest != requiredQuest)
             return;
 
-        // odpala stage w istniej¹cym DialogueTrigger gracza
-        dialogueTrigger.StartStageByIndex(stageIndexToStart);
+        if (playerDialogueRunner == null)
+        {
+            UnityEngine.Debug.LogWarning("PlayerQuestStageTrigger: playerDialogueRunner nie przypisany!");
+            return;
+        }
+
+        // ðŸ”¹ odpala stage po indeksie (jeÅ›li stageIndexToStart >= 0)
+        if (stageIndexToStart >= 0 && stageIndexToStart < playerDialogueRunner.stages.Length)
+        {
+            playerDialogueRunner.RunStageByIndex(stageIndexToStart);
+            UnityEngine.Debug.LogWarning("GRRRRR");
+        }
+        // ðŸ”¹ lub odpala stage po ID (jeÅ›li podano)
+        else if (!string.IsNullOrEmpty(stageIdToStart))
+        {
+            playerDialogueRunner.RunStageById(stageIdToStart);
+
+
+            UnityEngine.Debug.LogWarning("GRRRRdsadsadR");
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("PlayerQuestStageTrigger: nie podano stageIndex ani stageId!");
+        }
     }
 }

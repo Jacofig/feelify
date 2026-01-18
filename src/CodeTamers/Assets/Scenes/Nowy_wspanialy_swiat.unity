@@ -592,8 +592,8 @@ GameObject:
   - component: {fileID: 506306027}
   - component: {fileID: 506306026}
   - component: {fileID: 506306025}
-  - component: {fileID: 506306033}
-  - component: {fileID: 506306034}
+  - component: {fileID: 506306035}
+  - component: {fileID: 506306036}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Player
@@ -827,7 +827,7 @@ Transform:
   - {fileID: 2058676859}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &506306033
+--- !u!114 &506306035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -836,48 +836,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 506306024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62ab2c8357395b14680681c5551e34b3, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a2615007d42a1d47acbd7b524ffc528, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogueTrigger
   stages:
-  - dialogue: {fileID: 11400000, guid: 96400de0c012257438381851b4d143df, type: 2}
+  - stageId: 
+    dialogue: {fileID: 11400000, guid: 96400de0c012257438381851b4d143df, type: 2}
     actions: []
-    hasRun: 0
     onStageFinished:
       m_PersistentCalls:
         m_Calls: []
-  - dialogue: {fileID: 11400000, guid: 96400de0c012257438381851b4d143df, type: 2}
+  - stageId: 
+    dialogue: {fileID: 11400000, guid: f533a271e1d5712499e5abe2bfa66ad1, type: 2}
     actions: []
-    hasRun: 0
     onStageFinished:
       m_PersistentCalls:
         m_Calls: []
-  - dialogue: {fileID: 11400000, guid: f533a271e1d5712499e5abe2bfa66ad1, type: 2}
+  - stageId: 
+    dialogue: {fileID: 11400000, guid: 1abeacc5677e8174f804a248bfd9d450, type: 2}
     actions: []
-    hasRun: 0
     onStageFinished:
       m_PersistentCalls:
         m_Calls: []
-  - dialogue: {fileID: 11400000, guid: 1abeacc5677e8174f804a248bfd9d450, type: 2}
+  - stageId: 
+    dialogue: {fileID: 11400000, guid: f32a1d3b2779d924ea2a6ee86df349d0, type: 2}
     actions: []
-    hasRun: 0
     onStageFinished:
       m_PersistentCalls:
         m_Calls: []
-  - dialogue: {fileID: 11400000, guid: f32a1d3b2779d924ea2a6ee86df349d0, type: 2}
+  - stageId: 
+    dialogue: {fileID: 11400000, guid: 305ba40fb9611e644bcfdeb8adeea012, type: 2}
     actions: []
-    hasRun: 0
     onStageFinished:
       m_PersistentCalls:
         m_Calls: []
-  - dialogue: {fileID: 11400000, guid: 305ba40fb9611e644bcfdeb8adeea012, type: 2}
-    actions: []
-    hasRun: 0
-    onStageFinished:
-      m_PersistentCalls:
-        m_Calls: []
-  currentStage: 0
---- !u!114 &506306034
+--- !u!114 &506306036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -889,8 +882,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7459195b2e0f4478ac5b540afa3630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerQuestStageTrigger
-  dialogueTrigger: {fileID: 506306033}
+  playerDialogueRunner: {fileID: 506306035}
   stageIndexToStart: 2
+  stageIdToStart: 
   requiredQuest: {fileID: 11400000, guid: b9bb58a553c540b4a90eb46aa74fbcb4, type: 2}
 --- !u!1 &540323741
 GameObject:
@@ -1222,14 +1216,14 @@ MonoBehaviour:
     onStageFinished:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 506306033}
-          m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
-          m_MethodName: StartStageByIndex
+        - m_Target: {fileID: 506306035}
+          m_TargetAssemblyTypeName: PlayerDialogueTrigger, Assembly-CSharp
+          m_MethodName: RunStageByIndex
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 4
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -1678,17 +1672,10 @@ MonoBehaviour:
     hasRun: 0
     onStageFinished:
       m_PersistentCalls:
-        m_Calls: []
-  - dialogue: {fileID: 0}
-    actions:
-    - {fileID: 663839334}
-    hasRun: 0
-    onStageFinished:
-      m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 506306033}
-          m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
-          m_MethodName: StartStageByIndex
+        - m_Target: {fileID: 506306035}
+          m_TargetAssemblyTypeName: PlayerDialogueTrigger, Assembly-CSharp
+          m_MethodName: RunStageByIndex
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1698,9 +1685,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 506306033}
-          m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
-          m_MethodName: StartStageByIndex
+        - m_Target: {fileID: 506306035}
+          m_TargetAssemblyTypeName: PlayerDialogueTrigger, Assembly-CSharp
+          m_MethodName: RunStageByIndex
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1710,6 +1697,13 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - dialogue: {fileID: 0}
+    actions:
+    - {fileID: 663839334}
+    hasRun: 0
+    onStageFinished:
+      m_PersistentCalls:
+        m_Calls: []
   currentStage: 0
 --- !u!114 &663839336
 MonoBehaviour:
@@ -6604,14 +6598,14 @@ MonoBehaviour:
     onStageFinished:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 506306033}
-          m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
-          m_MethodName: StartStageByIndex
+        - m_Target: {fileID: 506306035}
+          m_TargetAssemblyTypeName: PlayerDialogueTrigger, Assembly-CSharp
+          m_MethodName: RunStageByIndex
           m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 5
+            m_IntArgument: 4
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0

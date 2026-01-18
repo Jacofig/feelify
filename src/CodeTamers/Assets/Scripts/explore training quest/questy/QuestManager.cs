@@ -84,8 +84,9 @@ public class QuestManager : MonoBehaviour
 
             completedQuestsCount++;
 
-            OnQuestCompleted?.Invoke();
+            //OnQuestCompleted?.Invoke();
 
+            OnQuestCompletedWithData?.Invoke(finishedQuest);
 
 
 
