@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class DialogueTrigger : MonoBehaviour
 {
     [System.Serializable]
@@ -9,12 +10,18 @@ public class DialogueTrigger : MonoBehaviour
         public Dialogue dialogue;           // może być null
         public MonoBehaviour[] actions;     // komponenty implementujące IDialogueAction
         [HideInInspector] public bool hasRun;
+        public UnityEngine.Events.UnityEvent onStageFinished;
     }
 
     public DialogueStage[] stages;
     public int currentStage = 0;
 
     private bool playerInRange;
+
+    private bool stagePaused = false;  // czy dialog jest wstrzymany
+
+    private bool dialogueActive = false;
+
 
 
     void Awake()
@@ -25,7 +32,7 @@ public class DialogueTrigger : MonoBehaviour
 
     void Update()
     {
-        if (!playerInRange) return;
+        if (!dialogueActive) return;
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
@@ -38,14 +45,33 @@ public class DialogueTrigger : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         playerInRange = true;
-        RunCurrentStage();
+
+        if (stagePaused)
+        {
+            // wznawiamy dialog zamiast restartować
+            DialogueManager.Instance.dialoguePanel.SetActive(true);
+            stagePaused = false;
+        }
+        else
+        {
+            RunCurrentStage();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-            playerInRange = false;
+        if (!other.CompareTag("Player")) return;
+
+        playerInRange = false;
+
+        if (currentStage < stages.Length && stages[currentStage].dialogue != null)
+        {
+            // wstrzymujemy dialog i chowamy panel
+            DialogueManager.Instance.dialoguePanel.SetActive(false);
+            stagePaused = true;
+        }
     }
+
 
     private void RunCurrentStage()
     {
@@ -56,6 +82,7 @@ public class DialogueTrigger : MonoBehaviour
         if (stage.hasRun) return;
         stage.hasRun = true;
 
+        dialogueActive = true;
         // 🔹 STAGE Z DIALOGIEM
         if (stage.dialogue != null)
         {
@@ -75,6 +102,7 @@ public class DialogueTrigger : MonoBehaviour
 
         DialogueStage stage = stages[currentStage];
         StartCoroutine(RunActions(stage));
+        dialogueActive = false;
     }
 
     private IEnumerator RunActions(DialogueStage stage)
@@ -89,8 +117,30 @@ public class DialogueTrigger : MonoBehaviour
             }
         }
 
+
+        stage.onStageFinished?.Invoke();
+
+
         // 🔑 DOPIERO PO AKCJACH IDZIEMY DALEJ
         currentStage++;
         RunCurrentStage();
+
+
+        
+        
+
     }
+
+    public void StartStageByIndex(int stageIndex)
+    {
+        if (stageIndex < 0 || stageIndex >= stages.Length) return;
+
+        currentStage = stageIndex;
+
+        // resetujemy hasRun, żeby stage mógł się wykonać wielokrotnie
+        stages[currentStage].hasRun = false;
+
+        RunCurrentStage();
+    }
+
 }

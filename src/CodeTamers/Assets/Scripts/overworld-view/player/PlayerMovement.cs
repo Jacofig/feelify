@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
 
 
+
+
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

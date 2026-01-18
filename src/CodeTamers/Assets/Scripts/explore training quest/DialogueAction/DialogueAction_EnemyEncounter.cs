@@ -24,6 +24,7 @@ public class DialogueAction_EnemyEncounter : MonoBehaviour, IDialogueAction
         {
             obj.SetActive(false);
         }
+        BattlePause.SetMovementActive(false);
 
 
         //SceneManager.LoadScene("BattleScene");
@@ -53,6 +54,8 @@ public class DialogueAction_EnemyEncounter : MonoBehaviour, IDialogueAction
         {
             obj.SetActive(true);
         }
+        BattlePause.SetMovementActive(true);
+
 
         onFinishedCallback?.Invoke();
     }

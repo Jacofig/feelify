@@ -966,7 +966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerQuestStageTrigger
   dialogueTrigger: {fileID: 506306033}
   stageIndexToStart: 2
-  requiredQuest: {fileID: 11400000, guid: 23ce8d9220e3a9c4dad09aa0b3744b3d, type: 2}
+  requiredQuest: {fileID: 11400000, guid: b9bb58a553c540b4a90eb46aa74fbcb4, type: 2}
 --- !u!1 &540323741
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,7 +1773,7 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
