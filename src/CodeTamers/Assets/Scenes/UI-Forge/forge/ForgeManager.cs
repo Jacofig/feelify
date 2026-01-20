@@ -8,26 +8,55 @@ public class ForgeManager : MonoBehaviour
 
     public ForgeRecipeSO activeRecipe;
 
-    // metal startowy (np. iron)
-    public Metal startingMetal;
+    [SerializeField]
+    private Metal startingMetal;
 
     public ForgeRecipeDatabase recipeDatabase;
+
     [SerializeField]
-    private int testRecipeIndex = 0;
+    private bool runDebugTests = false;
+
+    public System.Action<ForgeResultType> OnForgeResult;
+    public string lastErrorMessage { get; private set; }
 
 
     public void RunForge(string code)
     {
+        if (startingMetal == null)
+        {
+            Debug.LogError("Starting metal not set!");
+            return;
+        }
+
         if (recipeDatabase == null || recipeDatabase.recipes.Count == 0)
         {
             Debug.LogError("No recipe database or empty!");
             return;
         }
 
-        activeRecipe = recipeDatabase.recipes[testRecipeIndex];
+        if (activeRecipe == null)
+        {
+            Debug.LogError("No active recipe set!");
+            return;
+        }
+
 
         // 1. Parser
-        var instructions = new SimpleParser().Parse(code);
+        List<ParsedInstruction> instructions;
+
+        try
+        {
+            instructions = new SimpleParser().Parse(code);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning("FORGE CODE ERROR: " + e.Message);
+            lastErrorMessage = e.Message;
+            OnForgeResult?.Invoke(ForgeResultType.CodeError);
+            return;
+        }
+
+
 
         // 2. Context (tylko podgl¹d)
         var context = new ForgeContext
@@ -42,8 +71,10 @@ public class ForgeManager : MonoBehaviour
         if (actions == null)
         {
             Debug.Log("Forge failed: code error");
+            OnForgeResult?.Invoke(ForgeResultType.CodeError);
             return;
         }
+
 
         // 4. Proces
         var metal = CloneMetal(startingMetal);
@@ -54,13 +85,23 @@ public class ForgeManager : MonoBehaviour
             if (!executor.Execute(action, process))
             {
                 Debug.Log($"Forge failed: {process.failReason}");
+
+                if (process.failReason == "Hit on cold metal")
+                    OnForgeResult?.Invoke(ForgeResultType.HitColdMetal);
+                else
+                    OnForgeResult?.Invoke(ForgeResultType.Failed);
+
                 return;
             }
         }
 
+
         // 5. Receptura
         bool success = activeRecipe.Validate(process);
         Debug.Log(success ? "FORGE SUCCESS" : "FORGE FAILED");
+        OnForgeResult?.Invoke(
+        success ? ForgeResultType.Success : ForgeResultType.Failed
+        );
     }
 
 
@@ -76,8 +117,27 @@ public class ForgeManager : MonoBehaviour
             enchanted = src.enchanted
         };
     }
+    void Awake()
+    {
+        if (startingMetal == null)
+        {
+            startingMetal = new Metal
+            {
+                id = "copper",
+                minHitTemp = 25,
+                maxTemp = 200,
+                temperature = 0,
+                hits = 0,
+                enchanted = false
+            };
+        }
+    }
+
+
     void Start()
     {
+        if (!runDebugTests)
+            return;
         // =========================
         // TESTOWY METAL (wspólny)
         // =========================
