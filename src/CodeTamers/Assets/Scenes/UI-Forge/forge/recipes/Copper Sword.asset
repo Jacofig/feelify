@@ -10,10 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d17d9df5367a9d84a8d01e158d31d623, type: 3}
-  m_Name: FirstRecipe
+  m_Name: Copper Sword
   m_EditorClassIdentifier: Assembly-CSharp::ForgeRecipeSO
-  recipeId: copper_basic_enchanted
+  recipeId: copper_sword
+  displayName: Copper Sword
   requiredMetalId: copper
-  requiredHits: 2
-  requiredItems: []
+  requiredHits: 10
+  requiredItems:
+  - itemId: copper
+    amount: 2
+  - itemId: coal
+    amount: 5
   requiresEnchant: 1

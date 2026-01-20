@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2419a78ac47141948a16dcba80185f43
+guid: 2e07ad3857a4f2a40b8fd7ed210689e9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3008748254799071974
-    second: fontanna 1_0
+      213: 6440067228904444900
+    second: metal_broken_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 10
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fontanna 1_0
+      name: metal_broken_0
       rect:
         serializedVersion: 2
-        x: 32
-        y: 46
-        width: 59
-        height: 30
+        x: 0
+        y: 0
+        width: 1536
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6ea00e1c89831c920800000000000000
-      internalID: 3008748254799071974
+      spriteID: 4e3db741607bf5950800000000000000
+      internalID: 6440067228904444900
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      fontanna 1_0: 3008748254799071974
+      metal_broken_0: 6440067228904444900
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

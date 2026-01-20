@@ -10,6 +10,9 @@ public class ForgeRecipeSO : ScriptableObject
     [Header("ID")]
     public string recipeId;
 
+    [Header("UI")]
+    public string displayName;
+
     [Header("Metal")]
     public string requiredMetalId;
 
