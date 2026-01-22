@@ -8,8 +8,14 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance;
 
-    public QuestData currentQuest;
-    public int currentObjectiveIndex;
+    [System.Serializable]
+    public class ActiveQuest
+    {
+        public QuestData quest;
+        public int currentObjectiveIndex;
+        public int currentAmount;
+    }
+
 
     public event Action OnObjectiveUpdated;
     public event Action OnQuestCompleted;
@@ -18,6 +24,11 @@ public class QuestManager : MonoBehaviour
     public event Action<QuestData> OnQuestCompletedWithData;
 
     private int currentAmount;
+
+
+    public List<ActiveQuest> activeQuests = new List<ActiveQuest>();
+    public ActiveQuest selectedQuest;
+
 
 
 
@@ -35,73 +46,76 @@ public class QuestManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public ObjectiveData CurrentObjective =>
-        currentQuest.objectives[currentObjectiveIndex];
+    public ObjectiveData CurrentObjective
+    {
+        get
+        {
+            if (selectedQuest == null)
+                return null;
+
+            return selectedQuest.quest
+                .objectives[selectedQuest.currentObjectiveIndex];
+        }
+    }
+
 
     public void StartQuest(QuestData quest)
     {
-        currentQuest = quest;
-        currentObjectiveIndex = 0;
-        currentAmount = 0;
+        if (activeQuests.Exists(q => q.quest == quest))
+            return;
+
+        ActiveQuest newQuest = new ActiveQuest
+        {
+            quest = quest,
+            currentObjectiveIndex = 0,
+            currentAmount = 0
+        };
+
+        activeQuests.Add(newQuest);
+        selectedQuest = newQuest;
 
         OnQuestStarted?.Invoke(quest);
         OnObjectiveUpdated?.Invoke();
     }
-
     public void Progress(string targetId, int amount = 1)
     {
-        var obj = CurrentObjective;
+        for (int i = activeQuests.Count - 1; i >= 0; i--)
+        {
+            var quest = activeQuests[i];
+            var obj = quest.quest.objectives[quest.currentObjectiveIndex];
 
-        if (obj.targetId != targetId)
-            return;
+            if (obj.targetId != targetId)
+                continue;
 
-        currentAmount += amount;
+            quest.currentAmount += amount;
 
-        if (currentAmount >= obj.requiredAmount)
-            CompleteObjective();
-        else
-            OnObjectiveUpdated?.Invoke();
+            if (quest.currentAmount >= obj.requiredAmount)
+                CompleteObjective(quest);
+            else
+                OnObjectiveUpdated?.Invoke();
+        }
+
     }
 
-    void CompleteObjective()
+
+    void CompleteObjective(ActiveQuest quest)
     {
-        currentObjectiveIndex++;
-        currentAmount = 0;
+        quest.currentObjectiveIndex++;
+        quest.currentAmount = 0;
 
-        if (currentObjectiveIndex >= currentQuest.objectives.Length)
+        if (quest.currentObjectiveIndex >= quest.quest.objectives.Length)
         {
-            UnityEngine.Debug.Log("QUEST COMPLETED");
-
-
-            if (currentQuest != null && !completedQuests.Contains(currentQuest))
-                completedQuests.Add(currentQuest);
-
-            QuestData finishedQuest = currentQuest;
-
-            currentQuest = null;
-
-
-
+            activeQuests.Remove(quest);
+            completedQuests.Add(quest.quest);
             completedQuestsCount++;
 
-            //OnQuestCompleted?.Invoke();
-
-            OnQuestCompletedWithData?.Invoke(finishedQuest);
-
-
-
-
-
-            OnObjectiveUpdated?.Invoke();
-
+            OnQuestCompletedWithData?.Invoke(quest.quest);
             CheckConditionalQuests();
+        }
 
-        }
-        else
-        {
-            OnObjectiveUpdated?.Invoke();
-        }
+        OnObjectiveUpdated?.Invoke();
     }
+
 
     public int GetCurrentAmount() => currentAmount;
 

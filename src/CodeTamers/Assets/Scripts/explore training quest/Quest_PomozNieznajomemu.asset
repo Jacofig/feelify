@@ -18,6 +18,6 @@ MonoBehaviour:
     Protect the ally from defeat'
   objectives:
   - type: 1
-    description: Protect stranger
+    description: Protect stranger from bugons
     targetId: Talk_River
     requiredAmount: 1
