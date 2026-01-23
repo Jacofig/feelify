@@ -105,6 +105,7 @@ public class DialogueTrigger : MonoBehaviour
         dialogueActive = false;
     }
 
+    
     private IEnumerator RunActions(DialogueStage stage)
     {
         foreach (var action in stage.actions)
@@ -112,8 +113,9 @@ public class DialogueTrigger : MonoBehaviour
             if (action is IDialogueAction dialogueAction)
             {
                 bool done = false;
-                dialogueAction.Execute(() => done = true);
-                yield return new WaitUntil(() => done);
+               dialogueAction.Execute(() => done = true);
+               yield return new WaitUntil(() => done);
+                //dialogueAction.Execute(null);
             }
         }
 
@@ -125,12 +127,12 @@ public class DialogueTrigger : MonoBehaviour
         currentStage++;
         RunCurrentStage();
 
+        yield break;
 
-        
-        
+
 
     }
-
+    
     public void StartStageByIndex(int stageIndex)
     {
         if (stageIndex < 0 || stageIndex >= stages.Length) return;

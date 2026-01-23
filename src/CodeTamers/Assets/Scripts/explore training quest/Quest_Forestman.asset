@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 332e51559b103fd4cbfb44aee0e9b869, type: 3}
-  m_Name: Quest_Zbadaj_Dzicz
+  m_Name: Quest_Forestman
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  questName: Corrupted Outskirts
+  questName: Talk with stranger
   description: 
   objectives:
-  - type: 1
-    description: Defeat 3 demons in the outskirts to the west of the city.
-    targetId: Defeat_3
-    requiredAmount: 3
+  - type: 0
+    description: The Forest Man awaits you in the woods. Seek him out and listen
+      carefully to what he has to say.
+    targetId: Forestman
+    requiredAmount: 1

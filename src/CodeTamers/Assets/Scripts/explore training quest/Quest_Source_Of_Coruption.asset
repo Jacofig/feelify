@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332e51559b103fd4cbfb44aee0e9b869, type: 3}
   m_Name: Quest_Source_Of_Coruption
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  questName: 
+  questName: Source of coruption
   description: 
   objectives:
   - type: 0
-    description: Travel to the south section of Outskirts
+    description: Travel to the south section of Outskirts and find the source of
+      coruption
     targetId: Boss_Find
     requiredAmount: 1

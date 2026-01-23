@@ -4,13 +4,9 @@ public class DialogueAction_StartQuest : MonoBehaviour, IDialogueAction
 {
     public QuestData questToStart;
 
-    public void Execute(System.Action onFinished)
+    public void Execute(System.Action onComplete)
     {
-        if (QuestManager.Instance.currentQuest != questToStart)
-        {
-            QuestManager.Instance.StartQuest(questToStart);
-        }
-
-        onFinished?.Invoke();
+        QuestManager.Instance.StartQuest(questToStart);
+        onComplete?.Invoke();
     }
 }
