@@ -16,6 +16,6 @@ MonoBehaviour:
   description: 
   objectives:
   - type: 1
-    description: Defeat 3 demons in the outskirts to the west of the city.
+    description: Defeat 3 Shadows in the outskirts to the west of the city.
     targetId: Defeat_3
     requiredAmount: 3

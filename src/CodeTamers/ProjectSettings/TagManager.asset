@@ -66,5 +66,8 @@ TagManager:
   - name: passable
     uniqueID: 396002685
     locked: 0
+  - name: characters
+    uniqueID: 537530129
+    locked: 0
   m_RenderingLayers:
   - Default
