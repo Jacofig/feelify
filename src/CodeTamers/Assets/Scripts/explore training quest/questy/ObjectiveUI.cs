@@ -50,7 +50,7 @@ public class ObjectiveUI : MonoBehaviour
             extraButton.SetActive(expanded);
     }
 
-    void Refresh()
+    public void Refresh()
     {
         var qm = QuestManager.Instance;
         var selected = qm.selectedQuest;
@@ -65,7 +65,7 @@ public class ObjectiveUI : MonoBehaviour
         var objective = questData.objectives[selected.currentObjectiveIndex];
 
         objectiveText.text =
-            $"🎯 {objective.targetId}\n{selected.currentAmount}/{objective.requiredAmount}";
+            $"🎯 {questData.questName}\n{selected.currentAmount}/{objective.requiredAmount}";
     }
 
     private void UpdateUIInstant()
