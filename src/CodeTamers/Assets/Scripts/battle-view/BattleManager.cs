@@ -411,7 +411,7 @@ public class BattleManager : MonoBehaviour
 
             var sr = obj.GetComponentInChildren<SpriteRenderer>();
             if (sr != null)
-                sr.sortingOrder = -1;
+                sr.sortingOrder = 8;
 
             var creature = obj.GetComponent<Creature>();
             creature.Init(team[i]);   // PokemonInstance

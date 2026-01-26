@@ -106,6 +106,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3d54b112ca60bd4db1532bd3ee48c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Creature
+  instance:
+    data: {fileID: 0}
+    level: 0
+    currentXP: 0
+    currentHP: 0
+    currentMana: 0
   data: {fileID: 0}
   teamIndex: 0
   codeBuffer: 
