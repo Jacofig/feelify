@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
+using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class DialogueManager : MonoBehaviour
     private int lineIndex;
 
     public event System.Action OnDialogueEnd;
+    public ScrollRect scrollRect;
 
     void Awake()
     {
@@ -35,7 +37,6 @@ public class DialogueManager : MonoBehaviour
     void ShowLine()
     {
         if (currentDialogue == null) return;
-
         if (currentDialogue.lines == null || currentDialogue.lines.Length == 0) return;
 
         if (lineIndex < 0 || lineIndex >= currentDialogue.lines.Length)
@@ -47,15 +48,32 @@ public class DialogueManager : MonoBehaviour
         var line = currentDialogue.lines[lineIndex];
 
         if (line == null) return;
-
         if (dialogueText == null) return;
-        if (speakerNameText == null) return;
-        if (speakerIconImage == null) return;
 
         dialogueText.text = line.text ?? "";
         speakerNameText.text = line.speakerName ?? "";
         speakerIconImage.sprite = line.speakerIcon;
+
+        ResetScroll(); // <<< TO JEST KLUCZ
     }
+
+    void ResetScroll()
+    {
+        if (!scrollRect) return; // ← jeśli nie ma, nic nie rób
+
+        StartCoroutine(ResetScrollCoroutine());
+    }
+
+    IEnumerator ResetScrollCoroutine()
+    {
+        yield return null;
+
+        if (!scrollRect) yield break;
+
+        Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 1f;
+    }
+
 
 
     public void NextLine()

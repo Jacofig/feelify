@@ -13,6 +13,24 @@ public class AudioSlider : MonoBehaviour
 
     void Start()
     {
+        if (slider == null)
+        {
+            Debug.LogWarning("AudioSlider: Slider not assigned!", this);
+            return;
+        }
+
+        if (percentageText == null)
+        {
+            Debug.LogWarning("AudioSlider: PercentageText not assigned!", this);
+            return;
+        }
+
+        if (AudioManager.instance == null)
+        {
+            Debug.LogWarning("AudioSlider: AudioManager instance not found!", this);
+            return;
+        }
+
         switch (audioType)
         {
             case AudioType.Master:
@@ -34,6 +52,7 @@ public class AudioSlider : MonoBehaviour
         slider.onValueChanged.AddListener(UpdateText);
         UpdateText(slider.value);
     }
+
 
     void UpdateText(float value)
     {
