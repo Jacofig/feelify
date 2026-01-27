@@ -1,0 +1,49 @@
+# Raport indywidualny – Sprint 15
+
+**Imię i nazwisko:** Stanisław Golański  
+**Zespół:** Loopers  
+**Numer sprintu:** 15  
+**Okres:** 2026-01-21 – 2026-01-28  
+
+## Zakres moich działań:
+# Dokumentacja funkcjonalności gry
+W ramach sprintu zajmowałem się dokumentacją funkcjonalności gry oraz usprawnieniem systemu questów.
+
+1. **Poprawienie istniejących questów**  
+   - Dokonałem weryfikacji i naprawy działających questów, które wcześniej mogły zawieszać się lub nie wywoływać prawidłowych zdarzeń w grze.  
+   - Zapewniłem stabilne działanie mechanik oraz poprawne wyświetlanie postępów gracza.
+
+2. **Dodanie nowych questów**  
+   - Stworzyłem dwa nowe zadania:  
+     - **Quest bojowy** – gracz musi pokonać pięciu przeciwników.  
+     - **Quest dialogowy** – interakcja z postacią NPC w lesie, obejmująca rozwój fabuły poprzez rozmowę.  
+   - Każdy z nowych questów jest poprawnie rejestrowany w systemie, z wyzwalaniem odpowiednich zdarzeń.
+
+3. **Implementacja quest loga**  
+   - Zaprojektowałem i wdrożyłem system logu questów, który umożliwia:  
+     - Wyświetlanie wszystkich aktywnych misji.  
+     - Śledzenie wybranej misji, aby gracz mógł łatwo kontrolować postęp w czasie gry.  
+   - Quest log działa w czasie rzeczywistym, aktualizując status misji po wykonaniu określonych zadań.
+
+---
+
+## Wkład w projekt
+W tym sprincie mój wkład skupił się na poprawie jakości rozgrywki oraz ułatwieniu orientacji gracza w systemie questów.  
+
+- Naprawiłem istniejący quest, który wcześniej powodował problemy.  
+- Dodałem dwa nowe, różnorodne questy – jeden nastawiony na walkę, drugi na interakcję fabularną.  
+- Stworzyłem funkcjonalny quest log, który usprawnia nawigację po zadaniach i pozwala graczowi świadomie wybierać, które misje śledzić.  
+
+Dzięki tym zmianom system questów stał się bardziej stabilny, czytelny i atrakcyjny dla graczy, a nowe zadania wprowadzają dodatkową dynamikę i różnorodność w rozgrywce.
+
+## Samoocena:
+
+| Obszar | Ocena (1–5) | Komentarz |
+|--------|--------------|-----------|
+| Zaangażowanie | 5 | Regularna praca, angażowałem się w pracę i realizację wszystkich obowiązków. Aktywnie uczestniczyłem w wykonywaniu zadań. Zadania wykynywałem regularnie, gdy tylko miałem czas. Prawie wszystko zostało wykonane|
+| Wkład merytoryczny | 4 | Questy są proste i nie sprawiły wielu problemów|
+| Komunikacja | 4 | Komunikacja przebiegała bez wiekszych problemów. Każdy wkładał coś od siebie. Rozmawialiśmy z Mateuszem na temat przyszłych działań oraz z Kubą uzgadniałem kilka rzeczy odnośnie projektu.|
+| Terminowość | 4.5 | Zadanie zostało wykonane, ale uważam, że gdyby było więcej czasu mogło zostać wykonane lepiej.. |
+
+## Refleksja:
+Udało mi się zrealizować wszystkie cele sprintu, jednak dało się je wykonać lepiej i ładniej. Nastepnym razem musimy wziąć pod uwagę, że zaczynają się egzaminy oraz, że pod koniec semestru wszyscy nawarstwia się ilośc zadań
