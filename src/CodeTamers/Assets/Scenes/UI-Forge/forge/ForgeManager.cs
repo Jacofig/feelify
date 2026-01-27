@@ -67,13 +67,33 @@ public class ForgeManager : MonoBehaviour
         };
 
         // 3. Interpreter
-        var actions = interpreter.Execute(context, instructions);
-        if (actions == null)
+        // 3. Interpreter
+        List<ForgeAction> actions;
+
+        try
         {
-            Debug.Log("Forge failed: code error");
+            actions = interpreter.Execute(context, instructions);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning("FORGE RUNTIME ERROR: " + e.Message);
+
+            lastErrorMessage = e.Message;
+
             OnForgeResult?.Invoke(ForgeResultType.CodeError);
             return;
         }
+
+        if (actions == null)
+        {
+            Debug.Log("Forge failed: interpreter error");
+
+            lastErrorMessage = "Interpreter error";
+
+            OnForgeResult?.Invoke(ForgeResultType.CodeError);
+            return;
+        }
+
 
 
         // 4. Proces
@@ -95,6 +115,19 @@ public class ForgeManager : MonoBehaviour
             }
         }
 
+
+        if (TutorialManager.ForgeTutorialActive)
+        {
+            var controller = FindObjectOfType<ForgeTutorialController>();
+
+            if (controller != null &&
+                activeRecipe.tutorialStepId != controller.GetCurrentStepId())
+            {
+                lastErrorMessage = "Wrong tutorial recipe";
+                OnForgeResult?.Invoke(ForgeResultType.Failed);
+                return;
+            }
+        }
 
         // 5. Receptura
         bool success = activeRecipe.Validate(process);

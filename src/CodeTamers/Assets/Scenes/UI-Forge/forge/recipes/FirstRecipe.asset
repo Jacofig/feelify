@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: FirstRecipe
   m_EditorClassIdentifier: Assembly-CSharp::ForgeRecipeSO
   recipeId: copper_basic_enchanted
-  displayName: Tutorial
+  displayName: FirstRecipe
   requiredMetalId: copper
   requiredHits: 2
   requiredItems: []
   requiresEnchant: 1
+  tutorialOnly: 0
+  tutorialStepId: 

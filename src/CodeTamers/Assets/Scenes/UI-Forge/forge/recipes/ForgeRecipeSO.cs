@@ -25,6 +25,12 @@ public class ForgeRecipeSO : ScriptableObject
     [Header("Enchant")]
     public bool requiresEnchant;
 
+    [Header("Tutorial")]
+    public bool tutorialOnly;
+
+    [Header("Tutorial")]
+    public string tutorialStepId;
+
 
     public bool Validate(ForgeProcess process)
     {

@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: 9eb88e693c561a745932c1c986199e7c
+  - enabled: 1
+    path: Assets/Scenes/ForgeScene.unity
+    guid: be59c9836499bf844a3309c0eab0c87d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

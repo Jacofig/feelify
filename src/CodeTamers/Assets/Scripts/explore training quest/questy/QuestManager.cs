@@ -139,5 +139,15 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    public bool IsQuestCompleted(string questName)
+    {
+        foreach (var q in completedQuests)
+        {
+            if (q.questName == questName)
+                return true;
+        }
+
+        return false;
+    }
 
 }

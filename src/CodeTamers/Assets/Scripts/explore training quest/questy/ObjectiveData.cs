@@ -4,7 +4,8 @@ public enum ObjectiveType
 {
     GoToLocation,
     DefeatEnemy,
-    CatchBugon
+    CatchBugon,
+    CraftRecipe
 }
 
 [System.Serializable]

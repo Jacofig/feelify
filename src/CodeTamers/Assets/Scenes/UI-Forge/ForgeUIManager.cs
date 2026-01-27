@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ForgeUIManager : MonoBehaviour
 {
@@ -20,6 +21,14 @@ public class ForgeUIManager : MonoBehaviour
     private void Start()
     {
         GenerateRecipeList();
+        if (TutorialManager.ForgeTutorialActive)
+        {
+            //StartTutorial();
+        }
+        else
+        {
+            //StartNormalForge();
+        }
     }
 
     private void OnRecipeSelected(ForgeRecipeSO recipe)
@@ -35,6 +44,12 @@ public class ForgeUIManager : MonoBehaviour
 
         foreach (var recipe in recipeDatabase.recipes)
         {
+            if (TutorialManager.ForgeTutorialActive && !recipe.tutorialOnly)
+                continue;
+
+            if (!TutorialManager.ForgeTutorialActive && recipe.tutorialOnly)
+                continue;
+
             var tile = Instantiate(recipeTilePrefab, contentParent);
             tile.Setup(recipe, OnRecipeSelected);
             tile.Setup(recipe, OnRecipeClicked);
@@ -53,6 +68,9 @@ public class ForgeUIManager : MonoBehaviour
 
         Debug.Log("ACTIVE RECIPE SET IN FORGE: " + recipe.recipeId);
     }
-
+    public void ExitForge()
+    {
+        ForgeSceneLoader.Instance.ExitForge();
+    }
 
 }
