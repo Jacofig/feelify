@@ -32,21 +32,29 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(true);
         ShowLine();
     }
-
     void ShowLine()
     {
-        if (lineIndex < currentDialogue.lines.Length)
-        {
-            var line = currentDialogue.lines[lineIndex];
-            dialogueText.text = line.text;
-            speakerNameText.text = line.speakerName;
-            speakerIconImage.sprite = line.speakerIcon;
+        if (currentDialogue == null) return;
 
-        }
-        else
+        if (currentDialogue.lines == null || currentDialogue.lines.Length == 0) return;
+
+        if (lineIndex < 0 || lineIndex >= currentDialogue.lines.Length)
         {
             EndDialogue();
+            return;
         }
+
+        var line = currentDialogue.lines[lineIndex];
+
+        if (line == null) return;
+
+        if (dialogueText == null) return;
+        if (speakerNameText == null) return;
+        if (speakerIconImage == null) return;
+
+        dialogueText.text = line.text ?? "";
+        speakerNameText.text = line.speakerName ?? "";
+        speakerIconImage.sprite = line.speakerIcon;
     }
 
 

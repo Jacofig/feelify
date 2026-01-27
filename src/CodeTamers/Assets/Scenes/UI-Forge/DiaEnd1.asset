@@ -18,4 +18,4 @@ MonoBehaviour:
       you can turn raw metal into real equipment.  Keep going. '
     speaker: 1
     speakerName: Tod
-    speakerIcon: {fileID: 0}
+    speakerIcon: {fileID: 21300000, guid: 6871f259f7210b246ac80893cb2baf98, type: 3}

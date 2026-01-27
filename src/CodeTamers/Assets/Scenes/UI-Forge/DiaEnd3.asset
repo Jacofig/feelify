@@ -16,4 +16,4 @@ MonoBehaviour:
   - text: 
     speaker: 0
     speakerName: 
-    speakerIcon: {fileID: 0}
+    speakerIcon: {fileID: 21300000, guid: 6871f259f7210b246ac80893cb2baf98, type: 3}
