@@ -72,8 +72,7 @@ models/
 *.aab
 *.unitypackage
 *.app
-*.exe
-*.zip
+
 
 # Crashlytics / telemetry
 crashlytics-build.properties
