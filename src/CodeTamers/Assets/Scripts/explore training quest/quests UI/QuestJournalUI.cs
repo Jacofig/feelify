@@ -1,30 +1,33 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 public class QuestJournalUI : MonoBehaviour
 {
-
     public GameObject journalPanel;
-
 
     public TMP_Text questNameText;
     public TMP_Text questDescriptionText;
 
     public Button nextButton;
     public Button prevButton;
-    private int currentIndex = 0;
+
+    private int currentJournalIndex = 0; // lokalny indeks tylko dla dziennika
 
     public Button showInObjectiveButton;
-    public ObjectiveUI objectiveUI; // referencja do ObjectiveUI
+    public ObjectiveUI objectiveUI;
 
     void Start()
     {
         if (showInObjectiveButton != null)
             showInObjectiveButton.onClick.AddListener(ShowQuestInObjectiveUI);
-    }
 
+        if (nextButton != null)
+            nextButton.onClick.AddListener(NextQuest);
+
+        if (prevButton != null)
+            prevButton.onClick.AddListener(PrevQuest);
+    }
 
     void OnEnable()
     {
@@ -45,53 +48,51 @@ public class QuestJournalUI : MonoBehaviour
         }
 
         // ograniczenie indeksu
-        if (currentIndex >= quests.Count) currentIndex = quests.Count - 1;
-        if (currentIndex < 0) currentIndex = 0;
+        if (currentJournalIndex >= quests.Count) currentJournalIndex = quests.Count - 1;
+        if (currentJournalIndex < 0) currentJournalIndex = 0;
 
-        var quest = quests[currentIndex];
-        QuestManager.Instance.selectedQuest = quest;
+        var quest = quests[currentJournalIndex];
 
+        // UWAGA: nie zmieniamy selectedQuest! To jest tylko UI
         questNameText.text = quest.quest.questName;
         questDescriptionText.text = quest.quest.objectives[quest.currentObjectiveIndex].description;
 
-        // ustawienie przycisków
-        prevButton.interactable = currentIndex > 0;
-        nextButton.interactable = currentIndex < quests.Count - 1;
+        prevButton.interactable = currentJournalIndex > 0;
+        nextButton.interactable = currentJournalIndex < quests.Count - 1;
     }
 
     public void NextQuest()
     {
-        currentIndex++;
+        currentJournalIndex++;
         Refresh();
     }
 
     public void PrevQuest()
     {
-        currentIndex--;
+        currentJournalIndex--;
         Refresh();
     }
 
     public void Toggle()
     {
         journalPanel.SetActive(!journalPanel.activeSelf);
+
         if (journalPanel.activeSelf)
         {
-            //currentIndex = 0; // pokazujemy pierwszy quest
-            currentIndex = QuestManager.Instance.activeQuests.Count - 1;
+            currentJournalIndex = QuestManager.Instance.activeQuests.Count - 1;
             Refresh();
         }
     }
+
     void ShowQuestInObjectiveUI()
     {
         var quests = QuestManager.Instance.activeQuests;
         if (quests.Count == 0) return;
 
-        var quest = quests[currentIndex];
-        QuestManager.Instance.selectedQuest = quest;
+        var quest = quests[currentJournalIndex];
 
+        // Przekazujemy wybrany quest tylko do UI celu, nie zmieniamy selectedQuest
         if (objectiveUI != null)
-            objectiveUI.Refresh(); // odświeżamy UI celu
+            objectiveUI.SetQuestForDisplay(quest);
     }
-
-
 }

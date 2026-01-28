@@ -128,7 +128,10 @@ public class QuestManager : MonoBehaviour
             if (cq.triggered) continue; // ju¿ odpali³o siê wczeœniej
 
             bool countConditionOk = cq.minCompletedQuests < 0 || completedQuestsCount >= cq.minCompletedQuests;
-            bool questConditionOk = cq.requiredQuest == null || completedQuests.Contains(cq.requiredQuest);
+            bool questConditionOk =
+     cq.requiredQuest == null ||
+     IsQuestCompleted(cq.requiredQuest.questName);
+
 
             if (countConditionOk && questConditionOk)
             {

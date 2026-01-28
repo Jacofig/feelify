@@ -4,23 +4,9 @@ using UnityEngine;
 public class ObjectiveUI : MonoBehaviour
 {
     [Header("UI Elements")]
-    [SerializeField] private GameObject panel;
     [SerializeField] private TMP_Text objectiveText;
-    [SerializeField] private RectTransform arrow;
 
-    [Header("Arrow rotation")]
-    [SerializeField] private float expandedRotation = 0f;
-    [SerializeField] private float collapsedRotation = 180f;
-
-    [SerializeField] private GameObject extraButton; // Twój drugi przycisk
-
-
-    private bool expanded = true;
-
-    void Start()
-    {
-        UpdateUIInstant();
-    }
+    private QuestManager.ActiveQuest displayedQuest;
 
     void OnEnable()
     {
@@ -34,52 +20,43 @@ public class ObjectiveUI : MonoBehaviour
             QuestManager.Instance.OnObjectiveUpdated -= Refresh;
     }
 
-    public void Toggle()
+    public void SetQuestForDisplay(QuestManager.ActiveQuest quest)
     {
-        expanded = !expanded;
-
-        panel.SetActive(expanded);
-        objectiveText.gameObject.SetActive(expanded);
-
-        if (arrow != null)
-        {
-            arrow.localEulerAngles =
-                new Vector3(0f, 0f, expanded ? expandedRotation : collapsedRotation);
-        }
-        if (extraButton != null)
-            extraButton.SetActive(expanded);
+        displayedQuest = quest;
+        Refresh();
     }
 
     public void Refresh()
     {
         var qm = QuestManager.Instance;
-        var selected = qm.selectedQuest;
+        QuestManager.ActiveQuest questToShow = null;
 
-        if (selected == null)
+        // 1️⃣ Jeśli wybrano quest z dziennika i nadal jest aktywny
+        if (displayedQuest != null && qm.activeQuests.Contains(displayedQuest))
         {
-            objectiveText.text = "";
+            questToShow = displayedQuest;
+        }
+        else
+        {
+            // 2️⃣ Szukamy pierwszego aktywnego questa
+            if (qm.activeQuests.Count > 0)
+            {
+                questToShow = qm.activeQuests[qm.activeQuests.Count - 1];
+            }
+        }
+
+        // 3️⃣ Jeśli nie ma żadnego aktywnego questa
+        if (questToShow == null)
+        {
+            objectiveText.text = " Brak aktywnych misji";
             return;
         }
 
-        var questData = selected.quest;
-        var objective = questData.objectives[selected.currentObjectiveIndex];
+        // 4️⃣ Szukamy pierwszego nieukończonego celu w tym quest
+        int objectiveIndex = Mathf.Min(questToShow.currentObjectiveIndex, questToShow.quest.objectives.Length - 1);
+        var objective = questToShow.quest.objectives[objectiveIndex];
+        int currentAmount = (objectiveIndex == questToShow.currentObjectiveIndex) ? questToShow.currentAmount : 0;
 
-        objectiveText.text =
-            $"🎯 {questData.questName}\n{selected.currentAmount}/{objective.requiredAmount}";
-    }
-
-    private void UpdateUIInstant()
-    {
-        panel.SetActive(expanded);
-        objectiveText.gameObject.SetActive(expanded);
-
-        if (arrow != null)
-        {
-            arrow.localEulerAngles =
-                new Vector3(0f, 0f, expanded ? expandedRotation : collapsedRotation);
-        }
-        if (extraButton != null)
-            extraButton.SetActive(expanded);
-
+        objectiveText.text = $" {questToShow.quest.questName}\n{currentAmount}/{objective.requiredAmount}";
     }
 }

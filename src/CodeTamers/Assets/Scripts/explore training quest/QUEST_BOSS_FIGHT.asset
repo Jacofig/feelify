@@ -17,5 +17,5 @@ MonoBehaviour:
   objectives:
   - type: 1
     description: Defeat Glitch Behemoth
-    targetId: BOSS
+    targetId: boss
     requiredAmount: 1
