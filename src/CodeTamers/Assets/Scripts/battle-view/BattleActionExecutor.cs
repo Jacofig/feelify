@@ -56,7 +56,10 @@ public class BattleActionExecutor : MonoBehaviour
         }
 
         if (didSomething)
+        {
+            battleManager.RefreshAllUI();
             yield return new WaitForSeconds(actionDelay);
+        }
 
         onFinished(didSomething);
     }

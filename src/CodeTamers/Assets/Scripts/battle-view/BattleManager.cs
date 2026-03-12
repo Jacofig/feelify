@@ -58,7 +58,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void RefreshAllUI()
+    public void RefreshAllUI()
     {
         for (int i = 0; i < playerCreatures.Count; i++)
             battleUI.UpdateSinglePlayer(i, playerCreatures[i]);
