@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tutorial2
   m_EditorClassIdentifier: Assembly-CSharp::ForgeRecipeSO
   recipeId: tutorial_2
-  displayName: Tutorial 2
+  displayName: Loops
   requiredMetalId: copper
   requiredHits: 50
   requiredItems: []

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Tutorial3
   m_EditorClassIdentifier: Assembly-CSharp::ForgeRecipeSO
   recipeId: tutorial_3
-  displayName: Tutorial 3
+  displayName: Advanced
   requiredMetalId: copper
   requiredHits: 20
   requiredItems: []
-  requiresEnchant: 0
+  requiresEnchant: 1
   tutorialOnly: 1
   tutorialStepId: ForgeStep3
