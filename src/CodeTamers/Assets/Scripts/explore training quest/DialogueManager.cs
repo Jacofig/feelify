@@ -20,6 +20,9 @@ public class DialogueManager : MonoBehaviour
     public event System.Action OnDialogueEnd;
     public ScrollRect scrollRect;
 
+
+    public TypewriterEffect typewriter;
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -50,7 +53,8 @@ public class DialogueManager : MonoBehaviour
         if (line == null) return;
         if (dialogueText == null) return;
 
-        dialogueText.text = line.text ?? "";
+       // dialogueText.text = line.text ?? "";
+        typewriter.ShowText(line.text ?? "");
         speakerNameText.text = line.speakerName ?? "";
         speakerIconImage.sprite = line.speakerIcon;
 
