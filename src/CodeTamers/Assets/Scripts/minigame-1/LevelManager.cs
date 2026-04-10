@@ -22,7 +22,10 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        LoadLevel(currentLevelIndex);
+        if (currentLevel == null)
+        {
+            LoadLevel(currentLevelIndex);
+        }
     }
 
     void LoadLevel(int index)
@@ -88,11 +91,16 @@ public class LevelManager : MonoBehaviour
     public void NextLevel()
     {
         currentLevelIndex++;
+
         if (currentLevelIndex >= levels.Length)
         {
             Debug.Log("ALL LEVELS COMPLETED!");
-            currentLevelIndex = 0;
+
+            // WYJŒCIE Z MINIGRY
+            MiniGameSceneLoader.Instance.Exitminigame();
+            return;
         }
+
         LoadLevel(currentLevelIndex);
     }
 }
