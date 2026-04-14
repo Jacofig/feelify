@@ -1,5 +1,7 @@
 using UnityEngine;
-
+using TMPro;
+using UnityEngine.UI;
+using System.Collections;
 public class ForgeTutorialController : MonoBehaviour
 {
     [SerializeField] private ForgeManager forgeManager;
@@ -14,7 +16,7 @@ public class ForgeTutorialController : MonoBehaviour
 
     [SerializeField] private Dialogue finishDialogue;
 
-    [SerializeField] private DialogueManager dialogueManager;
+    [SerializeField] private ForgeDialogueManager dialogueManager;
 
 
     private int currentStep = 0;

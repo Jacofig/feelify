@@ -256,55 +256,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &129837646
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 129837648}
-  - component: {fileID: 129837647}
-  m_Layer: 0
-  m_Name: DialogueManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &129837647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129837646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 873cf004a4b320543b313771d91e4320, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
-  dialoguePanel: {fileID: 494111790}
-  dialogueText: {fileID: 358640007}
-  speakerNameText: {fileID: 358942532}
-  speakerIconImage: {fileID: 1008343553}
-  scrollRect: {fileID: 423878342}
---- !u!4 &129837648
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129837646}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 303.56973, y: 203.93805, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &165991888 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8267317953002409491, guid: 807b7d2658451c04ba0df75509cd6b4c, type: 3}
@@ -672,7 +623,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ea9798c398690bd41bc1016b04a1a700, type: 2}
   - {fileID: 11400000, guid: 6f6c9ce1b32d9364b82c6ae1bdd50ef7, type: 2}
   finishDialogue: {fileID: 11400000, guid: 00962d0c0367e5b4f9b732aca06703a0, type: 2}
-  dialogueManager: {fileID: 129837647}
+  dialogueManager: {fileID: 1994531434}
 --- !u!1 &285097441
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,6 +790,7 @@ GameObject:
   - component: {fileID: 358640006}
   - component: {fileID: 358640008}
   - component: {fileID: 358640007}
+  - component: {fileID: 358640009}
   m_Layer: 5
   m_Name: DialogueText
   m_TagString: Untagged
@@ -964,6 +916,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 358640005}
   m_CullTransparentMesh: 1
+--- !u!114 &358640009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358640005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ccfc975afa1b44dba128f3266d8062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TypewriterEffect
+  textUI: {fileID: 358640007}
+  typingSpeed: 0
 --- !u!1 &358942530
 GameObject:
   m_ObjectHideFlags: 0
@@ -4504,6 +4470,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931315485}
   m_CullTransparentMesh: 1
+--- !u!1 &1994531433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1994531435}
+  - component: {fileID: 1994531434}
+  m_Layer: 0
+  m_Name: ForgeDialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1994531434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994531433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf214bff51c374742a7b706e1cdf4ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ForgeDialogueManager
+  dialoguePanel: {fileID: 494111790}
+  dialogueText: {fileID: 358640007}
+  speakerNameText: {fileID: 358942532}
+  speakerIconImage: {fileID: 1008343553}
+  scrollRect: {fileID: 423878342}
+  typewriter: {fileID: 358640009}
+--- !u!4 &1994531435
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994531433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 544.30005, y: 43.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &2039293783 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6878661399905224600, guid: 4e4da23ee9876344485951ac7df91518, type: 3}
@@ -5019,4 +5035,4 @@ SceneRoots:
   - {fileID: 345304631}
   - {fileID: 723036873}
   - {fileID: 802781434}
-  - {fileID: 129837648}
+  - {fileID: 1994531435}
