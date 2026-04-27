@@ -52,7 +52,14 @@ public class ObjectiveUI : MonoBehaviour
             return;
         }
 
-        // 4️⃣ Szukamy pierwszego nieukończonego celu w tym quest
+        // 4️⃣ Zabezpieczenie przed brakiem objective'ów
+        if (questToShow.quest.objectives == null || questToShow.quest.objectives.Length == 0)
+        {
+            objectiveText.text = $" {questToShow.quest.questName}";
+            return;
+        }
+
+        // dopiero teraz bezpiecznie używamy tablicy
         int objectiveIndex = Mathf.Min(questToShow.currentObjectiveIndex, questToShow.quest.objectives.Length - 1);
         var objective = questToShow.quest.objectives[objectiveIndex];
         int currentAmount = (objectiveIndex == questToShow.currentObjectiveIndex) ? questToShow.currentAmount : 0;

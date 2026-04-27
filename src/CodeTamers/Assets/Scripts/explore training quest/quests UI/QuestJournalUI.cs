@@ -50,12 +50,20 @@ public class QuestJournalUI : MonoBehaviour
         // ograniczenie indeksu
         if (currentJournalIndex >= quests.Count) currentJournalIndex = quests.Count - 1;
         if (currentJournalIndex < 0) currentJournalIndex = 0;
-
         var quest = quests[currentJournalIndex];
-
         // UWAGA: nie zmieniamy selectedQuest! To jest tylko UI
         questNameText.text = quest.quest.questName;
-        questDescriptionText.text = quest.quest.objectives[quest.currentObjectiveIndex].description;
+
+        // zabezpieczenie przed brakiem objective'ów + out of range
+        if (quest.quest.objectives == null || quest.quest.objectives.Length == 0)
+        {
+            questDescriptionText.text = "";
+        }
+        else
+        {
+            int index = Mathf.Clamp(quest.currentObjectiveIndex, 0, quest.quest.objectives.Length - 1);
+            questDescriptionText.text = quest.quest.objectives[index].description;
+        }
 
         prevButton.interactable = currentJournalIndex > 0;
         nextButton.interactable = currentJournalIndex < quests.Count - 1;
