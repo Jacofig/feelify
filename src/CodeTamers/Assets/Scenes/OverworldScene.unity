@@ -25741,6 +25741,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.6}
   m_SizeDelta: {x: 1, y: 0.2}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &528466179 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4731456782064388775, guid: e4dd7cafedcefed47adab4159d15446c, type: 3}
+  m_PrefabInstance: {fileID: 1305758080}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &530885793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28549,7 +28554,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a477629f4e9338a4abb1d826196be412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
-  activeQuests: []
+  activeQuests:
+  - quest: {fileID: 11400000, guid: 10d91c394ee54204994ba2807ea0a6c9, type: 2}
+    currentObjectiveIndex: 0
+    currentAmount: 0
   selectedQuest:
     quest: {fileID: 11400000, guid: a17645cbe8a02e44c9d05f1a6b7d440d, type: 2}
     currentObjectiveIndex: 0
@@ -664789,7 +664797,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4731456782064388775, guid: e4dd7cafedcefed47adab4159d15446c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1821602855}
+    - targetCorrespondingSourceObject: {fileID: 4731456782064388775, guid: e4dd7cafedcefed47adab4159d15446c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1821602854}
   m_SourcePrefab: {fileID: 100100000, guid: e4dd7cafedcefed47adab4159d15446c, type: 3}
 --- !u!1 &1308754093
 GameObject:
@@ -687406,12 +687420,46 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5834913104072816001, guid: e4dd7cafedcefed47adab4159d15446c, type: 3}
   m_PrefabInstance: {fileID: 1305758080}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 528466179}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a2615007d42a1d47acbd7b524ffc528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDialogueTrigger
+--- !u!114 &1821602854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528466179}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 758a4e701c5b3464abdbd6e17a2971f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueAction_StartQuest
+  questToStart: {fileID: 11400000, guid: 10d91c394ee54204994ba2807ea0a6c9, type: 2}
+--- !u!114 &1821602855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528466179}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ab2c8357395b14680681c5551e34b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueTrigger
+  stages:
+  - dialogue: {fileID: 0}
+    actions:
+    - {fileID: 1821602854}
+    hasRun: 0
+    onStageFinished:
+      m_PersistentCalls:
+        m_Calls: []
+  currentStage: 0
 --- !u!1 &1824755715
 GameObject:
   m_ObjectHideFlags: 0
@@ -695207,9 +695255,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Quest name
-
-'
+  m_text: Look around
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ed0325e2b14a1f949b808328e54710e1, type: 2}
   m_sharedMaterial: {fileID: 6273687238122233901, guid: ed0325e2b14a1f949b808328e54710e1, type: 2}
@@ -695236,7 +695282,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.65
+  m_fontSize: 27.25
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
