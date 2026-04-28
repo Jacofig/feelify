@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332e51559b103fd4cbfb44aee0e9b869, type: 3}
   m_Name: QUEST_BOSS_FIGHT
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  questName: 
-  description: 
+  questName: Defeat Glitch Behemoth
+  description: Deafeat Behemoth
   objectives:
   - type: 1
     description: Defeat Glitch Behemoth

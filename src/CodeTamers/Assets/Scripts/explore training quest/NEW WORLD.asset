@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
   questName: Go to the forge and finish the tower minigame.
   description: Look around
-  objectives: []
+  objectives:
+  - type: 0
+    description: 
+    targetId: go
+    requiredAmount: 1

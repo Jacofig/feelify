@@ -37,6 +37,9 @@ public class QuestManager : MonoBehaviour
 
     public List<QuestData> completedQuests = new List<QuestData>();
 
+    public QuestData startingQuest;
+
+  
 
     void Awake()
     {
@@ -44,6 +47,8 @@ public class QuestManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+        if (startingQuest != null)
+            StartQuest(startingQuest);
     }
 
     public ObjectiveData CurrentObjective
@@ -72,7 +77,9 @@ public class QuestManager : MonoBehaviour
         };
 
         activeQuests.Add(newQuest);
-        selectedQuest = newQuest;
+        //selectedQuest = newQuest;
+        if (selectedQuest == null)
+            selectedQuest = newQuest;
 
         OnQuestStarted?.Invoke(quest);
         OnObjectiveUpdated?.Invoke();
