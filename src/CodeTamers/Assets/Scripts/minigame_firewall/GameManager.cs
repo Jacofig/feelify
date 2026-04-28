@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        var spawners = FindObjectsOfType<AttackSpawner>();
+        var spawners = Object.FindObjectsByType<AttackSpawner>(FindObjectsSortMode.None);
         foreach (var s in spawners)
         {
             s.StopAllCoroutines();
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator ExitAfterDelay()
     {
-        
+
         yield return new WaitForSecondsRealtime(3f);
 
         Cleanup();

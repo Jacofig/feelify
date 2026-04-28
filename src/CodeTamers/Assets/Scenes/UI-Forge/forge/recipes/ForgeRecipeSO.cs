@@ -13,9 +13,6 @@ public class ForgeRecipeSO : ScriptableObject
     [Header("UI")]
     public string displayName;
 
-    [Header("Metal")]
-    public string requiredMetalId;
-
     [Header("Shaping")]
     public int requiredHits;
 
@@ -39,22 +36,11 @@ public class ForgeRecipeSO : ScriptableObject
 
         var metal = process.metal;
 
-        // 1. Metal
-        if (metal.id != requiredMetalId)
-            return false;
-
-        // 2. Hity
+        // 1. Hity
         if (metal.hits < requiredHits)
             return false;
 
-        // 3. Itemy (add)
-        foreach (var req in requiredItems)
-        {
-            if (!metal.additives.Contains(req.itemId))
-                return false;
-        }
-
-        // 4. Enchant – MUSI BYÆ I MUSI BYÆ NA KOÑCU
+        // 2. Enchant
         if (requiresEnchant)
         {
             if (!metal.enchanted)
@@ -69,7 +55,4 @@ public class ForgeRecipeSO : ScriptableObject
 
         return true;
     }
-
-
-
 }

@@ -7,18 +7,15 @@ public class RequiredItemsPanel : MonoBehaviour
 
     public void Show(ForgeRecipeSO recipe)
     {
-        string result = "";
+        string text = "";
 
-        result += $"Metal: {recipe.requiredMetalId}\n";
-
-        if (recipe.requiredItems != null && recipe.requiredItems.Count > 0)
+        foreach (var req in recipe.requiredItems)
         {
-            foreach (var item in recipe.requiredItems)
-            {
-                result += $"{item.itemId} x{item.amount}\n";
-            }
+            int playerAmount = PlayerInventory.Instance.GetItemCount(req.itemId);
+
+            text += $"{req.itemId} {playerAmount}/{req.amount}\n";
         }
 
-        itemsText.text = result;
+        itemsText.text = text;
     }
 }

@@ -22,6 +22,14 @@ public class ForgeManager : MonoBehaviour
 
     public void RunForge(string code)
     {
+
+        if (!HasRequiredItems())
+        {
+            Debug.Log("Not enough items!");
+            OnForgeResult?.Invoke(ForgeResultType.Failed);
+            return;
+        }
+
         if (startingMetal == null)
         {
             Debug.LogError("Starting metal not set!");
@@ -230,5 +238,19 @@ cast()"
     }
 
 
+    public bool HasRequiredItems()
+    {
+        if (activeRecipe == null)
+            return false;
 
+        foreach (var req in activeRecipe.requiredItems)
+        {
+            int playerAmount = PlayerInventory.Instance.GetItemCount(req.itemId);
+
+            if (playerAmount < req.amount)
+                return false;
+        }
+
+        return true;
+    }
 }

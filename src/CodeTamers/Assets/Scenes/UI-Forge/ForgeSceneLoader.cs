@@ -31,6 +31,7 @@ public class ForgeSceneLoader : MonoBehaviour
 
     public void EnterForge(bool tutorial)
     {
+        Time.timeScale = 1f;
         if (loaded)
             return;
 
@@ -48,6 +49,9 @@ public class ForgeSceneLoader : MonoBehaviour
 
             
             if (obj.GetComponent<UnityEngine.EventSystems.EventSystem>() != null)
+                continue;
+
+            if (obj.GetComponent<PlayerInventory>() != null)
                 continue;
 
             disabledObjects[obj] = obj.activeSelf;

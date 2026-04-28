@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ea89dfbba0c5b4c8e5eb4eb26de61c, type: 3}
   m_Name: Metal
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: Metal
+  itemName: Copper
   icon: {fileID: 21300000, guid: 90337df6898b1274ebcb24d742d9731e, type: 3}
   stackable: 1

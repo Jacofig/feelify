@@ -16,7 +16,9 @@ MonoBehaviour:
   displayName: FirstRecipe
   requiredMetalId: copper
   requiredHits: 2
-  requiredItems: []
+  requiredItems:
+  - itemId: 
+    amount: 0
   requiresEnchant: 1
   tutorialOnly: 0
   tutorialStepId: 

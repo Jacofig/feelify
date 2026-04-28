@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using System;
 public class PlayerInventory : MonoBehaviour
 {
     public static PlayerInventory Instance;
@@ -50,5 +50,24 @@ public class PlayerInventory : MonoBehaviour
             existing.amount += amount;
         else
             items.Add(new ItemStack { data = data, amount = amount });
+    }
+
+    public int GetItemCount(string itemId)
+    {
+        int count = 0;
+
+        foreach (var item in items)
+        {
+            if (item.data == null)
+                continue;
+
+            if (string.Equals(item.data.itemName, itemId, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(item.data.name, itemId, StringComparison.OrdinalIgnoreCase))
+            {
+                count += item.amount;
+            }
+        }
+
+        return count;
     }
 }
