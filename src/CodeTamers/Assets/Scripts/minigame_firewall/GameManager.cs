@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
         statusText.text = "SUCCESS";
         Time.timeScale = 0f;
+
+        StartCoroutine(ExitAfterDelay());
     }
 
     public void LoseGame()
@@ -59,5 +62,31 @@ public class GameManager : MonoBehaviour
         gameEnded = true;
         statusText.text = "FAIL";
         Time.timeScale = 0f;
+
+        StartCoroutine(ExitAfterDelay());
+    }
+
+    private void Cleanup()
+    {
+        Time.timeScale = 1f;
+
+        var spawners = FindObjectsOfType<AttackSpawner>();
+        foreach (var s in spawners)
+        {
+            s.StopAllCoroutines();
+        }
+    }
+
+    private IEnumerator ExitAfterDelay()
+    {
+        
+        yield return new WaitForSecondsRealtime(3f);
+
+        Cleanup();
+
+        if (FirewallMiniGameSceneLoader.Instance != null)
+        {
+            FirewallMiniGameSceneLoader.Instance.ExitMiniGame();
+        }
     }
 }
