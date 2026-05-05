@@ -672,6 +672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 954271111}
   - component: {fileID: 954271110}
+  - component: {fileID: 954271112}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -697,6 +698,7 @@ MonoBehaviour:
   timerText: {fileID: 705251745}
   hpText: {fileID: 1826613869}
   statusText: {fileID: 1024535147}
+  rewardGiver: {fileID: 954271112}
 --- !u!4 &954271111
 Transform:
   m_ObjectHideFlags: 0
@@ -712,6 +714,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &954271112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954271109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e07c33fe130fbd4599a731a72174139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RewardGiver
+  rewards:
+  - item: {fileID: 11400000, guid: bb2ef6d9dcbb7d74d9cf8907b947ab06, type: 2}
+    amount: 2
 --- !u!1 &1011384150
 GameObject:
   m_ObjectHideFlags: 0

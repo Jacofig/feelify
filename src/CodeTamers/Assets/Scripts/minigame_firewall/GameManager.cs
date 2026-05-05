@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI hpText;
     public TextMeshProUGUI statusText;
-
+    public RewardGiver rewardGiver;
     void Awake()
     {
         instance = this;
@@ -52,8 +52,8 @@ public class GameManager : MonoBehaviour
     {
         gameEnded = true;
         statusText.text = "SUCCESS";
+        rewardGiver?.GiveRewards();
         Time.timeScale = 0f;
-
         StartCoroutine(ExitAfterDelay());
     }
 

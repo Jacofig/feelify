@@ -42,7 +42,14 @@ public class FirewallMiniGameSceneLoader : MonoBehaviour
 
         foreach (var obj in previousScene.GetRootGameObjects())
         {
-           
+            // NIE wy³¹czaj EventSystem (UI input)
+            if (obj.GetComponent<UnityEngine.EventSystems.EventSystem>() != null)
+                continue;
+
+            // NIE wy³¹czaj inventory (KLUCZOWE)
+            if (obj.GetComponent<PlayerInventory>() != null)
+                continue;
+
             disabledObjects[obj] = obj.activeSelf;
             obj.SetActive(false);
         }
