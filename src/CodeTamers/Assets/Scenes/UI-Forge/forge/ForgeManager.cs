@@ -139,9 +139,16 @@ public class ForgeManager : MonoBehaviour
 
         // 5. Receptura
         bool success = activeRecipe.Validate(process);
+
+        if (success)
+        {
+            ConsumeRequiredItems();
+        }
+
         Debug.Log(success ? "FORGE SUCCESS" : "FORGE FAILED");
+
         OnForgeResult?.Invoke(
-        success ? ForgeResultType.Success : ForgeResultType.Failed
+            success ? ForgeResultType.Success : ForgeResultType.Failed
         );
     }
 
@@ -253,4 +260,14 @@ cast()"
 
         return true;
     }
+
+    private void ConsumeRequiredItems()
+    {
+        foreach (var req in activeRecipe.requiredItems)
+        {
+            PlayerInventory.Instance.RemoveItem(req.itemId, req.amount);
+            Debug.Log($"REMOVING {req.amount} of {req.itemId}");
+        }
+    }
+
 }

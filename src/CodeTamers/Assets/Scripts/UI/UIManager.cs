@@ -14,9 +14,9 @@ public class UIManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             ToggleInventory();
-            PlayerInventory.Instance.AddItem(Metal, 5);
-            PlayerInventory.Instance.AddItem(Coal, 2);
-            PlayerInventory.Instance.AddItem(Stick, 1);
+            //PlayerInventory.Instance.AddItem(Metal, 5);
+            //PlayerInventory.Instance.AddItem(Coal, 2);
+            //PlayerInventory.Instance.AddItem(Stick, 1);
 
         }
 
