@@ -28,6 +28,9 @@ public class ForgeRecipeSO : ScriptableObject
     [Header("Tutorial")]
     public string tutorialStepId;
 
+    [Header("Output")]
+    public ItemData outputItem;
+    public int outputAmount = 1;
 
     public bool Validate(ForgeProcess process)
     {

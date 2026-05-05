@@ -143,6 +143,7 @@ public class ForgeManager : MonoBehaviour
         if (success)
         {
             ConsumeRequiredItems();
+            GiveOutputItem();
         }
 
         Debug.Log(success ? "FORGE SUCCESS" : "FORGE FAILED");
@@ -270,4 +271,19 @@ cast()"
         }
     }
 
+    private void GiveOutputItem()
+    {
+        if (activeRecipe.outputItem == null)
+        {
+            Debug.LogWarning("No output item set!");
+            return;
+        }
+
+        PlayerInventory.Instance.AddItem(
+            activeRecipe.outputItem,
+            activeRecipe.outputAmount
+        );
+
+        Debug.Log($"GAVE ITEM: {activeRecipe.outputItem.itemName} x{activeRecipe.outputAmount}");
+    }
 }
