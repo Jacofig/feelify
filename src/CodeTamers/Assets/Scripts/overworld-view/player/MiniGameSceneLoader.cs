@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,13 +8,11 @@ public class MiniGameSceneLoader : MonoBehaviour
     public static MiniGameSceneLoader Instance;
 
     [SerializeField] private string minigameScene = "minigame1";
-    private string previousSceneName = "OverWorldScene";
+
+    private Scene previousScene;
 
     private Dictionary<GameObject, bool> disabledObjects =
         new Dictionary<GameObject, bool>();
-
-
-
 
     private bool loaded = false;
     private bool canEnter = true;
@@ -41,14 +38,20 @@ public class MiniGameSceneLoader : MonoBehaviour
         if (loaded || !canEnter)
             return;
 
-        previousSceneName = SceneManager.GetActiveScene().name;
+        previousScene = SceneManager.GetActiveScene();
 
         disabledObjects.Clear();
 
-        Scene previousScene = SceneManager.GetSceneByName(previousSceneName);
-
         foreach (var obj in previousScene.GetRootGameObjects())
         {
+            // NIE wy³¹czaj EventSystem
+            if (obj.GetComponent<UnityEngine.EventSystems.EventSystem>() != null)
+                continue;
+
+            // NIE wy³¹czaj inventory
+            if (obj.GetComponent<PlayerInventory>() != null)
+                continue;
+
             disabledObjects[obj] = obj.activeSelf;
             obj.SetActive(false);
         }
@@ -58,6 +61,8 @@ public class MiniGameSceneLoader : MonoBehaviour
 
         loaded = true;
     }
+
+    // ================= LOADED =================
 
     private void OnLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -80,26 +85,19 @@ public class MiniGameSceneLoader : MonoBehaviour
 
     private IEnumerator ExitRoutine()
     {
-        UnityEngine.Debug.Log("Exit minigame start");
+        AsyncOperation unload =
+            SceneManager.UnloadSceneAsync(minigameScene);
 
-        SceneManager.UnloadSceneAsync(minigameScene);
-
-        // czekaj a¿ scena minigry siê usunie
-        Scene scene = SceneManager.GetSceneByName(minigameScene);
-        while (scene.isLoaded)
+        while (!unload.isDone)
             yield return null;
 
-        // przywróæ aktywnoœæ obiektów OverWorld
         foreach (var kvp in disabledObjects)
         {
             if (kvp.Key != null)
                 kvp.Key.SetActive(kvp.Value);
         }
 
-        // wróæ do sceny OverWorldScene
-        SceneManager.SetActiveScene(
-            SceneManager.GetSceneByName(previousSceneName)
-        );
+        SceneManager.SetActiveScene(previousScene);
 
         var player = GameObject.FindGameObjectWithTag("Player");
 
@@ -108,9 +106,8 @@ public class MiniGameSceneLoader : MonoBehaviour
             player.transform.position = exitPoint.position;
         }
 
-        UnityEngine.Debug.Log("Exit minigame done");
-
         loaded = false;
+
         StartCoroutine(CooldownRoutine(5f));
     }
 
