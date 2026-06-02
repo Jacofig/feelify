@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ForgeRecipeSO
   recipeId: tutorial_2
   displayName: Loops
-  requiredMetalId: copper
   requiredHits: 50
   requiredItems: []
   requiresEnchant: 1
   tutorialOnly: 1
   tutorialStepId: ForgeStep2
+  outputItem: {fileID: 11400000, guid: 05d63eb0930aae04f9bc8f18fa63eec3, type: 2}
+  outputAmount: 10

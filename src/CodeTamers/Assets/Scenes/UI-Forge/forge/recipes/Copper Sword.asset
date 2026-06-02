@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ForgeRecipeSO
   recipeId: copper_sword
   displayName: Copper Sword
-  requiredMetalId: copper
   requiredHits: 10
   requiredItems:
-  - itemId: copper
-    amount: 2
-  - itemId: coal
-    amount: 5
+  - itemId: copperbar
+    amount: 3
+  - itemId: fuel
+    amount: 1
   requiresEnchant: 1
+  tutorialOnly: 0
+  tutorialStepId: 
+  outputItem: {fileID: 11400000, guid: 30d6f806f7375a6408715a5fd7c7032b, type: 2}
+  outputAmount: 1

@@ -16,10 +16,10 @@ MonoBehaviour:
   displayName: Basics
   requiredHits: 2
   requiredItems:
-  - itemId: copper
+  - itemId: copperbar
     amount: 1
   requiresEnchant: 0
   tutorialOnly: 1
   tutorialStepId: ForgeStep1
   outputItem: {fileID: 11400000, guid: bb2ef6d9dcbb7d74d9cf8907b947ab06, type: 2}
-  outputAmount: 1
+  outputAmount: 2
