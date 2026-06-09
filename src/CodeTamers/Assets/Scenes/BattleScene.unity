@@ -7195,7 +7195,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 10}
+  m_AnchoredPosition: {x: 45.38, y: 63.6}
   m_SizeDelta: {x: 180, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1170474855
@@ -7293,8 +7293,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "TUTAJ MO\u017BESZ WPISA\u0106 TEKST SWOJEJ INSTRUKCJI (IM D\u0141U\u017BSZY
-    TYM LEPIEJ B\u0118DZIE WYGL\u0104DA\u0106!!!)"
+  m_text: "INSTRUKCJA WALKI\n\nPodczas walki programujesz zachowanie ka\u017Cdego
+    Bugona osobno. Dla ka\u017Cdego Bugona musisz napisa\u0107 w\u0142asn\u0105 sekwencj\u0119
+    komend wykonywanych w trakcie tury.\n\nKa\u017Cde wywo\u0142anie komendy kosztuje
+    1 punkt many.\nMana odnawia si\u0119 na pocz\u0105tku ka\u017Cdej tury.\n\nDost\u0119pne
+    komendy:\n\nattack(index)\nAtakuje przeciwnika znajduj\u0105cego si\u0119 na
+    pozycji podanej jako argument.\n\nblock(index)\nBlokuje obra\u017Cenia skierowane
+    na sojusznika znajduj\u0105cego si\u0119 na pozycji podanej jako argument."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ed0325e2b14a1f949b808328e54710e1, type: 2}
   m_sharedMaterial: {fileID: 6273687238122233901, guid: ed0325e2b14a1f949b808328e54710e1, type: 2}
